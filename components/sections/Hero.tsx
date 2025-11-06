@@ -1,9 +1,15 @@
-import React from 'react'
+import { Easing, motion } from "framer-motion";
+import Beams from "../Beams";
+import { MorphingText } from "../ui/morphing-text";
+import Headline from "../Headline";
 
 const Hero = () => {
   return (
-    <div>Hero</div>
-  )
-}
+    <section className="w-full h-screen relative">
+      <Beams rotation={30} />
+      <Headline />
+    </section>
+  );
+};
 
-export default Hero
+export default Hero;

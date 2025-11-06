@@ -1,9 +1,15 @@
-import React from 'react'
+import Hero from "@/components/sections/Hero";
+import Projects from "@/components/sections/Projects";
+import Services from "@/components/sections/Services";
 
 const Home = () => {
   return (
-    <div className='text-4xl text-center'>Home</div>
-  )
-}
+    <>
+      <Hero />
+      <Services />
+      <Projects />
+    </>
+  );
+};
 
-export default Home
+export default Home;
