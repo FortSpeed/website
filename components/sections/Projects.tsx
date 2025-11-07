@@ -1,16 +1,14 @@
-import { ExternalLink, Github, Layers } from "lucide-react";
-import Image from "next/image";
 import img1 from "@/assets/pexels-athena-2582937.jpg";
 import img2 from "@/assets/pexels-jeshoots-218863.jpg";
 import img3 from "@/assets/pexels-luis-gomes-166706-546819.jpg";
 import img4 from "@/assets/pexels-noah-erickson-97554-404280.jpg";
 import img5 from "@/assets/pexels-pixabay-39284.jpg";
 import img6 from "@/assets/pexels-timson-foox-776012-2182863.jpg";
-import { Ripple } from "@/components/ui/ripple";
-import { InteractiveGridPattern } from "../ui/interactive-grid-pattern";
-import { cn } from "@/lib/utils";
+import { ExternalLink, Github } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import Beams from "../Beams";
-import { LightRays } from "../ui/light-rays";
+import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 
 const projects = [
   {
@@ -75,23 +73,6 @@ export default function Projects() {
       id="projects"
       className="relative py-16 px-4 sm:px-6 lg:px-8 bg-black"
     >
-      {/* light rays */}
-      {/* <div className="absolute h-full w-full overflow-hidden rounded-xl border">
-        <LightRays />
-      </div> */}
-
-      {/* grid pattern */}
-      {/* <div className="bg-black flex w-[1000px] h-[800px] top-[30%] overflow-hidden rounded-lg  absolute ">
-        <InteractiveGridPattern
-          className={cn(
-            "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
-            "inset-x-0 inset-y-[-40%] h-[100%] -skew-y-[10deg]"
-          )}
-        />
-      </div> */}
-
-      {/* beams pattern */}
-
       <div className="absolute size-[50rem] rounded-full left-[10%] top-[30%] bottom-0 overflow-hidden  ">
         <Beams
           rotation={38}
@@ -105,16 +86,9 @@ export default function Projects() {
 
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          {/* <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full mb-6 backdrop-blur-sm">
-            <Layers className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm text-cyan-300">Our Portfolio</span>
-          </div> */}
           <h2 className="text-4xl sm:text-6xl font-bold mb-6">
             <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              Featured
-              {/* </span>{' '} */}
-              {/* <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"> */}
-              Projects
+              Featured Projects
             </span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
@@ -173,14 +147,10 @@ export default function Projects() {
           ))}
         </div>
 
-        <div className="text-center mt-16">
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full text-white font-semibold hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105"
-          >
-            Start Your Project
-            <ExternalLink className="w-5 h-5" />
-          </a>
+        <div className="flex just justify-center items-center text-center mt-10  p-10">
+          <InteractiveHoverButton>
+            <Link href={"#contact"}>Start Your Project</Link>
+          </InteractiveHoverButton>
         </div>
       </div>
     </section>
