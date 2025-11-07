@@ -37,7 +37,7 @@ const Headline = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="absolute flex flex-col text-center w-full top-[33%] text-5xl md:text-7xl xl:text-8xl font-inter font-bold leading-[1.2]  text-white"
+        className="absolute flex flex-col text-center w-full top-[28%] text-5xl md:text-7xl xl:text-7xl  font-inter font-bold leading-[1.2]  text-white"
       >
         {[text1, text2].map((line, lineIndex) => (
           <motion.span
@@ -65,7 +65,7 @@ const Headline = () => {
           className="flex items-center justify-center mt-6 text-6xl relative"
         >
           <MorphingText
-            className="absolute mt-8 "
+            className="absolute mt-16 "
             texts={["Simple", "Powerful", "Fast"]}
           />
         </motion.span>

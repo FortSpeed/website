@@ -1,12 +1,10 @@
-import { Easing, motion } from "framer-motion";
 import Beams from "../Beams";
-import { MorphingText } from "../ui/morphing-text";
 import Headline from "../Headline";
 
 const Hero = () => {
   return (
-    <section className="w-full h-screen relative">
-      <Beams rotation={30} />
+    <section className="w-full h-screen relative ">
+      <Beams rotation={30} lightColor="white" beamHeight={30} beamWidth={3} />
       <Headline />
     </section>
   );
