@@ -40,7 +40,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${poppins.variable} antialiased relative max-w-[1400px] mx-auto`}
       >
-        <SmoothCursor />
+        {/* <SmoothCursor /> */}
         <Navbar />
         <main>{children}</main>
         <Footer />

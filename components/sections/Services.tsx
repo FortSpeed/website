@@ -76,17 +76,17 @@ export default function Services() {
     <section id="services" className="relative py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-x-hidden">
         <div className="absolute size-160 rounded-full right-[-10%] top-[25%] bottom-0 overflow-hidden ">
         <Beams rotation={28} speed={0.9} beamWidth={2.5} beamHeight={20} lightColor='#c4c4c4' />
-        <div className="size-full bg-[radial-gradient(ellipse_at_center,transparent_35%,black)] absolute inset-0 z-10"/>
+        <div className="size-full bg-[radial-gradient(ellipse_at_center,transparent_35%,black)] absolute inset-0 "/>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-20">
         
-          <h2 className=" mb-6 ">
+          <h2 className=" mb-6 text-4xl sm:text-6xl font-bold ">
             {/* <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"> */}
             {/* </span>{' '} */}
             {/* <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"> */}
-              <span className='text-4xl sm:text-6xl font-bold text-white  cyan-gradient'>
+              <span className='bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent'>
                 Our
                 Services
               </span>
