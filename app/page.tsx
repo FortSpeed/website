@@ -2,7 +2,7 @@ import Hero from "@/components/sections/Hero";
 import Projects from "@/components/sections/Projects";
 import Services from "@/components/sections/Services";
 import About from "../components/sections/About";
-import PricesSection from "@/components/sections/Prices";
+import Prices from "../components/sections/Prices";
 
 const Home = () => {
   return (
@@ -11,7 +11,7 @@ const Home = () => {
       <Services />
       <Projects />
       <About/>
-      {/* <PricesSection/> */}
+      <Prices/>
     </>
   );
 };
