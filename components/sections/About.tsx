@@ -7,7 +7,7 @@ import {
   Lightbulb,
 } from "lucide-react";
 import Image from "next/image";
-import collaboration from "@/assets/collaboration.png";
+import collaboration from "@/assets/collaboration-2.jpg";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import Link from "next/link";
 import Beams from "../Beams";
@@ -68,7 +68,8 @@ export default function About() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-center ">
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl blur-3xl"></div>
+            <div className="inset-0 absolute bg-[radial-gradient(ellipse_at_center,transparent_45%,black)] z-10 "></div>
+            {/* <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl blur-3xl"></div> */}
             <Image
               src={collaboration}
               alt="Team collaboration"
