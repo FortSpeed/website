@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Easing } from "framer-motion";
 import Beams from "../Beams";
 import { plans, title } from "@/data/prices";
 
@@ -26,7 +26,7 @@ export default function Prices() {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: "easeOut" as Easing },
     },
   };
 
@@ -36,11 +36,11 @@ export default function Prices() {
     visible: {
       height: "100%",
       opacity: 1,
-      transition: { duration: 0.8, ease: "easeInOut" },
+      transition: { duration: 0.8, ease: "easeInOut" as Easing },
     },
     hover: {
       scaleX: 1.1,
-      transition: { duration: 0.3, ease: "easeInOut" },
+      transition: { duration: 0.3, ease: "easeInOut" as Easing },
     },
   };
 
@@ -51,7 +51,7 @@ export default function Prices() {
       scale: 1.5,
       opacity: 1,
       boxShadow: "0 0 10px rgba(0,255,255,0.8)",
-      transition: { duration: 0.3, ease: "easeInOut" },
+      transition: { duration: 0.3, ease: "easeInOut" as Easing },
     },
   };
 
