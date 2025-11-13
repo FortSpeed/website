@@ -1,40 +1,33 @@
 "use client";
 import {
+  MobileNav,
+  MobileNavHeader,
+  MobileNavMenu,
+  MobileNavToggle,
   Navbar,
+  NavbarLogo,
   NavBody,
   NavItems,
-  MobileNav,
-  NavbarLogo,
-  NavbarButton,
-  MobileNavHeader,
-  MobileNavToggle,
-  MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
+import { navItems } from "@/data/navbar";
+import Link from "next/link";
 import { useState } from "react";
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
-import { ShimmerButton } from "@/components/ui/shimmer-button"
+import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 
 export default function NavbarDemo() {
-  const navItems = [
-    { link: "#hero", name: "Home" },
-    { link: "#projects", name: "Projects" },
-    { link: "#services", name: "Services" },
-    { link: "#about", name: "About" },
-    { link: "#contact", name: "Contact" },
-  ];
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   return (
-    <Navbar className="fixed top-8">
+    <Navbar className="fixed top-4">
       {/* Desktop Navigation */}
       <NavBody>
         <NavbarLogo />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
-          {/* <NavbarButton variant="secondary">Login</NavbarButton> */}
-          <NavbarButton variant="primary">Get Started</NavbarButton>
-          {/* <ShimmerButton>Get Started</ShimmerButton> */}
+          <Link href={"#contact"}>
+            <InteractiveHoverButton className="py-1 text-sm">
+              Get Started
+            </InteractiveHoverButton>
+          </Link>
         </div>
       </NavBody>
 
@@ -53,24 +46,19 @@ export default function NavbarDemo() {
           onClose={() => setIsMobileMenuOpen(false)}
         >
           {navItems.map((item, idx) => (
-            <a
+            <Link
               key={`mobile-link-${idx}`}
               href={item.link}
               onClick={() => setIsMobileMenuOpen(false)}
               className="relative  text-neutral-300 hover:text-gray-200 hover:bg-gray-200/10 w-full p-2 rounded-lg"
             >
               <span className="block">{item.name}</span>
-            </a>
+            </Link>
           ))}
-          <div className="flex w-full flex-col gap-4">
-          
-            <NavbarButton
-              onClick={() => setIsMobileMenuOpen(false)}
-              variant="primary"
-              className="w-full"
-            >
-              Get Started
-            </NavbarButton>
+          <div className="flex w-full justify-center items-center flex-col gap-4">
+            <Link href={"#contact"}>
+              <InteractiveHoverButton>Get Started</InteractiveHoverButton>
+            </Link>
           </div>
         </MobileNavMenu>
       </MobileNav>
