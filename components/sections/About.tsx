@@ -1,48 +1,18 @@
-import {
-  Award,
-  Users,
-  Target,
-  TrendingUp,
-  Heart,
-  Lightbulb,
-} from "lucide-react";
 import Image from "next/image";
 import collaboration from "@/assets/collaboration-2.jpg";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import Link from "next/link";
 import Beams from "../Beams";
-
-const values = [
-  {
-    icon: Lightbulb,
-    title: "Innovation First",
-    description:
-      "We constantly push boundaries and embrace emerging technologies",
-  },
-  {
-    icon: Heart,
-    title: "Client Success",
-    description: "Your success is our success - we are committed to your goals",
-  },
-  {
-    icon: Award,
-    title: "Excellence",
-    description:
-      "We deliver nothing but the highest quality in everything we do",
-  },
-  {
-    icon: Users,
-    title: "Collaboration",
-    description: "We believe in the power of teamwork and open communication",
-  },
-];
-
-const achievements = [
-  { number: "10+", label: "Years of Experience" },
-  { number: "500+", label: "Successful Projects" },
-  { number: "200+", label: "Happy Clients" },
-  { number: "50+", label: "Industry Awards" },
-];
+import {
+  achievements,
+  coreValues,
+  description,
+  encouragement,
+  joinUs,
+  subtitle,
+  title,
+  values,
+} from "@/data/about";
 
 export default function About() {
   return (
@@ -58,12 +28,12 @@ export default function About() {
           beamHeight={15}
           lightColor="#c4c4c4"
         />
-          <div className="size-full bg-[radial-gradient(ellipse_at_center,transparent_35%,black)] absolute inset-0 "/>
+        <div className="size-full bg-[radial-gradient(ellipse_at_center,transparent_35%,black)] absolute inset-0 " />
       </div>
 
       <div className=" relative">
         <div className="text-center mb-20">
-          <h2 className="subtitle-gradient">About FortSpeed</h2>
+          <h2 className="subtitle-gradient">{title}</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-center ">
@@ -78,28 +48,13 @@ export default function About() {
           </div>
 
           <div>
-            <h3 className="text-3xl font-bold text-white mb-6">
-              Pioneering Technology Solutions Since 2014
-            </h3>
-            <p className="text-gray-400 mb-6 leading-relaxed text-lg">
-              FortSpeed is a leading technology company dedicated to
-              transforming businesses through innovative digital solutions. With
-              over a decade of experience, we have successfully delivered
-              cutting-edge projects across various industries worldwide.
-            </p>
-            <p className="text-gray-400 mb-6 leading-relaxed text-lg">
-              Our team of expert engineers, designers, and strategists work
-              collaboratively to create solutions that not only meet but exceed
-              expectations. We believe in building long-term partnerships with
-              our clients, understanding their unique challenges, and delivering
-              measurable results.
-            </p>
-            <p className="text-gray-400 mb-8 leading-relaxed text-lg">
-              From startups to Fortune 500 companies, we have helped
-              organizations accelerate their digital transformation journey with
-              agile methodologies, best practices, and a relentless focus on
-              quality and innovation.
-            </p>
+            <h3 className="text-3xl font-bold text-white mb-6">{subtitle}</h3>
+
+            {description.map((paragraph, i) => (
+              <p key={i} className="text-gray-400 mb-6 leading-relaxed text-lg">
+                {paragraph}
+              </p>
+            ))}
           </div>
         </div>
 
@@ -119,7 +74,7 @@ export default function About() {
 
         <div>
           <h3 className="text-3xl font-bold text-center text-white mb-12">
-            Our Core Values
+            {coreValues}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => {
@@ -148,10 +103,10 @@ export default function About() {
 
         <div className="mt-20 text-center">
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            Ready to work with a team that truly cares about your success?
+            {encouragement}
           </p>
           <InteractiveHoverButton className="hover:border-cyan-500 ">
-            <Link href="#contact">Join Our Success Stories</Link>
+            <Link href="#contact">{joinUs}</Link>
           </InteractiveHoverButton>
         </div>
       </div>
