@@ -4,6 +4,13 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import Beams from "../Beams";
+import {
+  availableTime,
+  contactEmail,
+  contactPhone,
+  description,
+  title,
+} from "@/data/contact";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -26,19 +33,23 @@ export default function ContactSection() {
     }, 3000);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
-    <section className="relative w-full bg-black py-32 px-6 md:px-12 lg:px-20 overflow-hidden">
-      <div className="absolute flex h-[50rem] w-[50rem]  left-[30%] top-[20%]  overflow-hidden ">
+    <section
+      id="contact"
+      className="relative w-full min-h-screen bg-black py-32 px-6 md:px-12 lg:px-20 overflow-hidden 
+    "
+    >
+      <div className="absolute flex h-[50rem] w-[70rem]  left-[25%] top-[30%]  overflow-hidden ">
         <Beams
           rotation={28}
           speed={0.9}
-          beamWidth={3}
+          beamWidth={2}
           beamHeight={15}
-          lightColor="#888888"
+          lightColor="#646464"
         />
         <div className=" size-full bg-[radial-gradient(ellipse_at_center,transparent_35%,black)] absolute inset-0 " />
       </div>
@@ -46,14 +57,8 @@ export default function ContactSection() {
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 items-start relative">
         {/* Left Info Section */}
         <div className="flex-1 space-y-6">
-          <h2 className="subtitle-gradient">
-            Get in <br /> <span className="">touch with us</span>
-          </h2>
-          <p className="text-gray-400 leading-relaxed">
-            We’re here to help! Whether you have a question about our services,
-            need assistance with your account, or want to provide feedback, our
-            team is ready to assist you.
-          </p>
+          <h2 className="subtitle-gradient">{title}</h2>
+          <p className="text-gray-400 leading-relaxed">{description}</p>
 
           <div className="space-y-4">
             <div>
@@ -62,21 +67,16 @@ export default function ContactSection() {
                 href="mailto:hello@finpro.com"
                 className="text-gray-400 font-semibold hover:underline"
               >
-                hello@finpro.com
+                {contactEmail}
               </a>
             </div>
             <div>
               <p className="text-gray-200 font-medium">Phone:</p>
-              <p className="text-gray-400 font-semibold">+1 234 567 78</p>
-              <p className="text-gray-500 text-sm">
-                Available Monday to Friday, 9 AM – 6 PM GMT
-              </p>
+              <p className="text-gray-400 font-semibold">{contactPhone}</p>
+              <p className="text-gray-500 text-sm">{availableTime}</p>
             </div>
           </div>
 
-          {/* <button className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full shadow-md hover:scale-105 transition-transform">
-            Live Chat <ArrowRight className="w-4 h-4" />
-          </button> */}
           <InteractiveHoverButton className="hover:border-cyan-500 ">
             Live Chat
           </InteractiveHoverButton>
@@ -102,7 +102,7 @@ export default function ContactSection() {
                 </label>
                 <input
                   type="text"
-                  name="your-name"
+                  name="name"
                   placeholder="Enter your name..."
                   value={formData.name}
                   onChange={handleChange}
@@ -116,7 +116,7 @@ export default function ContactSection() {
                 </label>
                 <input
                   type="text"
-                  name="company-name"
+                  name="companyName"
                   placeholder="Enter your company name..."
                   value={formData.companyName}
                   onChange={handleChange}
