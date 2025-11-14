@@ -8,7 +8,6 @@ import dynamic from "next/dynamic";
 // Lazy load heavy components (client-side only)
 // Note: In Next.js 16, ssr: false must be in client components
 const SplashCursor = dynamic(() => import("@/components/SplashCursor"), {
-  ssr: false,
   loading: () => null,
 });
 
