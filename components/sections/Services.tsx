@@ -85,9 +85,7 @@ export default function Services() {
                 key={index}
                 variants={cardVariants}
                 whileHover={{
-                  scale: 1.06,
-                  rotateX: 4,
-                  rotateY: -4,
+                  scale: 1.04,
                   boxShadow: "0 25px 60px rgba(0, 255, 255, 0.22)",
                   borderColor: "rgb(34 211 238)",
                 }}
@@ -105,19 +103,12 @@ export default function Services() {
                 {/* CONTENT */}
                 <div className="relative z-10">
                   {/* ICON with its own animation */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
-                    whileInView={{ opacity: 1, scale: 0.9, rotate: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.5,
-                      ease: "easeOut",
-                      delay: 0.1,
-                    }}
-                    className="inline-flex p-3 bg-gray-400/15 rounded-xl mb-4 group-hover:scale-125 transition-transform"
+                  <div
+           
+                    className="inline-flex p-3 bg-gray-400/15 rounded-xl mb-4 transition-transform"
                   >
                     <Icon className="w-6 h-6 text-white group-hover:text-cyan-400 transition-colors duration-300" />
-                  </motion.div>
+                  </div>
 
                   {/* TITLE */}
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300">
@@ -143,7 +134,7 @@ export default function Services() {
                         }}
                         className="flex items-center gap-2 text-sm text-gray-300"
                       >
-                        <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600" />
+                        {/* <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600" /> */}
                         {feature}
                       </motion.li>
                     ))}

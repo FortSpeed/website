@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import collaboration from "@/assets/collaboration-2.jpg";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
@@ -13,14 +15,46 @@ import {
   title,
   values,
 } from "@/data/about";
+import { motion } from "motion/react";
+import { TextAnimate } from "../ui/text-animate";
 
 export default function About() {
+  /* ------------------------------------
+     Variants
+  ------------------------------------ */
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  } as const;
+
+  const containerStagger = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.15 },
+    },
+  } as const;
+
+  const scaleFade = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    },
+  } as const;
+
   return (
     <section
       id="about"
       className="relative py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-x-hidden mx-auto"
     >
-      <div className="absolute flex h-[50rem] w-[70rem]  left-[-00%] top-[20%]  overflow-hidden ">
+      {/* Background */}
+      <div className="absolute flex h-[50rem] w-[70rem] left-[-00%] top-[20%] overflow-hidden">
         <Beams
           rotation={28}
           speed={0.9}
@@ -28,66 +62,114 @@ export default function About() {
           beamHeight={15}
           lightColor="#c4c4c4"
         />
-        <div className="size-full bg-[radial-gradient(ellipse_at_center,transparent_35%,black)] absolute inset-0 " />
+        <div className="size-full bg-[radial-gradient(ellipse_at_center,transparent_35%,black)] absolute inset-0" />
       </div>
 
-      <div className=" relative">
-        <div className="text-center mb-20">
-          <h2 className="subtitle-gradient">{title}</h2>
-        </div>
+      <div className="relative">
+        {/* Title */}
+        <h2 className="subtitle lg:mb-12">
+          <TextAnimate animation="blurInUp" by="character" once>
+            {title}
+          </TextAnimate>
+        </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-center ">
-          <div className="relative">
-            <div className="inset-0 absolute bg-[radial-gradient(ellipse_at_center,transparent_45%,black)] z-10 "></div>
-            {/* <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl blur-3xl"></div> */}
+        {/* IMAGE + TEXT BLOCK */}
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={containerStagger}
+        >
+          {/* IMAGE */}
+          <motion.div variants={fadeUp} className="relative">
+            <div className="inset-0 absolute bg-[radial-gradient(ellipse_at_center,transparent_45%,black)] z-10" />
             <Image
               src={collaboration}
               alt="Team collaboration"
               className="relative rounded-3xl shadow-2xl w-full h-[500px] object-cover border border-white/10"
             />
-          </div>
+          </motion.div>
 
-          <div>
-            <h3 className="text-3xl font-bold text-white mb-6">{subtitle}</h3>
+          {/* TEXT */}
+          <motion.div
+            variants={containerStagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <motion.h3
+              variants={fadeUp}
+              className="text-3xl font-bold text-white mb-6 max-lg:text-center"
+            >
+              {subtitle}
+            </motion.h3>
 
             {description.map((paragraph, i) => (
-              <p key={i} className="text-gray-400 mb-6 leading-relaxed text-lg">
+              <motion.p
+                key={i}
+                variants={fadeUp}
+                className="text-gray-400 mb-6 leading-relaxed text-lg max-lg:text-center"
+              >
                 {paragraph}
-              </p>
+              </motion.p>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+        {/* ACHIEVEMENTS */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={containerStagger}
+        >
           {achievements.map((achievement, index) => (
-            <div
+            <motion.div
               key={index}
-              className="p-6 bg-white/5  border border-white/10 rounded-2xl text-center hover:border-cyan-500/50 transition-all duration-300 hover:scale-105"
+              variants={scaleFade}
+              className="p-6 bg-white/5 border border-white/10 rounded-2xl text-center"
             >
               <div className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2">
                 {achievement.number}
               </div>
               <div className="text-gray-400">{achievement.label}</div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        <div>
-          <h3 className="text-3xl font-bold text-center text-white mb-12">
+        {/* CORE VALUES */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={containerStagger}
+        >
+          <motion.h3
+            variants={fadeUp}
+            className="text-3xl font-bold text-center text-white mb-12"
+          >
             {coreValues}
-          </h3>
+          </motion.h3>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => {
               const Icon = value.icon;
               return (
-                <div
+                <motion.div
                   key={index}
-                  className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-cyan-500/50 transition-all duration-300 hover:scale-105"
+                  variants={scaleFade}
+                  className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl  "
+                  whileHover={{
+                    scale: 1.04,
+                    borderColor: "rgb(34 211 238)",
+                    boxShadow: "0 25px 60px rgba(0, 255, 255, 0.22)",
+                  }}
+                  transition={{ duration: 0.25 }}
                 >
-                  <div
-                    className={`inline-flex p-3 bg-gradient-to-br bg-gray-400/15 rounded-xl mb-4 group-hover:scale-110 transition-transform`}
-                  >
-                    <Icon className="w-6 h-6 text-white group-hover:text-cyan-500/80" />
+                  <div className="inline-flex p-3 bg-gray-400/15 rounded-xl mb-4">
+                    <Icon className="w-6 h-6 text-white group-hover:text-cyan-500" />
                   </div>
                   <h4 className="text-xl font-bold text-white mb-3">
                     {value.title}
@@ -95,20 +177,27 @@ export default function About() {
                   <p className="text-gray-400 leading-relaxed">
                     {value.description}
                   </p>
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="mt-20 text-center">
+        {/* CALL TO ACTION */}
+        <motion.div
+          className="mt-20 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
             {encouragement}
           </p>
-          <InteractiveHoverButton className="hover:border-cyan-500 ">
+          <InteractiveHoverButton className="hover:border-cyan-500">
             <Link href="#contact">{joinUs}</Link>
           </InteractiveHoverButton>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
