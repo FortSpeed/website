@@ -26,7 +26,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-x-hidden mx-auto"
+      className="relative min-h-screen py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-x-hidden mx-auto"
     >
       <div className="absolute flex h-[50rem] w-[70rem]  left-[-00%] top-[20%]  overflow-hidden ">
         <Beams

@@ -173,17 +173,10 @@
   }
 }
 @layer components {
-  .font-gradient {
-    @apply font-bold text-xl bg-gradient-to-r from-[#6a5af9] via-[#a554f7] to-[#ff4b6e] bg-clip-text text-transparent;
-  }
-  .cyan-gradient {
-    @apply font-bold text-xl bg-gradient-to-r  from-[#3B82F6] to-[#2563EB] bg-clip-text text-transparent;
-  }
-
   .subtitle-gradient {
     @apply text-4xl sm:text-6xl font-bold mb-6  bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent w-fit mx-auto;
   }
   .subtitle {
-    @apply text-4xl sm:text-6xl font-bold mb-6 text-gray-300 w-fit mx-auto
+    @apply text-4xl sm:text-6xl font-bold mb-6 text-gray-300 w-fit mx-auto;
   }
 }

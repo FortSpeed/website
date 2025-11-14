@@ -50,7 +50,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-hidden"
+      className="relative min-h-screen py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-hidden"
     >
       {/* Background Beams */}
       <div className="absolute size-[50rem] rounded-full left-[10%] top-[30%] overflow-hidden">

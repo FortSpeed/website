@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 // Lazy load heavy components (client-side only)
 // Note: In Next.js 16, ssr: false must be in client components
 const SplashCursor = dynamic(() => import("@/components/SplashCursor"), {
+  ssr: false,
   loading: () => null,
 });
 
@@ -32,13 +33,14 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500", "600", "700"],
   preload: true,
   fallback: ["system-ui", "arial"],
 });
 
 const poppins = Poppins({
   variable: "--font-poppins",
-  weight: ["400", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
   preload: false, // Defer non-critical font
@@ -60,11 +62,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/* Preconnect to Google Fonts for faster font loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
+      <head></head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${poppins.variable} antialiased relative max-w-[1400px] mx-auto`}
       >

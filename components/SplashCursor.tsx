@@ -1,5 +1,9 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+type IdleDeadline = { didTimeout: boolean; timeRemaining: () => number };
+type IdleCallback = (deadline: IdleDeadline) => void;
+type WindowWithRIC = Window & { requestIdleCallback?: (cb: IdleCallback) => number };
 
 interface ColorRGB {
   r: number;
@@ -69,8 +73,42 @@ export default function SplashCursor({
   TRANSPARENT = true
 }: SplashCursorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [shouldInit, setShouldInit] = useState(false);
+
+  // Defer activation until element is visible and browser is idle
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    // Skip for reduced motion users
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+    let canceled = false;
+    const idle = (cb: IdleCallback) => {
+      const w = window as WindowWithRIC;
+      if (typeof w.requestIdleCallback === 'function') {
+        w.requestIdleCallback(cb);
+      } else {
+        setTimeout(() => cb({ didTimeout: false, timeRemaining: () => 0 }), 1);
+      }
+    };
+    const io = new IntersectionObserver((entries) => {
+      const e = entries[0];
+      if (e && e.isIntersecting) {
+        idle(() => {
+          if (!canceled) setShouldInit(true);
+        });
+      }
+    }, { rootMargin: '0px', threshold: 0.1 });
+    io.observe(canvas);
+    return () => {
+      canceled = true;
+      io.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
+    if (!shouldInit) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
