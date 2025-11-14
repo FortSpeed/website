@@ -181,6 +181,9 @@
   }
 
   .subtitle-gradient {
-    @apply text-4xl sm:text-6xl font-bold mb-6  bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent;
+    @apply text-4xl sm:text-6xl font-bold mb-6  bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent w-fit mx-auto;
+  }
+  .subtitle {
+    @apply text-4xl sm:text-6xl font-bold mb-6 text-white w-fit mx-auto
   }
 }
