@@ -76,9 +76,9 @@ export const Navbar = ({ children, className }: NavbarProps) => {
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
           ? React.cloneElement(
-              child as React.ReactElement<{ visible?: boolean }>,
-              { visible }
-            )
+            child as React.ReactElement<{ visible?: boolean }>,
+            { visible }
+          )
           : child
       )}
     </motion.div>
@@ -238,13 +238,11 @@ export const NavbarLogo = () => {
       href="#"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
-      <Image 
-        src={logo} 
-        alt="Fort-Speed logo" 
-        width={30} 
+      <Image
+        src={logo}
+        alt="Fort-Speed logo"
+        width={30}
         height={30}
-        priority
-        quality={90}
       />
     </a>
   );

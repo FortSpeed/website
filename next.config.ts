@@ -17,21 +17,23 @@ const nextConfig: NextConfig = {
     //   },
     // ],
   },
-  
+
   // Compression (GZIP/Brotli)
   compress: true,
-  
+  // Remove identifying header
+  poweredByHeader: false,
+
   // Production optimizations
   // Note: swcMinify is enabled by default in Next.js 16+
-  
+
   // Output configuration for static optimization
   // Uncomment for Docker/containerized deployments
   // output: 'standalone', // Creates optimized standalone build
-  
+
   // Turbopack configuration (empty to allow webpack config)
   // Note: We use webpack for production builds to leverage custom optimizations
   turbopack: {},
-  
+
   // Webpack optimizations for better code splitting and tree-shaking
   // Use --webpack flag in build command to use these optimizations
   webpack: (config, { dev, isServer }) => {
@@ -82,14 +84,14 @@ const nextConfig: NextConfig = {
         },
       };
     }
-    
+
     // Tree-shaking optimizations
     // Note: Icon alias removed - let Next.js handle tree-shaking automatically
     // The optimizePackageImports config handles this better
-    
+
     return config;
   },
-  
+
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: [
@@ -103,7 +105,7 @@ const nextConfig: NextConfig = {
     // Enable partial prerendering for better performance
     ppr: false, // Set to true when stable
   },
-  
+
   // Headers for caching and security
   async headers() {
     return [
@@ -115,6 +117,10 @@ const nextConfig: NextConfig = {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
+          {
+            key: 'Vary',
+            value: 'Accept-Encoding',
+          },
         ],
       },
       {
@@ -124,6 +130,10 @@ const nextConfig: NextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Vary',
+            value: 'Accept-Encoding',
           },
         ],
       },
@@ -135,6 +145,10 @@ const nextConfig: NextConfig = {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
+          {
+            key: 'Vary',
+            value: 'Accept-Encoding',
+          },
         ],
       },
       {
@@ -144,6 +158,10 @@ const nextConfig: NextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Vary',
+            value: 'Accept-Encoding',
           },
         ],
       },
@@ -171,16 +189,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  
+
   // Redirects for SEO (if needed)
   async redirects() {
     return [];
   },
-  
+
   // Rewrites for API or CDN (if needed)
   async rewrites() {
     return [];
   },
 };
-
 export default nextConfig;
