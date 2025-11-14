@@ -11,8 +11,8 @@ const socialLinks = [
 ];
 const Footer = () => {
   return (
-    <footer className=" border-t border-white/10 bg-black py-8">
-      <div className="max-w-7xl mx-auto text-center flex justify-between items-center">
+    <footer className=" border-t border-white/10 bg-black p-8">
+      <div className="max-w-7xl mx-auto text-center flex flex-col md:flex-row justify-center md:justify-between items-center ">
         <div className="flex items-center justify-center gap-1 mb-4">
           <Image
             src={logo}
@@ -25,7 +25,7 @@ const Footer = () => {
             FortSpeed
           </span>
         </div>
-        <p className="text-gray-400 mb-4 text-sm">
+        <p className="text-gray-400 mb-4 md:mb-0 text-sm w-sm md:w-sm lg:w-fit">
           Empowering businesses with cutting-edge technology solutions
         </p>
         <ul className="flex gap-2 ">
