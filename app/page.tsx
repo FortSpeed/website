@@ -1,9 +1,26 @@
+import dynamic from "next/dynamic";
 import Hero from "@/components/sections/Hero";
-import Projects from "@/components/sections/Projects";
-import Services from "@/components/sections/Services";
-import About from "../components/sections/About";
-import Prices from "../components/sections/Prices";
-import Contact from "@/components/sections/Contact";
+
+// Lazy load below-the-fold components for code splitting
+const Services = dynamic(() => import("@/components/sections/Services"), {
+  loading: () => <div className="h-screen" />, // Prevent layout shift
+});
+
+const Projects = dynamic(() => import("@/components/sections/Projects"), {
+  loading: () => <div className="h-screen" />,
+});
+
+const About = dynamic(() => import("../components/sections/About"), {
+  loading: () => <div className="h-screen" />,
+});
+
+const Prices = dynamic(() => import("../components/sections/Prices"), {
+  loading: () => <div className="h-screen" />,
+});
+
+const Contact = dynamic(() => import("@/components/sections/Contact"), {
+  loading: () => <div className="h-screen" />,
+});
 
 const Home = () => {
   return (
@@ -11,9 +28,9 @@ const Home = () => {
       <Hero />
       <Services />
       <Projects />
-      <About/>
-      <Prices/>
-      <Contact/>
+      <About />
+      <Prices />
+      <Contact />
     </>
   );
 };

@@ -1,8 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import collaboration from "@/assets/collaboration-2.jpg";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import Link from "next/link";
-import Beams from "../Beams";
+import dynamic from "next/dynamic";
+
+// Lazy load Beams component - heavy Three.js rendering
+const Beams = dynamic(() => import("../Beams"), {
+  ssr: false,
+  loading: () => null,
+});
 import {
   achievements,
   coreValues,
@@ -43,7 +51,12 @@ export default function About() {
             <Image
               src={collaboration}
               alt="Team collaboration"
+              width={800}
+              height={500}
               className="relative rounded-3xl shadow-2xl w-full h-[500px] object-cover border border-white/10"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              loading="lazy"
+              quality={85}
             />
           </div>
 

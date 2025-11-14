@@ -1,6 +1,5 @@
-import { Facebook, Github, Instagram, Linkedin, Zap } from "lucide-react";
+import { Facebook, Github, Instagram, Linkedin } from "lucide-react";
 import Image from "next/image";
-import React from "react";
 import logo from "@/assets/logo.png";
 
 const socialLinks = [
@@ -20,6 +19,8 @@ const Footer = () => {
             width={50}
             height={50}
             className="size-7"
+            priority
+            quality={90}
           />
           <span className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
             FortSpeed
@@ -29,7 +30,7 @@ const Footer = () => {
           Empowering businesses with cutting-edge technology solutions
         </p>
         <ul className="flex gap-2 ">
-          {socialLinks.map(({ href, icon: Icon }, i) => (
+          {socialLinks.map(({ icon: Icon }, i) => (
             <li
               key={i}
               className=" p-3 bg-white/5 border border-white/10 rounded-xl hover:border-cyan-500/50 hover:bg-cyan-500/10 transition-all duration-300 hover:scale-110"

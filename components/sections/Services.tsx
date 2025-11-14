@@ -1,9 +1,15 @@
 "use client";
 
 import { description, services, title } from "@/data/services";
-import Beams from "../Beams";
+import dynamic from "next/dynamic";
 import { TextAnimate } from "../ui/text-animate";
 import { easeInOut, motion } from "motion/react";
+
+// Lazy load Beams - heavy Three.js component
+const Beams = dynamic(() => import("../Beams"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function Services() {
   const containerVariants = {

@@ -1,7 +1,6 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { ArrowRight } from "lucide-react";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import Beams from "../Beams";
 import {

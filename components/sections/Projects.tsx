@@ -3,11 +3,17 @@
 import { ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import Beams from "../Beams";
+import dynamic from "next/dynamic";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import { motion } from "motion/react";
 import { title, description, projects } from "@/data/projects";
 import { TextAnimate } from "../ui/text-animate";
+
+// Lazy load Beams - heavy Three.js component
+const Beams = dynamic(() => import("../Beams"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function Projects() {
   // Parent stagger
@@ -110,10 +116,14 @@ export default function Projects() {
                 >
                   <Image
                     width={500}
-                    height={500}
+                    height={256}
                     src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    loading="lazy"
+                    placeholder="blur"
+                    quality={85}
                   />
                 </motion.div>
 

@@ -1,5 +1,13 @@
-import Beams from "../Beams";
+"use client";
+
+import dynamic from "next/dynamic";
 import Headline from "../Headline";
+
+// Lazy load Beams - heavy Three.js component
+const Beams = dynamic(() => import("../Beams"), {
+  ssr: false,
+  loading: () => null,
+});
 
 const Hero = () => {
   return (
