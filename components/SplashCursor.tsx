@@ -5,6 +5,13 @@ type IdleDeadline = { didTimeout: boolean; timeRemaining: () => number };
 type IdleCallback = (deadline: IdleDeadline) => void;
 type WindowWithRIC = Window & { requestIdleCallback?: (cb: IdleCallback) => number };
 
+// Typed interface for WebGL OES_texture_half_float extension
+interface OESTextureHalfFloat {
+  HALF_FLOAT_OES: number;
+}
+
+type SupportedFormat = { internalFormat: number; format: number };
+
 interface ColorRGB {
   r: number;
   g: number;
@@ -73,7 +80,7 @@ export default function SplashCursor({
   TRANSPARENT = true
 }: SplashCursorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [shouldInit, setShouldInit] = useState(false);
+  const [shouldInit, setShouldInit] = useState(true);
 
   // Defer activation until element is visible and browser is idle
   useEffect(() => {
@@ -163,7 +170,7 @@ export default function SplashCursor({
       const isWebGL2 = 'drawBuffers' in gl;
 
       let supportLinearFiltering = false;
-      let halfFloat = null;
+      let halfFloat: OESTextureHalfFloat | null = null;
 
       if (isWebGL2) {
         (gl as WebGL2RenderingContext).getExtension('EXT_color_buffer_float');
@@ -177,11 +184,11 @@ export default function SplashCursor({
 
       const halfFloatTexType = isWebGL2
         ? (gl as WebGL2RenderingContext).HALF_FLOAT
-        : (halfFloat && (halfFloat as any).HALF_FLOAT_OES) || 0;
+        : (halfFloat ? halfFloat.HALF_FLOAT_OES : 0);
 
-      let formatRGBA: any;
-      let formatRG: any;
-      let formatR: any;
+      let formatRGBA: SupportedFormat | null;
+      let formatRG: SupportedFormat | null;
+      let formatR: SupportedFormat | null;
 
       if (isWebGL2) {
         formatRGBA = getSupportedFormat(gl, (gl as WebGL2RenderingContext).RGBA16F, gl.RGBA, halfFloatTexType);
@@ -308,7 +315,7 @@ export default function SplashCursor({
     }
 
     function getUniforms(program: WebGLProgram) {
-      let uniforms: Record<string, WebGLUniformLocation | null> = {};
+      const uniforms: Record<string, WebGLUniformLocation | null> = {};
       const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
       for (let i = 0; i < uniformCount; i++) {
         const uniformInfo = gl.getActiveUniform(program, i);
@@ -830,9 +837,9 @@ export default function SplashCursor({
       const dyeRes = getResolution(config.DYE_RESOLUTION!);
 
       const texType = ext.halfFloatTexType;
-      const rgba = ext.formatRGBA;
-      const rg = ext.formatRG;
-      const r = ext.formatR;
+      const rgba = ext.formatRGBA ?? { internalFormat: gl.RGBA, format: gl.RGBA };
+      const rg = ext.formatRG ?? { internalFormat: gl.RGBA, format: gl.RGBA };
+      const r = ext.formatR ?? { internalFormat: gl.RGBA, format: gl.RGBA };
       const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
       gl.disable(gl.BLEND);
 
@@ -871,7 +878,7 @@ export default function SplashCursor({
       const w = gl.drawingBufferWidth;
       const h = gl.drawingBufferHeight;
       const aspectRatio = w / h;
-      let aspect = aspectRatio < 1 ? 1 / aspectRatio : aspectRatio;
+      const aspect = aspectRatio < 1 ? 1 / aspectRatio : aspectRatio;
       const min = Math.round(resolution);
       const max = Math.round(resolution * aspect);
       if (w > h) {
