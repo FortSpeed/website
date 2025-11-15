@@ -50,14 +50,14 @@ export default function NavbarDemo() {
               key={`mobile-link-${idx}`}
               href={item.link}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="relative  text-neutral-300 hover:text-gray-200 hover:bg-gray-200/10 w-full p-2 rounded-lg"
+              className="relative  text-neutral-300 hover:text-gray-200 hover:bg-gray-200/10 active:bg-gray-200/10 w-full p-2 rounded-lg px-5 "
             >
               <span className="block">{item.name}</span>
             </Link>
           ))}
-          <div className="flex w-full justify-center items-center flex-col gap-4">
-            <Link href={"#contact"}>
-              <InteractiveHoverButton>Get Started</InteractiveHoverButton>
+          <div className="flex w-full justify-center items-center flex-col gap-4 text-md mt-5">
+            <Link href={"#contact"} >
+              <InteractiveHoverButton ><div className="w-60">Get Started</div></InteractiveHoverButton>
             </Link>
           </div>
         </MobileNavMenu>
