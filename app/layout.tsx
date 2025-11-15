@@ -39,7 +39,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${poppins.variable} antialiased relative max-w-[1400px] mx-auto`}
       >
-        <SplashCursor
+        {/* <SplashCursor
 
           SIM_RESOLUTION={128}
           DYE_RESOLUTION={1440}
@@ -55,7 +55,7 @@ export default function RootLayout({
           COLOR_UPDATE_SPEED={10}
           BACK_COLOR={{ r: 0.5, g: 0, b: 0 }}
           TRANSPARENT={true}
-        />
+        /> */}
         {/* <SmoothCursor /> */}
         <Navbar />
         <main>{children}</main>
