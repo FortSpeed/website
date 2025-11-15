@@ -58,7 +58,7 @@ export default function Prices() {
   return (
     <section className="relative min-h-screen bg-black text-white flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
       {/* background beams */}
-      <div className="absolute rounded-4xl p-10 left-[-10%] top-[0%] overflow-hidden">
+      {/* <div className="absolute rounded-4xl p-10 left-[-10%] top-[0%] overflow-hidden">
         <div className="relative flex size-[70rem] overflow-hidden">
           <Beams
             rotation={38}
@@ -69,7 +69,7 @@ export default function Prices() {
           />
         </div>
         <div className="size-full bg-[radial-gradient(ellipse_at_center,transparent,black)] absolute inset-0 z-10" />
-      </div>
+      </div> */}
 
       {/* heading */}
       <h2 className="subtitle-gradient z-10">{title}</h2>

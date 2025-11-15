@@ -47,7 +47,7 @@ export default function Projects() {
       className="relative py-32 pb-10 px-4 sm:px-6 lg:px-8 bg-black overflow-hidden"
     >
       {/* Background Beams */}
-      <div className="absolute size-[50rem] rounded-full left-[10%] top-[30%] overflow-hidden">
+      {/* <div className="absolute size-[50rem] rounded-full left-[10%] top-[30%] overflow-hidden">
         <Beams
           rotation={38}
           speed={0.9}
@@ -56,7 +56,7 @@ export default function Projects() {
           lightColor="#c4c4c4"
         />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,black)]" />
-      </div>
+      </div> */}
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* HEADER */}

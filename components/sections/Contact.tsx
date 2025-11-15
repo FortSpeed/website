@@ -33,7 +33,9 @@ export default function ContactSection() {
     }, 3000);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -43,7 +45,7 @@ export default function ContactSection() {
       className="relative w-full min-h-screen bg-black py-32 px-6 md:px-12 lg:px-20 overflow-hidden 
     "
     >
-      <div className="absolute flex h-[50rem] w-[70rem]  left-[25%] top-[30%]  overflow-hidden ">
+      {/* <div className="absolute flex h-[50rem] w-[70rem]  left-[25%] top-[30%]  overflow-hidden ">
         <Beams
           rotation={28}
           speed={0.9}
@@ -52,7 +54,7 @@ export default function ContactSection() {
           lightColor="#646464"
         />
         <div className=" size-full bg-[radial-gradient(ellipse_at_center,transparent_35%,black)] absolute inset-0 " />
-      </div>
+      </div> */}
 
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 items-start relative">
         {/* Left Info Section */}

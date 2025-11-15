@@ -42,7 +42,7 @@ export default function Services() {
       className="relative py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-x-hidden"
     >
       {/* BACKGROUND BEAMS */}
-      <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden">
+      {/* <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden">
         <Beams
           rotation={28}
           speed={0.9}
@@ -51,7 +51,7 @@ export default function Services() {
           lightColor="#969696"
         />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,black)]" />
-      </div>
+      </div> */}
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* TITLE + DESCRIPTION */}

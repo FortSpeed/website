@@ -54,7 +54,7 @@ export default function About() {
       className="relative py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-x-hidden mx-auto"
     >
       {/* Background */}
-      <div className="absolute flex h-[50rem] w-[70rem] left-[-00%] top-[20%] overflow-hidden">
+      {/* <div className="absolute flex h-[50rem] w-[70rem] left-[-00%] top-[20%] overflow-hidden">
         <Beams
           rotation={28}
           speed={0.9}
@@ -63,7 +63,7 @@ export default function About() {
           lightColor="#c4c4c4"
         />
         <div className="size-full bg-[radial-gradient(ellipse_at_center,transparent_35%,black)] absolute inset-0" />
-      </div>
+      </div> */}
 
       <div className="relative">
         {/* Title */}
