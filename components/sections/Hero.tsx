@@ -16,7 +16,7 @@ const Hero = () => {
 
   return (
     <section
-      className="w-full h-screen bg-black relative max-h-[900px]"
+      className="w-full h-screen bg-black relative max-h-[900px] "
       id="hero"
     >
       <Beams
