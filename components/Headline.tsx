@@ -1,78 +1,41 @@
-"use client";
-import { Easing, motion } from "framer-motion";
-import { MorphingText } from "./ui/morphing-text";
+// "use client";
 import { morphingText, title } from "@/data/hero";
+import { motion } from "motion/react";
+import BlurText from "./BlurText";
+import { MorphingText } from "./ui/morphing-text";
 
-const Headline = () => {
+const Headline = ({ className }: { className: string }) => {
   const text1 = title[0];
   const text2 = title[1];
 
-  // Softer, more fluid letter animation
-  const letterVariants = {
-    hidden: { opacity: 0, scale: 0.9, y: 10, filter: "blur(8px)" },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: {
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1] as Easing, // smooth cubic-bezier like CSS ease-out
-      },
-    },
-  };
-  // Gentle wave-like stagger
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.045,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
   return (
-    <div>
-      <motion.h1
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        
-        className="absolute flex flex-col text-center  top-[28%] font-inter font-bold leading-[1.2]  text-white  left-0 right-0 mx-auto text-5xl sm:text-7xl max-w-84 sm:max-w-125 md:max-w-140 md:text-[5rem] lg:text-8xl lg:max-w-full"
-      >
-        {[text1, text2].map((line, lineIndex) => (
-          <motion.span
-            key={lineIndex}
-            variants={containerVariants}
-            className="block"
-          >
-            {line.split("").map((char, i) => (
-              <motion.span
-                key={i}
-                variants={letterVariants}
-                className="inline-block"
-              >
-                {char === " " ? "\u00A0" : char}
-              </motion.span>
-            ))}
-          </motion.span>
-        ))}
+    <h1
+      className={`flex flex-col text-center items-center gap-0 font-inter font-bold leading-[1.2]  text-white text-5xl sm:text-7xl max-w-84 sm:max-w-125 md:max-w-140 md:text-[5rem] lg:text-8xl lg:max-w-full ${className}`}
+    >
+      {[text1, text2].map((line, lineIndex) => (
+        <BlurText
+          key={lineIndex}
+          text={line}
+          animateBy="letters"
+          direction="bottom"
+          delay={50}
+          className="justify-center -my-3 "
+        />
+      ))}
 
-        {/* Morphing Text */}
-        <motion.span
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="flex items-center justify-center mt-6 relative "
-        >
-          <MorphingText
-            className="absolute mt-16  text-5xl sm:text-7xl md:text-[5rem] lg:text-8xl"
-            texts={morphingText}
-          />
-        </motion.span>
-      </motion.h1>
-    </div>
+      {/* Morphing Text */}
+      <motion.span
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="flex items-center justify-center  relative w-full mt-1"
+      >
+        <MorphingText
+          className="  text-5xl sm:text-7xl md:text-[5rem] lg:text-8xl"
+          texts={morphingText}
+        />
+      </motion.span>
+    </h1>
   );
 };
 
