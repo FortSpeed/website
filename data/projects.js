@@ -15,8 +15,13 @@ export const projects = [
     tags: ["AI/ML", "Blockchain", "Real-time"],
     github: "http://github.com",
     live: "http://google.com",
-    // gradient: 'from-cyan-500 to-blue-600',
+
+    gradient: "from-blue-900/30 to-purple-900/30",
+    accent: "text-blue-400",
+    hoverAccent: "hover:text-blue-400",
+    border: "hover:border-blue-500/50",
   },
+
   {
     title: "CloudSync Enterprise",
     category: "Cloud Infrastructure",
@@ -26,8 +31,13 @@ export const projects = [
     tags: ["Cloud", "DevOps", "Security"],
     github: "http://github.com",
     live: "http://google.com",
-    // gradient: 'from-blue-500 to-purple-600',
+
+    gradient: "from-purple-900/30 to-pink-900/30",
+    accent: "text-purple-400",
+    hoverAccent: "hover:text-purple-400",
+    border: "hover:border-purple-500/50",
   },
+
   {
     title: "HealthTrack AI",
     category: "Healthcare Technology",
@@ -37,8 +47,13 @@ export const projects = [
     tags: ["AI", "Healthcare", "Analytics"],
     github: "http://github.com",
     live: "http://google.com",
-    // gradient: 'from-purple-500 to-pink-600',
+
+    gradient: "from-pink-900/30 to-orange-900/30",
+    accent: "text-pink-400",
+    hoverAccent: "hover:text-pink-400",
+    border: "hover:border-pink-500/50",
   },
+
   {
     title: "EcoTech Solutions",
     category: "Green Technology",
@@ -48,32 +63,13 @@ export const projects = [
     tags: ["IoT", "Sustainability", "Analytics"],
     github: "http://github.com",
     live: "http://google.com",
-    // gradient: 'from-green-500 to-teal-600',
-  },
-  {
-    title: "RetailPro360",
-    category: "E-Commerce",
-    description:
-      "Complete e-commerce ecosystem with AR try-on and personalized recommendations",
-    image: img5,
-    tags: ["AR/VR", "E-Commerce", "Mobile"],
-    github: "http://github.com",
-    live: "http://google.com",
-    // gradient: 'from-orange-500 to-red-600',
-  },
-  {
-    title: "EduLearn Platform",
-    category: "EdTech",
-    description:
-      "Interactive learning platform with adaptive content and gamification",
-    image: img6,
-    tags: ["EdTech", "AI", "Mobile"],
-    github: "http://github.com",
-    live: "http://google.com",
-    // gradient: 'from-indigo-500 to-blue-600',
+
+    gradient: "from-green-900/30 to-blue-900/30",
+    accent: "text-green-400",
+    hoverAccent: "hover:text-green-400",
+    border: "hover:border-green-500/50",
   },
 ];
 
 export const title = "Featured Projects";
-export const description =
-  "Transforming ideas into reality with innovative solutions that make a difference";
+export const description = "Showcasing our best work";
