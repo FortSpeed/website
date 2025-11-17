@@ -186,4 +186,8 @@
   .subtitle {
     @apply text-4xl sm:text-6xl font-bold mb-6 text-gray-300 w-fit mx-auto
   }
+  .section{
+    @apply relative pt-32 pb-8 sm:px-6 lg:px-8 bg-black overflow-x-hidden
+  }
 }
+

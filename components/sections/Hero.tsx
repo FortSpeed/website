@@ -20,7 +20,7 @@ const Hero = () => {
 
   return (
     <section
-      className="w-full flex flex-col justify-center items-center gap-20 pt-32 pb-8 bg-black relative max-h-[900px] "
+      className="section w-full flex flex-col justify-center items-center gap-20 max-h-[900px] "
       id="hero"
     >
       <div className="absolute w-full h-full top-0">

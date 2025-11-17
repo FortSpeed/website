@@ -39,7 +39,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="relative pt-32 pb-8 sm:px-6 lg:px-8 bg-black overflow-x-hidden"
+      className="section"
     >
       {/* BACKGROUND BEAMS */}
       {/* <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden">
