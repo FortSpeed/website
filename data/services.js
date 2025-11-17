@@ -1,96 +1,81 @@
 import {
-  Code,
-  Cloud,
-  Smartphone,
-  Brain,
-  Shield,
-  Zap,
-  Database,
-  Globe,
+  CheckCircle2,
+  Code2,
+  Layers,
+  Rocket
 } from "lucide-react";
 
 export const services = [
   {
-    icon: Code,
-    title: "Custom Software Development",
+    icon: Code2,
+    title: "Web Development",
     description:
-      "Tailored solutions built with cutting-edge technologies to meet your unique business needs",
+      "Custom web applications built with cutting-edge technologies, optimized for performance and scalability.",
     features: [
-      "Full-Stack Development",
-      "API Integration",
-      "Legacy Modernization",
+      { desc: "React & Next.js Applications", icon: CheckCircle2 },
+      { desc: "Full-Stack Development", icon: CheckCircle2 },
+      { desc: "API Integration", icon: CheckCircle2 },
     ],
-    color: "cyan",
+    theme: {
+      color: "blue",
+      iconColor: "text-blue-400",
+      borderHover: "hover:border-blue-500/50",
+      shadowHover: "group-hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]",
+      iconWrapper: {
+        base: "bg-blue-500/10 border border-blue-500/20",
+        hover: "group-hover:bg-blue-500/20",
+      },
+      featureIcon: "text-blue-400",
+    },
   },
+
   {
-    icon: Cloud,
-    title: "Cloud Infrastructure",
+    icon: Layers,
+    title: "UI/UX Design",
     description:
-      "Scalable and secure cloud solutions that grow with your business",
+      "Beautiful, intuitive interfaces that users love. We create experiences that drive engagement.",
     features: [
-      "Cloud Migration",
-      "DevOps Automation",
-      "Infrastructure as Code",
+      { desc: "User Research & Testing", icon: CheckCircle2 },
+      { desc: "Design Systems", icon: CheckCircle2 },
+      { desc: "Prototyping & Wireframing", icon: CheckCircle2 },
     ],
-    color: "blue",
+    theme: {
+      color: "purple",
+      iconColor: "text-purple-400",
+      borderHover: "hover:border-purple-500/50",
+      shadowHover: "group-hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]",
+      iconWrapper: {
+        base: "bg-purple-500/10 border border-purple-500/20",
+        hover: "group-hover:bg-purple-500/20",
+      },
+      featureIcon: "text-purple-400",
+    },
   },
+
   {
-    icon: Brain,
-    title: "AI & Machine Learning",
-    description:
-      "Intelligent systems that learn, adapt, and drive data-driven decisions",
-    features: [
-      "Predictive Analytics",
-      "Natural Language Processing",
-      "Computer Vision",
-    ],
-    color: "purple",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile App Development",
-    description: "Native and cross-platform mobile experiences that users love",
-    features: ["iOS & Android", "React Native", "Progressive Web Apps"],
-    color: "green",
-  },
-  {
-    icon: Shield,
-    title: "Cybersecurity Solutions",
-    description:
-      "Comprehensive security measures to protect your digital assets",
-    features: [
-      "Penetration Testing",
-      "Security Audits",
-      "Compliance Management",
-    ],
-    color: "red",
-  },
-  {
-    icon: Database,
-    title: "Data Engineering",
-    description:
-      "Transform raw data into actionable insights with robust data pipelines",
-    features: ["Data Warehousing", "ETL Pipelines", "Real-time Processing"],
-    color: "orange",
-  },
-  {
-    icon: Zap,
+    icon: Rocket,
     title: "Performance Optimization",
     description:
-      "Lightning-fast applications with optimized performance and scalability",
-    features: ["Code Optimization", "Load Testing", "Caching Strategies"],
-    color: "yellow",
-  },
-  {
-    icon: Globe,
-    title: "Digital Transformation",
-    description:
-      "End-to-end transformation strategies for the modern digital landscape",
-    features: ["Process Automation", "Digital Strategy", "Change Management"],
-    color: "teal",
+      "Lightning-fast load times and seamless interactions.",
+    features: [
+      { desc: "Speed Optimization", icon: CheckCircle2 },
+      { desc: "SEO Enhancement", icon: CheckCircle2 },
+      { desc: "Analytics & Monitoring", icon: CheckCircle2 },
+    ],
+    theme: {
+      color: "pink",
+      iconColor: "text-pink-400",
+      borderHover: "hover:border-pink-500/50",
+      shadowHover: "group-hover:shadow-[0_0_30px_rgba(236,72,153,0.1)]",
+      iconWrapper: {
+        base: "bg-pink-500/10 border border-pink-500/20",
+        hover: "group-hover:bg-pink-500/20",
+      },
+      featureIcon: "text-pink-400",
+    },
   },
 ];
 
+
 export const title = "Our Services";
-export const description =
-  "Comprehensive technology solutions designed to accelerate your business growth";
+export const description = "End-to-end solutions for modern businesses";

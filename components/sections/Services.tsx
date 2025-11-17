@@ -39,7 +39,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="relative py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-x-hidden"
+      className="relative pt-32 pb-8 sm:px-6 lg:px-8 bg-black overflow-x-hidden"
     >
       {/* BACKGROUND BEAMS */}
       {/* <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden">
@@ -71,78 +71,52 @@ export default function Services() {
 
         {/* SERVICES GRID */}
         <motion.ul
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid md:grid-cols-3 gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={containerVariants}
         >
-          {services.map((service, index) => {
-            const Icon = service.icon;
-
-            return (
-              <motion.li
-                key={index}
-                variants={cardVariants}
-                whileHover={{
-                  scale: 1.04,
-                  boxShadow: "0 25px 60px rgba(0, 255, 255, 0.22)",
-                  borderColor: "rgb(34 211 238)",
-                }}
-                transition={{
-                  duration: 0.35,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="group relative p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl"
+          {services.map((service, idx) => (
+            <div
+              key={idx}
+              className={`group p-8 bg-gradient-to-b from-white/5 to-white/[0.02] border border-white/10 rounded-2xl transition-all ${service.theme.borderHover}
+      ${service.theme.shadowHover}
+    `}
+            >
+              <div
+                className={`
+        w-12 h-12 rounded-xl flex items-center justify-center mb-6
+        transition-all
+        ${service.theme.iconWrapper.base}
+        ${service.theme.iconWrapper.hover}
+      `}
               >
-                {/* Hover Shine Layer */}
-                <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-300/10 via-transparent to-transparent blur-xl" />
-                </div>
+                <service.icon
+                  className={`w-6 h-6 ${service.theme.iconColor}`}
+                />
+              </div>
 
-                {/* CONTENT */}
-                <div className="relative z-10">
-                  {/* ICON with its own animation */}
-                  <div
-           
-                    className="inline-flex p-3 bg-gray-400/15 rounded-xl mb-4 transition-transform"
+              <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
+              <p className="text-gray-400 mb-6 leading-relaxed">
+                {service.description}
+              </p>
+
+              <ul className="space-y-3">
+                {service.features.map((f, i) => (
+                  <li
+                    key={i}
+                    className="flex items-center gap-2 text-sm text-gray-300"
                   >
-                    <Icon className="w-6 h-6 text-white group-hover:text-cyan-400 transition-colors duration-300" />
-                  </div>
-
-                  {/* TITLE */}
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300">
-                    {service.title}
-                  </h3>
-
-                  {/* DESCRIPTION */}
-                  <p className="text-gray-400 mb-4 text-sm leading-relaxed">
-                    {service.description}
-                  </p>
-
-                  {/* FEATURES */}
-                  <ul className="space-y-2">
-                    {service.features.map((feature, featureIndex) => (
-                      <motion.li
-                        key={featureIndex}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{
-                          duration: 0.35,
-                          delay: featureIndex * 0.05,
-                        }}
-                        className="flex items-center gap-2 text-sm text-gray-300"
-                      >
-                        {/* <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600" /> */}
-                        {feature}
-                      </motion.li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.li>
-            );
-          })}
+                    <f.icon
+                      className={`w-4 h-4 ${service.theme.featureIcon}`}
+                    />
+                    {f.desc}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </motion.ul>
       </div>
     </section>
