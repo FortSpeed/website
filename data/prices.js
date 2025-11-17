@@ -12,6 +12,7 @@ export const plans = [
       "1 week delivery",
     ],
     color: "from-red-500 to-pink-500",
+    dotColor: "bg-red-500 ",
   },
   {
     id: "pro",
@@ -26,6 +27,7 @@ export const plans = [
       "2–3 week delivery",
     ],
     color: "from-purple-500 to-blue-500",
+    dotColor: "bg-purple-500 ",
   },
   {
     id: "enterprise",
@@ -40,6 +42,7 @@ export const plans = [
       "Long-term maintenance support",
     ],
     color: "from-cyan-500 to-green-500",
+    dotColor: "bg-cyan-500 ",
   },
 ];
 

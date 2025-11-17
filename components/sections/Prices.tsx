@@ -46,9 +46,9 @@ export default function Prices() {
 
   // Glowing dot animation
   const dotVariants = {
-    rest: { scale: 1, opacity: 0.8 },
+    rest: { scale: 1, opacity: 1 },
     hover: {
-      scale: 1.5,
+      scale: 1.2,
       opacity: 1,
       boxShadow: "0 0 10px rgba(0,255,255,0.8)",
       transition: { duration: 0.3, ease: "easeInOut" as Easing },
@@ -56,7 +56,7 @@ export default function Prices() {
   };
 
   return (
-    <section className="relative min-h-screen bg-black text-white flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
+    <section className="section flex flex-col justify-center items-center">
       {/* background beams */}
       {/* <div className="absolute rounded-4xl p-10 left-[-10%] top-[0%] overflow-hidden">
         <div className="relative flex size-[70rem] overflow-hidden">
@@ -72,7 +72,7 @@ export default function Prices() {
       </div> */}
 
       {/* heading */}
-      <h2 className="subtitle-gradient z-10">{title}</h2>
+      <h2 className="subtitle">{title}</h2>
 
       {/* cards grid */}
       <motion.div
@@ -103,7 +103,7 @@ export default function Prices() {
               className={`absolute w-0.5 bg-gradient-to-b ${
                 active === plan.id
                   ? "from-cyan-500 via-cyan-500/25"
-                  : "from-red-500 via-red-500/25"
+                  : `${plan.color}`
               } to-transparent left-1 top-14`}
             >
               <motion.div
@@ -111,8 +111,8 @@ export default function Prices() {
                 initial="rest"
                 whileHover="hover"
                 animate={active === plan.id ? "hover" : "rest"}
-                className={`absolute w-1.5 h-1.5 rounded-full top-0 left-1/2 -translate-x-1/2 ${
-                  active === plan.id ? "bg-cyan-500" : "bg-red-500"
+                className={`absolute w-2 h-2 rounded-full bg-gradient-to-b  top-0 left-1/2 -translate-x-1/2 ${
+                  active === plan.id ? "bg-cyan-500" : `${plan.dotColor}`
                 }`}
               ></motion.div>
             </motion.div>
