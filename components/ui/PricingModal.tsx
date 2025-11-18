@@ -1,0 +1,168 @@
+"use client";
+import React, { useMemo, useState } from "react";
+import Modal from "./Modal";
+import { plans as rawPlans, title as plansTitle } from "@/data/prices";
+
+type Lead = {
+  name: string;
+  company?: string;
+  project?: string;
+  email: string;
+  phone?: string;
+  message?: string;
+};
+
+type Props = {
+  open: boolean;
+  onClose: () => void;
+  // Optional plan id to preselect (e.g., when opening from a specific CTA)
+  initialPlanId?: string;
+};
+
+export default function PricingModal({ open, onClose, initialPlanId }: Props) {
+  const [step, setStep] = useState<"plans" | "form">("plans");
+  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(initialPlanId ?? null);
+  const [lead, setLead] = useState<Lead>({ name: "", email: "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const plans = rawPlans;
+
+  React.useEffect(() => {
+    if (open) {
+      setStep("plans");
+      setSelectedPlanId(initialPlanId ?? null);
+      setLead({ name: "", email: "" });
+      setErrors({});
+    }
+  }, [open, initialPlanId]);
+
+  const selectedPlan = useMemo(() => plans.find(p => p.id === selectedPlanId) ?? null, [plans, selectedPlanId]);
+
+  function pickPlan(id: string) {
+    setSelectedPlanId(id);
+    setStep("form");
+  }
+
+  function validate(l: Lead) {
+    const errs: Record<string, string> = {};
+    if (!l.name?.trim()) errs.name = "Please enter your name";
+    if (!l.email?.trim()) errs.email = "Please enter your email";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(l.email)) errs.email = "Enter a valid email";
+    if (l.phone && !/^[\d+()\-\s]{7,}$/.test(l.phone)) errs.phone = "Enter a valid phone number";
+    return errs;
+  }
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const v = validate(lead);
+    setErrors(v);
+    if (Object.keys(v).length) return;
+    // For now, just log and create a mailto link. Integrate API later.
+    // eslint-disable-next-line no-console
+    console.log({ selectedPlanId, lead });
+    const subject = encodeURIComponent(`New Project Inquiry${selectedPlan ? ` — ${selectedPlan.name}` : ""}`);
+    const body = encodeURIComponent(
+      `Plan: ${selectedPlan ? selectedPlan.name : "(not selected)"}\n` +
+      `Name: ${lead.name}\nCompany: ${lead.company ?? ""}\nProject: ${lead.project ?? ""}\nEmail: ${lead.email}\nPhone: ${lead.phone ?? ""}\n\nMessage:\n${lead.message ?? ""}`
+    );
+    window.location.href = `mailto:hello@example.com?subject=${subject}&body=${body}`;
+    onClose();
+  }
+
+  return (
+    <Modal open={open} onClose={onClose} ariaLabel="Start your project">
+      <div className="p-6 md:p-8">
+        {/* Header */}
+        <div className="mb-6">
+          <h3 className="text-2xl md:text-3xl font-semibold text-white">{plansTitle}</h3>
+          <p className="text-sm text-neutral-300 mt-1">Choose a plan to get started or request a custom quote.</p>
+        </div>
+
+        {step === "plans" ? (
+          <div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+              {plans.map((p) => (
+                <div key={p.id} className="group relative rounded-xl border border-neutral-700 bg-neutral-800/40 hover:bg-neutral-800 transition-colors">
+                  <div className="p-5">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-xs font-mono px-2 py-0.5 rounded-full text-white bg-gradient-to-r ${p.color}`}>{p.number}</span>
+                      <span className={`w-2 h-2 rounded-full ${p.dotColor.trim()}`}></span>
+                    </div>
+                    <h4 className="text-xl font-semibold text-white">{p.name}</h4>
+                    <p className="text-sm text-neutral-300 mb-3">{p.tagline}</p>
+                    <p className="text-lg font-medium text-white mb-4">{p.price}</p>
+                    <ul className="space-y-2 mb-5">
+                      {p.features.map((f: string, i: number) => (
+                        <li key={i} className="text-sm text-neutral-300 flex gap-2">
+                          <svg className="mt-0.5 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      onClick={() => pickPlan(p.id)}
+                      className="w-full inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 focus:outline-none"
+                    >
+                      {p.id === "enterprise" ? "Request Quote" : "Get Started"}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={submit} className="grid grid-cols-1 gap-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-neutral-400">Selected plan</p>
+                <p className="text-white font-medium">{selectedPlan ? selectedPlan.name : "Not selected"}</p>
+              </div>
+              <button type="button" onClick={() => setStep("plans")} className="text-sm text-neutral-300 hover:text-white underline">Change</button>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-neutral-300 mb-1">Your name</label>
+                <input value={lead.name} onChange={(e) => setLead({ ...lead, name: e.target.value })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" required />
+                {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
+              </div>
+              <div>
+                <label className="block text-sm text-neutral-300 mb-1">Company name</label>
+                <input value={lead.company ?? ""} onChange={(e) => setLead({ ...lead, company: e.target.value })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" />
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-neutral-300 mb-1">Project name</label>
+                <input value={lead.project ?? ""} onChange={(e) => setLead({ ...lead, project: e.target.value })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" />
+              </div>
+              <div>
+                <label className="block text-sm text-neutral-300 mb-1">Contact email</label>
+                <input type="email" value={lead.email} onChange={(e) => setLead({ ...lead, email: e.target.value })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" required />
+                {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-neutral-300 mb-1">Contact phone (optional)</label>
+                <input value={lead.phone ?? ""} onChange={(e) => setLead({ ...lead, phone: e.target.value })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" />
+                {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone}</p>}
+              </div>
+              <div></div>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-300 mb-1">Message</label>
+              <textarea value={lead.message ?? ""} onChange={(e) => setLead({ ...lead, message: e.target.value })} rows={4} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" placeholder="Tell us about your project, timeline, and goals" />
+            </div>
+            <div className="flex items-center justify-between gap-3 pt-2">
+              <p className="text-xs text-neutral-400">No payment is collected at this step. We’ll review your details and get back within 1–2 business days.</p>
+              <button type="submit" className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-green-500 hover:opacity-90">
+                Send Request
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </Modal>
+  );
+}

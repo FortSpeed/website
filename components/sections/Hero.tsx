@@ -5,6 +5,8 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import Achievements from "../ui/Achievements";
 import { motion } from "motion/react";
+import { useState } from "react";
+import PricingModal from "../ui/PricingModal";
 
 const Hero = () => {
   // breakpoints
@@ -17,6 +19,8 @@ const Hero = () => {
   const beamHeight = isTablet ? 20 : isMobile ? 20 : 30;
   const beamWidth = isTablet ? 2.5 : isMobile ? 2 : 3;
   const lightColor = isTablet ? "#a1a1a1" : isMobile ? "#a0a0a0" : "white";
+
+  const [open, setOpen] = useState(false);
 
   return (
     <section
@@ -35,7 +39,7 @@ const Hero = () => {
       <Headline className="  left-0 right-0  mx-auto " />
 
       <motion.div initial={{opacity: 0, scale: 0.85}} animate={{opacity: 1, scale:1, transition:{delay: 1}}} className="flex justify-center items-center gap-5">
-        <InteractiveHoverButton className="md:py-3 text-md max-md:text-sm ">
+        <InteractiveHoverButton className="md:py-3 text-md max-md:text-sm " onClick={() => setOpen(true)}>
           Start Your Project
         </InteractiveHoverButton>
         <InteractiveHoverButton className="md:py-3 text-md max-md:text-sm bg-black text-white">
@@ -43,6 +47,8 @@ const Hero = () => {
         </InteractiveHoverButton>
       </motion.div>
       <Achievements />
+
+      <PricingModal open={open} onClose={() => setOpen(false)} />
     </section>
   );
 };

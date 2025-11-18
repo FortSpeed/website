@@ -5,8 +5,11 @@ import BlurText from "../BlurText";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import { description, title } from "@/data/contact";
 import MotionSection from "../animation/MotionSection";
+import { useState } from "react";
+import PricingModal from "../ui/PricingModal";
 
 export default function ContactSection() {
+  const [open, setOpen] = useState(false);
   return (
     <MotionSection className="section  ">
       {/* BACKGROUND BEAMS */}
@@ -33,13 +36,14 @@ export default function ContactSection() {
         <p className="text-lg text-gray-300 mb-12">{description}</p>
       </div>
       <div className="flex items-center justify-center gap-4">
-        <InteractiveHoverButton className=" md:py-3 max-md:text-sm">
+        <InteractiveHoverButton className=" md:py-3 max-md:text-sm" onClick={() => setOpen(true)}>
           Start Your Project
         </InteractiveHoverButton>
         <InteractiveHoverButton className="md:py-3 max-md:text-sm bg-black text-white">
           Schedule a Call
         </InteractiveHoverButton>
       </div>
+      <PricingModal open={open} onClose={() => setOpen(false)} />
     </MotionSection>
   );
 }
