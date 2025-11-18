@@ -4,6 +4,7 @@ import { description, services, title } from "@/data/services";
 import Beams from "../Beams";
 import { TextAnimate } from "../ui/text-animate";
 import { easeInOut, motion } from "motion/react";
+import MotionCard from "../animation/MotionCard";
 
 export default function Services() {
   const containerVariants = {
@@ -69,16 +70,16 @@ export default function Services() {
           variants={containerVariants}
         >
           {services.map((service, idx) => (
-            <div
+            <MotionCard
               key={idx}
-              className={`group p-8 bg-gradient-to-b from-white/5 to-white/[0.02] border border-white/10 rounded-2xl transition-all ${service.theme.borderHover}
+              className={`group p-8 bg-gradient-to-b from-white/5 to-white/[0.02] border border-white/10 rounded-2xl  ${service.theme.borderHover}
       ${service.theme.shadowHover}
     `}
             >
               <div
                 className={`
         w-12 h-12 rounded-xl flex items-center justify-center mb-6
-        transition-all
+        
         ${service.theme.iconWrapper.base}
         ${service.theme.iconWrapper.hover}
       `}
@@ -106,7 +107,7 @@ export default function Services() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </MotionCard>
           ))}
         </motion.ul>
       </div>

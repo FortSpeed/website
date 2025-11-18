@@ -1,15 +1,14 @@
+"use client"
+
 import { Star } from "lucide-react";
 import React from "react";
 import { title, description, comments } from "@/data/testimonials";
+import MotionSection from "../animation/MotionSection";
+import MotionCard from "../animation/MotionCard";
+import { motion } from "motion/react";
 const Comments = () => {
   return (
-    <section className="section">
-      {/* <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-4 tracking-tight"></h2>
-            <p className="text-gray-400 text-lg"></p>
-          </div> */}
-
+    <MotionSection className="section">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="subtitle-gradient">{title}</h2>
@@ -18,9 +17,9 @@ const Comments = () => {
           </p>
         </div>
 
-        <ul className="grid md:grid-cols-3 gap-8">
+        <motion.ul className="grid md:grid-cols-3 gap-8" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12, delayChildren: 0.06 } } }}>
           {comments.map(({ client, comment, position, rating }, i) => (
-            <li
+            <MotionCard
               key={i}
               className="
       group relative p-8 
@@ -49,11 +48,11 @@ const Comments = () => {
                 <div className="font-semibold text-gray-200">{client}</div>
                 <div className="text-sm text-gray-500">{position}</div>
               </div>
-            </li>
+            </MotionCard>
           ))}
-        </ul>
+        </motion.ul>
       </div>
-    </section>
+    </MotionSection>
   );
 };
 

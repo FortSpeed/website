@@ -4,9 +4,11 @@ import Beams from "../Beams";
 import BlurText from "../BlurText";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import { description, title } from "@/data/contact";
+import MotionSection from "../animation/MotionSection";
+
 export default function ContactSection() {
   return (
-    <section className="section  ">
+    <MotionSection className="section  ">
       {/* BACKGROUND BEAMS */}
       <div className="absolute w-2/3 h-full  left-0 right-0 mx-auto top-0  overflow-hidden">
         <Beams
@@ -38,6 +40,6 @@ export default function ContactSection() {
           Schedule a Call
         </InteractiveHoverButton>
       </div>
-    </section>
+    </MotionSection>
   );
 }

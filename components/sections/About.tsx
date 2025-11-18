@@ -11,10 +11,12 @@ import {
 import { motion } from "motion/react";
 import Image from "next/image";
 import CountUp from "../CountUp";
+import MotionSection from "../animation/MotionSection";
+import MotionCard from "../animation/MotionCard";
 
 export default function About() {
   return (
-    <section
+    <MotionSection
       id="about"
       className="section grid lg:grid-cols-2 lg:gap-0 xl:gap-16 items-center"
     >
@@ -30,38 +32,40 @@ export default function About() {
           {description_3}
         </p>
         <motion.ul
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { delay: 1 } }}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.14, delayChildren: 0.1 } } }}
           className="flex justify-center lg:justify-start items-center gap-16  relative"
         >
           {achievements.map(({ label, sym, desc }, i) => (
-            <li
+            <motion.li
               key={label}
+              variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
               className="flex flex-col items-center lg:items-start justify-center relative md:pr-16 "
             >
               <span className="text-white text-4xl font-bold">
                 <CountUp
                   from={0}
                   to={label}
-                  separator=","
+                  separator="," 
                   direction="up"
                   duration={1}
-                  // delay={1}
                 />
 
                 {sym}
               </span>
               <span className="text-gray-300">{desc}</span>
-            </li>
+            </motion.li>
           ))}
         </motion.ul>
       </div>
-      <div className="relative rounded-2xl h-5/6 overflow-hidden">
+      <MotionCard className="relative rounded-2xl h-5/6 overflow-hidden">
         <div className="aspect-square  bg-gradient-to-br from-blue-900/20 to-purple-900/20  border border-white/10 flex items-center justify-center ">
           <div className="inset-0 absolute bg-[radial-gradient(ellipse_at_center,transparent_45%,black)] z-10 " />
           <Image alt="our-teamwork" src={collaboration} loading="lazy" />
         </div>
-      </div>
-    </section>
+      </MotionCard>
+    </MotionSection>
   );
 }

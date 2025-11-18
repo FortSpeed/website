@@ -1,11 +1,16 @@
+"use client"
+
 import { description, projects, title } from "@/data/projects";
 import { ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import MotionSection from "../animation/MotionSection";
+import MotionCard from "../animation/MotionCard";
+import { motion } from "motion/react";
 
 export default function Projects() {
   return (
-    <section id="projects" className="section">
+    <MotionSection id="projects" className="section">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="subtitle-gradient">{title}</h2>
@@ -14,9 +19,9 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2  gap-8">
+        <motion.div className="grid grid-cols-1 md:grid-cols-2  gap-8" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12, delayChildren: 0.06 } } }}>
           {projects.map((project, index) => (
-            <div
+            <MotionCard
               key={index}
               className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-105 ${project.border}  `}
             >
@@ -70,10 +75,10 @@ export default function Projects() {
                   ))}
                 </div>
               </div>
-            </div>
+            </MotionCard>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </MotionSection>
   );
 }
