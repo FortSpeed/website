@@ -3,8 +3,7 @@ import { Geist, Geist_Mono, Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { SmoothCursor } from "@/components/ui/smooth-cursor";
-import SplashCursor from "@/components/SplashCursor";
+import ClientSplashCursor from "@/components/ClientSplashCursor";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -57,6 +56,7 @@ export default function RootLayout({
           TRANSPARENT={true}
         /> */}
         {/* <SmoothCursor /> */}
+        <ClientSplashCursor />
         <Navbar />
         <main>{children}</main>
         <Footer />
