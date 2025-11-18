@@ -1,10 +1,9 @@
 "use client";
 
-import { HTMLAttributes, PropsWithChildren } from "react";
-import { motion, useReducedMotion } from "motion/react";
-import { Variants } from "motion/react";
+import { HTMLMotionProps, motion, useReducedMotion, Variants } from "motion/react";
+import { PropsWithChildren } from "react";
 
-interface MotionCardProps extends HTMLAttributes<HTMLDivElement> {
+interface MotionCardProps extends HTMLMotionProps<"div"> {
   variants?: Variants;
 }
 
@@ -19,7 +18,10 @@ export default function MotionCard({
   const itemVariants: Variants =
     variants ??
     (prefersReduced
-      ? { hidden: { opacity: 1 }, show: { opacity: 1, transition: { duration: 0 } } }
+      ? {
+          hidden: { opacity: 1 },
+          show: { opacity: 1, transition: { duration: 0 } },
+        }
       : {
           hidden: { opacity: 0, y: 24, scale: 0.98, filter: "blur(6px)" },
           show: {
