@@ -1,11 +1,10 @@
+import Comments from "@/components/sections/Comments";
+import Contact from "@/components/sections/Contact";
 import Hero from "@/components/sections/Hero";
 import Projects from "@/components/sections/Projects";
 import Services from "@/components/sections/Services";
-import About from "../components/sections/About";
-import Prices from "../components/sections/Prices";
-import Contact from "@/components/sections/Contact";
 import Technologies from "@/components/sections/Technologies";
-import Comments from "@/components/sections/Comments";
+import About from "../components/sections/About";
 
 const Home = () => {
   return (
@@ -16,7 +15,6 @@ const Home = () => {
       <Technologies />
       <About />
       <Comments />
-      <Prices />
       <Contact />
     </>
   );
