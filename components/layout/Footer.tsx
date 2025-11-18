@@ -1,43 +1,97 @@
-import { Facebook, Github, Instagram, Linkedin, Zap } from "lucide-react";
-import Image from "next/image";
-import React from "react";
 import logo from "@/assets/logo.png";
+import { contactLinks, innerLinks, socialLinks } from "@/data/footer";
+import Image from "next/image";
 
-const socialLinks = [
-  { href: "/#", icon: Instagram },
-  { href: "/#", icon: Github },
-  { href: "/#", icon: Facebook },
-  { href: "/#", icon: Linkedin },
-];
 const Footer = () => {
   return (
-    <footer className=" border-t border-white/10 bg-black p-8">
-      <div className="max-w-7xl mx-auto text-center flex flex-col md:flex-row justify-center md:justify-between items-center ">
-        <div className="flex items-center justify-center gap-1 mb-4">
-          <Image
-            src={logo}
-            alt="fortSpeed-logo"
-            width={50}
-            height={50}
-            className="size-7"
-          />
-          <span className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-            FortSpeed
-          </span>
+    <footer className="py-16 pb-4 px-6 border-t border-white/10 bg-black text-gray-300">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-4 gap-12 mb-12">
+          <div >
+            <div className="flex items-center text-white gap-1 mb-4">
+              {/* <Zap className="w-7 h-7 text-white" strokeWidth={2} /> */}
+              <Image
+                src={logo}
+                alt="fort-speed logo"
+                width={50}
+                height={50}
+                className="size-7"
+              />
+              <span className="text-xl font-bold tracking-tight">
+                FortSpeed
+              </span>
+            </div>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Building the future of the web, one project at a time.
+            </p>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-4">Services</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li>
+                <a href="#" className="hover:text-white transition-colors">
+                  Web Development
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition-colors">
+                  UI/UX Design
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition-colors">
+                  Performance Optimization
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition-colors">
+                  Consulting
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-4">Company</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+              {innerLinks.map(({ href, label }, i) => (
+                <li key={i}>
+                  <a href={href} className="hover:text-white transition-colors">
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div >
+            <h4 className="font-semibold mb-4">Contact</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+              {contactLinks.map(({ label }, i) => (
+                <li key={i}>{label}</li>
+              ))}
+            </ul>
+            <ul className="mt-8 text-sm text-gray-400 flex gap-3 justify-start items-center ">
+              {socialLinks.map(({ href, node:Node, title }, i) => (
+                <li key={i} className="border rounded-lg p-2 bg-white/5 border-white/15 hover:bg-gray-200 hover:text-gray-600" title={title}>{<Node/>}</li>
+              ))}
+            </ul>
+
+          </div>
         </div>
-        <p className="text-gray-400 mb-4 md:mb-0 text-sm w-sm md:w-sm lg:w-fit">
-          Empowering businesses with cutting-edge technology solutions
-        </p>
-        <ul className="flex gap-2 ">
-          {socialLinks.map(({ href, icon: Icon }, i) => (
-            <li
-              key={i}
-              className=" p-3 bg-white/5 border border-white/10 rounded-xl hover:border-cyan-500/50 hover:bg-cyan-500/10 transition-all duration-300 hover:scale-110"
-            >
-              {<Icon className="w-5 h-5 text-gray-300" />}
-            </li>
-          ))}
-        </ul>
+
+        <div className="pt-4 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+          <div>© 2024 APEX Agency. All rights reserved.</div>
+          <div className="flex gap-6">
+            <a href="#" className="hover:text-white transition-colors">
+              Privacy Policy
+            </a>
+            <a href="#" className="hover:text-white transition-colors">
+              Terms of Service
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );
