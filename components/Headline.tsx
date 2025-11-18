@@ -10,7 +10,7 @@ const Headline = ({ className }: { className: string }) => {
 
   return (
     <h1
-      className={`flex flex-col text-center items-center gap-0 font-inter font-bold leading-[1.2]  text-white text-5xl sm:text-7xl max-w-84 sm:max-w-125 md:max-w-140 md:text-[5rem] lg:text-8xl lg:max-w-full ${className}`}
+      className={`flex flex-col text-center items-center gap-0 font-inter font-bold leading-[1.2]  text-white text-6xl sm:text-7xl max-w-98 sm:max-w-120 md:max-w-135 md:text-[5rem] lg:text-8xl lg:max-w-full tracking-tight ${className} md:gap-5 lg:gap-2`}
     >
       {[text1, text2].map((line, lineIndex) => (
         <BlurText
@@ -19,7 +19,7 @@ const Headline = ({ className }: { className: string }) => {
           animateBy="letters"
           direction="bottom"
           delay={50}
-          className="justify-center -my-3 "
+          className="justify-center md:-my-3 "
         />
       ))}
 

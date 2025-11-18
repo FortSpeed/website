@@ -1,10 +1,10 @@
-export const title = "Get in touch with us";
+export const title = "Ready to Build Something Amazing?";
 
 export const description =
-  "We’re here to help! Whether you have a question about our services, need assistance with your account, or want to provide feedback, our team is ready to assist you.";
+  "Let's bring your vision to life with cutting-edge technology and expert craftsmanship.";
 
-  export const contactEmail = "hello@finpro.com"
-  
-  export const contactPhone = "+1 234 567 78"
+export const contactEmail = "hello@finpro.com";
 
-  export const availableTime = "Available Monday to Friday, 9 AM – 6 PM GMT"
+export const contactPhone = "+1 234 567 78";
+
+export const availableTime = "Available Monday to Friday, 9 AM – 6 PM GMT";

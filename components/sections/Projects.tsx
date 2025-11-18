@@ -20,13 +20,13 @@ export default function Projects() {
               key={index}
               className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-105 ${project.border}  `}
             >
-              <div className="relative h-96 overflow-hidden">
+              <div className="relative h-64 sm:h-72 lg:h-96 md:h-72 overflow-hidden">
                 <Image
                   width={500}
                   height={500}
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full  object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div
                   className={`absolute inset-0 bg-gradient-to-t ${project.gradient} opacity-60 group-hover:opacity-40 transition-opacity`}

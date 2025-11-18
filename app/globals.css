@@ -78,7 +78,19 @@
       transform: translate(-50%, -50%) scale(0.9);
     }
   }
-}
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite
+;
+  @keyframes marquee {
+  from {
+    transform: translateX(0);}
+  to {
+    transform: translateX(calc(-100% - var(--gap)));}}
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);}
+  to {
+    transform: translateY(calc(-100% - var(--gap)));}}}
 
 :root {
   --radius: 0.625rem;
@@ -181,13 +193,12 @@
   }
 
   .subtitle-gradient {
-    @apply text-4xl sm:text-6xl font-bold mb-6  bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent w-fit mx-auto;
+    @apply text-5xl sm:text-6xl font-bold mb-6  bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent w-fit mx-auto;
   }
   .subtitle {
-    @apply text-4xl sm:text-6xl font-bold mb-6 text-gray-300 w-fit mx-auto
+    @apply tracking-tight text-4xl sm:text-6xl font-bold mb-6 text-gray-300 w-fit mx-auto
   }
   .section{
-    @apply relative pt-32 pb-8 sm:px-6 lg:px-8 bg-black overflow-x-hidden
+    @apply relative py-18 px-6 lg:px-8 bg-black overflow-x-hidden
   }
 }
-

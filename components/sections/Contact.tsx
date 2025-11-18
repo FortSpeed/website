@@ -1,19 +1,12 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
 import Beams from "../Beams";
+import BlurText from "../BlurText";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
-
+import { description, title } from "@/data/contact";
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    companyName: "",
-    email: "",
-    message: "",
-  });
-
   return (
-    <section className="section max-h-120 overflow-hidden">
+    <section className="section  ">
       {/* BACKGROUND BEAMS */}
       <div className="absolute w-2/3 h-full  left-0 right-0 mx-auto top-0  overflow-hidden">
         <Beams
@@ -27,18 +20,21 @@ export default function ContactSection() {
       <div className="absolute inset-0 opacity-30"></div>
       <div className="relative z-10 max-w-4xl mx-auto text-center mb-20">
         <h2 className="text-6xl font-bold mb-6 tracking-tight text-white">
-          Ready to Build Something Amazing?
+          <BlurText
+            text={title}
+            animateBy="words"
+            direction="bottom"
+            delay={50}
+            className="justify-center md:max-w-[80%] w-full mx-auto"
+          />
         </h2>
-        <p className="text-lg text-gray-300 mb-12">
-          Let's bring your vision to life with cutting-edge technology and
-          expert craftsmanship.
-        </p>
+        <p className="text-lg text-gray-300 mb-12">{description}</p>
       </div>
       <div className="flex items-center justify-center gap-4">
-        <InteractiveHoverButton className="py-3">
+        <InteractiveHoverButton className=" md:py-3 max-md:text-sm">
           Start Your Project
         </InteractiveHoverButton>
-        <InteractiveHoverButton className="py-3 bg-black text-white">
+        <InteractiveHoverButton className="md:py-3 max-md:text-sm bg-black text-white">
           Schedule a Call
         </InteractiveHoverButton>
       </div>

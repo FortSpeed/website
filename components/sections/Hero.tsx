@@ -20,7 +20,7 @@ const Hero = () => {
 
   return (
     <section
-      className="section w-full flex flex-col justify-center items-center gap-20 max-h-[900px] "
+      className="section pt-32 w-full flex flex-col justify-center items-center gap-20 max-h-[900px] "
       id="hero"
     >
       <div className="absolute w-full h-full top-0">
@@ -35,10 +35,10 @@ const Hero = () => {
       <Headline className="  left-0 right-0  mx-auto " />
 
       <motion.div initial={{opacity: 0, scale: 0.85}} animate={{opacity: 1, scale:1, transition:{delay: 1}}} className="flex justify-center items-center gap-5">
-        <InteractiveHoverButton className="py-3 text-md ">
+        <InteractiveHoverButton className="md:py-3 text-md max-md:text-sm ">
           Start Your Project
         </InteractiveHoverButton>
-        <InteractiveHoverButton className="py-3 text-md ">
+        <InteractiveHoverButton className="md:py-3 text-md max-md:text-sm bg-black text-white">
           View Our Work
         </InteractiveHoverButton>
       </motion.div>

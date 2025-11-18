@@ -37,10 +37,7 @@ export default function Services() {
   };
 
   return (
-    <section
-      id="services"
-      className="section"
-    >
+    <section id="services" className="section">
       {/* BACKGROUND BEAMS */}
       {/* <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden">
         <Beams
@@ -56,16 +53,10 @@ export default function Services() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* TITLE + DESCRIPTION */}
         <div className="text-center mb-20">
-          <h2 className="subtitle">
-            <TextAnimate animation="blurInUp" by="character" once>
-              {title}
-            </TextAnimate>
-          </h2>
+          <h2 className="subtitle-gradient">{title}</h2>
 
           <div className="text-xl text-gray-400 max-w-3xl mx-auto">
-            <TextAnimate animation="blurIn" by="word" once delay={0.1}>
-              {description}
-            </TextAnimate>
+            {description}
           </div>
         </div>
 
