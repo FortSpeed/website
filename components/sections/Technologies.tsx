@@ -12,25 +12,27 @@ const secondRow = technologies.slice(technologies.length / 2);
 
 const ReviewCard = ({
   Node,
-  title,
+  label,
   href,
+  color
 }: {
   Node: IconType;
-  title: string;
+  label: string;
   href: string;
+  color: string;
 }) => {
   return (
     <MotionCard
       className={cn(
         "relative h-full w-fit  cursor-pointer overflow-hidden rounded-xl border py-4 px-10",
-        "text-white bg-white/5 backdrop-blur-sm border border-white/10"
+        `text-white bg-white/5 backdrop-blur-sm border border-white/10 ${color}`
       )}
     >
       <Link href={href}>
         <div className="flex flex-row items-center gap-2">
           <Node className="size-10" />
           <figcaption className="text-lg font-medium dark:text-white">
-            {title}
+            {label}
           </figcaption>
         </div>
       </Link>
@@ -48,12 +50,12 @@ export default function Technologies() {
       <div className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-black">
         <Marquee pauseOnHover className="[--duration:20s]">
           {firstRow.map((tech) => (
-            <ReviewCard key={tech.title} {...tech} />
+            <ReviewCard key={tech.label} {...tech} />
           ))}
         </Marquee>
         <Marquee reverse pauseOnHover className="[--duration:20s]">
           {secondRow.map((tech) => (
-            <ReviewCard key={tech.title} {...tech} />
+            <ReviewCard key={tech.label} {...tech} />
           ))}
         </Marquee>
         <div className="from-black pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r"></div>
