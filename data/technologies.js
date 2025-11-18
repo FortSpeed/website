@@ -9,16 +9,16 @@ export const title = "Tech Stack";
 
 export const description = "Powered by industry-leading technologies";
 
-export const techLogos = [
-  { node: <SiReact />, title: "React", href: "https://react.dev" },
-  { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
+export const technologies = [
+  { Node: SiReact , title: "React", href: "https://react.dev" },
+  { Node: SiNextdotjs , title: "Next.js", href: "https://nextjs.org" },
   {
-    node: <SiTypescript />,
+    Node: SiTypescript,
     title: "TypeScript",
     href: "https://www.typescriptlang.org",
   },
   {
-    node: <SiTailwindcss />,
+    Node: SiTailwindcss,
     title: "Tailwind CSS",
     href: "https://tailwindcss.com",
   },
