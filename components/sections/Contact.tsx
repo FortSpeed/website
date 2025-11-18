@@ -10,7 +10,7 @@ export default function ContactSection() {
   return (
     <MotionSection className="section  ">
       {/* BACKGROUND BEAMS */}
-      <div className="absolute w-2/3 h-full  left-0 right-0 mx-auto top-0  overflow-hidden">
+      {/* <div className="absolute w-2/3 h-full  left-0 right-0 mx-auto top-0  overflow-hidden">
         <Beams
           rotation={28}
           speed={0.9}
@@ -18,7 +18,7 @@ export default function ContactSection() {
           beamHeight={15}
           lightColor="#969696"
         />
-      </div>
+      </div> */}
       <div className="absolute inset-0 opacity-30"></div>
       <div className="relative z-10 max-w-4xl mx-auto text-center mb-20">
         <h2 className="text-6xl font-bold mb-6 tracking-tight text-white">

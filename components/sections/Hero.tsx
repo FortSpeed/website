@@ -23,7 +23,7 @@ const Hero = () => {
       className="section pt-32 w-full flex flex-col justify-center items-center gap-20 max-h-[900px] "
       id="hero"
     >
-      <div className="absolute w-full h-full top-0">
+      {/* <div className="absolute w-full h-full top-0">
         <Beams
           rotation={30}
           lightColor={lightColor}
@@ -31,7 +31,7 @@ const Hero = () => {
           beamWidth={beamWidth}
           speed={speed}
         />
-      </div>
+      </div> */}
       <Headline className="  left-0 right-0  mx-auto " />
 
       <motion.div initial={{opacity: 0, scale: 0.85}} animate={{opacity: 1, scale:1, transition:{delay: 1}}} className="flex justify-center items-center gap-5">

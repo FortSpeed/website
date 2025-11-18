@@ -27,6 +27,7 @@ export default function Projects() {
             >
               <div className="relative h-64 sm:h-72 lg:h-96 md:h-72 overflow-hidden">
                 <Image
+                loading="lazy"
                   width={500}
                   height={500}
                   src={project.image}
