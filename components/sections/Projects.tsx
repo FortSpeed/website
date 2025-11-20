@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { description, projects, title } from "@/data/projects";
 import { ExternalLink, Github } from "lucide-react";
@@ -11,6 +11,8 @@ import { motion } from "motion/react";
 export default function Projects() {
   return (
     <MotionSection id="projects" className="section">
+      <div className="bg-[url('/img-1.png')]  bg-center  bg-no-repea overflow-hiddent bg-center  absolute size-1/2 bg-cover bg-no-repeat  right-20 top-52 "></div>
+
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="subtitle-gradient">{title}</h2>
@@ -19,7 +21,18 @@ export default function Projects() {
           </p>
         </div>
 
-        <motion.div className="grid grid-cols-1 md:grid-cols-2  gap-8" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12, delayChildren: 0.06 } } }}>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2  gap-8"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: {},
+            show: {
+              transition: { staggerChildren: 0.12, delayChildren: 0.06 },
+            },
+          }}
+        >
           {projects.map((project, index) => (
             <MotionCard
               key={index}
@@ -27,7 +40,7 @@ export default function Projects() {
             >
               <div className="relative h-64 sm:h-72 lg:h-96 md:h-72 overflow-hidden">
                 <Image
-                loading="lazy"
+                  loading="lazy"
                   width={500}
                   height={500}
                   src={project.image}

@@ -13,6 +13,15 @@ export default function ContactSection() {
   return (
     <MotionSection className="section  ">
       {/* BACKGROUND BEAMS */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover "
+      >
+        <source src="/bg-video.mp4" type="video/webm" />
+      </video>
       {/* <div className="absolute w-2/3 h-full  left-0 right-0 mx-auto top-0  overflow-hidden">
         <Beams
           rotation={28}
@@ -36,7 +45,10 @@ export default function ContactSection() {
         <p className="text-lg text-gray-300 mb-12">{description}</p>
       </div>
       <div className="flex items-center justify-center gap-4">
-        <InteractiveHoverButton className=" md:py-3 max-md:text-sm" onClick={() => setOpen(true)}>
+        <InteractiveHoverButton
+          className=" md:py-3 max-md:text-sm"
+          onClick={() => setOpen(true)}
+        >
           Start Your Project
         </InteractiveHoverButton>
         <InteractiveHoverButton className="md:py-3 max-md:text-sm bg-black text-white">

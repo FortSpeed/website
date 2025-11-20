@@ -18,9 +18,12 @@ export default function About() {
   return (
     <MotionSection
       id="about"
-      className="section grid lg:grid-cols-2 lg:gap-0 xl:gap-16 items-center"
+      className="section grid lg:grid-cols-2 lg:gap-0 xl:gap-16 items-center relative"
     >
-      <div className="text-center lg:text-start">
+
+    <div className="bg-[url('/img-4.png')]  bg-cover  bg-no-repea overflow-hiddent bg-center h-2/3 lg:h-full w-1/2  object-contain   absolute top-0   lg:bottom-0 left-0 "></div>
+
+      <div className="text-center lg:text-start relative">
         <h2 className="subtitle-gradient lg:!mx-0 mb-10 ">{title}</h2>
         <p className="text-gray-300 text-lg mb-6 leading-relaxed md:w-3xl lg:w-auto mx-auto pr-5">
           {description_1}
