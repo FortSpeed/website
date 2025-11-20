@@ -19,7 +19,7 @@ type Props = {
 };
 
 export default function ContactModal({ open, onClose }: Props) {
-  const [lead, setLead] = React.useState<Lead>({ name: "", email: "", message: "" });
+  const [lead, setLead] = React.useState<Lead>({ name: "", email: "", topic: "", message: "" });
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [sending, setSending] = React.useState(false);
   const [toast, setToast] = React.useState<string | null>(null);
