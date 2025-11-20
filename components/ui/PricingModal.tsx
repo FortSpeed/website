@@ -1,15 +1,12 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import Modal from "./Modal";
-import { plans as rawPlans, title as plansTitle } from "@/data/prices";
+import { plans as rawPlans, title as plansTitle, planQuestions } from "@/data/prices";
+import { contactEmail as defaultRecipient } from "@/data/contact";
 
 type Lead = {
   name: string;
-  company?: string;
-  project?: string;
   email: string;
-  phone?: string;
-  message?: string;
 };
 
 type Props = {
@@ -23,7 +20,9 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
   const [step, setStep] = useState<"plans" | "form">("plans");
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(initialPlanId ?? null);
   const [lead, setLead] = useState<Lead>({ name: "", email: "" });
+  const [answers, setAnswers] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [sending, setSending] = useState(false);
   const plans = rawPlans;
 
   React.useEffect(() => {
@@ -31,7 +30,9 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
       setStep("plans");
       setSelectedPlanId(initialPlanId ?? null);
       setLead({ name: "", email: "" });
+      setAnswers({});
       setErrors({});
+      setSending(false);
     }
   }, [open, initialPlanId]);
 
@@ -47,29 +48,51 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
     if (!l.name?.trim()) errs.name = "Please enter your name";
     if (!l.email?.trim()) errs.email = "Please enter your email";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(l.email)) errs.email = "Enter a valid email";
-    if (l.phone && !/^[\d+()\-\s]{7,}$/.test(l.phone)) errs.phone = "Enter a valid phone number";
     return errs;
   }
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     const v = validate(lead);
     setErrors(v);
     if (Object.keys(v).length) return;
-    // For now, just log and create a mailto link. Integrate API later.
-    // eslint-disable-next-line no-console
-    console.log({ selectedPlanId, lead });
-    const subject = encodeURIComponent(`New Project Inquiry${selectedPlan ? ` — ${selectedPlan.name}` : ""}`);
-    const body = encodeURIComponent(
-      `Plan: ${selectedPlan ? selectedPlan.name : "(not selected)"}\n` +
-      `Name: ${lead.name}\nCompany: ${lead.company ?? ""}\nProject: ${lead.project ?? ""}\nEmail: ${lead.email}\nPhone: ${lead.phone ?? ""}\n\nMessage:\n${lead.message ?? ""}`
-    );
-    window.location.href = `mailto:hello@example.com?subject=${subject}&body=${body}`;
-    onClose();
+
+    const qList = selectedPlanId ? (planQuestions as any)[selectedPlanId] || [] : [];
+    const lines: string[] = [];
+    qList.forEach((q: any) => {
+      const key = q.label;
+      let val = answers[key];
+      if (q.type === "file" && val?.name) val = val.name;
+      lines.push(`${q.label}: ${val ? val : "-"}`);
+    });
+
+    const topic = `Plan inquiry — ${selectedPlan ? selectedPlan.name : "Unknown"}`;
+    const message = `Selected plan: ${selectedPlan ? selectedPlan.name : "(not selected)"}\n\n${lines.join("\n")}`;
+
+    try {
+      setSending(true);
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: lead.name, email: lead.email, topic, message, to: defaultRecipient }),
+      });
+      if (!res.ok) {
+        const subject = encodeURIComponent(`New Project Inquiry${selectedPlan ? ` — ${selectedPlan.name}` : ""}`);
+        const body = encodeURIComponent(
+          `Name: ${lead.name}\nEmail: ${lead.email}\nTopic: ${topic}\n\n${message}`
+        );
+        window.location.href = `mailto:${defaultRecipient}?subject=${subject}&body=${body}`;
+        onClose();
+      } else {
+        onClose();
+      }
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
-    <Modal open={open} onClose={onClose} ariaLabel="Start your project">
+    <Modal open={open} onClose={onClose} ariaLabel="Start your project" className="lg:max-w-5xl ">
       <div className="p-6 md:p-8">
         {/* Header */}
         <div className="mb-6">
@@ -79,7 +102,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
 
         {step === "plans" ? (
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3  gap-4 md:gap-6 ">
               {plans.map((p) => (
                 <div key={p.id} className="group relative rounded-xl border border-neutral-700 bg-neutral-800/40 hover:bg-neutral-800 transition-colors">
                   <div className="p-5">
@@ -127,37 +150,56 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                 {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
               </div>
               <div>
-                <label className="block text-sm text-neutral-300 mb-1">Company name</label>
-                <input value={lead.company ?? ""} onChange={(e) => setLead({ ...lead, company: e.target.value })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" />
-              </div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm text-neutral-300 mb-1">Project name</label>
-                <input value={lead.project ?? ""} onChange={(e) => setLead({ ...lead, project: e.target.value })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" />
-              </div>
-              <div>
                 <label className="block text-sm text-neutral-300 mb-1">Contact email</label>
                 <input type="email" value={lead.email} onChange={(e) => setLead({ ...lead, email: e.target.value })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" required />
                 {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
               </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm text-neutral-300 mb-1">Contact phone (optional)</label>
-                <input value={lead.phone ?? ""} onChange={(e) => setLead({ ...lead, phone: e.target.value })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" />
-                {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone}</p>}
+
+            {(selectedPlanId ? (planQuestions as any)[selectedPlanId] : [])?.map((q: any, idx: number) => (
+              <div key={idx}>
+                <label className="block text-sm text-neutral-300 mb-1">{q.label}</label>
+                {q.type === "select" && (
+                  <select
+                    value={answers[q.label] ?? ""}
+                    onChange={(e) => setAnswers({ ...answers, [q.label]: e.target.value })}
+                    className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500"
+                  >
+                    <option value="">Select...</option>
+                    {q.options?.map((opt: string) => (
+                      <option key={opt} value={opt}>{opt}</option>
+                    ))}
+                  </select>
+                )}
+                {q.type === "text" && (
+                  <input
+                    value={answers[q.label] ?? ""}
+                    onChange={(e) => setAnswers({ ...answers, [q.label]: e.target.value })}
+                    className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500"
+                  />
+                )}
+                {q.type === "textarea" && (
+                  <textarea
+                    rows={4}
+                    value={answers[q.label] ?? ""}
+                    onChange={(e) => setAnswers({ ...answers, [q.label]: e.target.value })}
+                    className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500"
+                  />
+                )}
+                {q.type === "file" && (
+                  <input
+                    type="file"
+                    onChange={(e) => setAnswers({ ...answers, [q.label]: e.target.files?.[0] || null })}
+                    className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500 file:mr-4 file:py-2 file:px-3 file:rounded-md file:border-0 file:bg-white/10 file:text-white"
+                  />
+                )}
               </div>
-              <div></div>
-            </div>
-            <div>
-              <label className="block text-sm text-neutral-300 mb-1">Message</label>
-              <textarea value={lead.message ?? ""} onChange={(e) => setLead({ ...lead, message: e.target.value })} rows={4} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" placeholder="Tell us about your project, timeline, and goals" />
-            </div>
+            ))}
+
             <div className="flex items-center justify-between gap-3 pt-2">
-              <p className="text-xs text-neutral-400">No payment is collected at this step. We’ll review your details and get back within 1–2 business days.</p>
-              <button type="submit" className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-green-500 hover:opacity-90">
-                Send Request
+              <p className="text-xs text-neutral-400">We’ll review your details and get back within 1–2 business days.</p>
+              <button type="submit" disabled={sending} className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-green-500 hover:opacity-90 disabled:opacity-50">
+                {sending ? "Sending..." : "Send Request"}
               </button>
             </div>
           </form>

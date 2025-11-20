@@ -7,6 +7,7 @@ import Achievements from "../ui/Achievements";
 import { motion } from "motion/react";
 import { useState } from "react";
 import PricingModal from "../ui/PricingModal";
+import Link from "next/link";
 
 const Hero = () => {
   // breakpoints
@@ -70,7 +71,7 @@ const Hero = () => {
           Start Your Project
         </InteractiveHoverButton>
         <InteractiveHoverButton className="md:py-3 text-md max-md:text-sm bg-black text-white">
-          View Our Work
+          <Link href={"#projects"}>View Our Work</Link>
         </InteractiveHoverButton>
       </motion.div>
       <Achievements />
