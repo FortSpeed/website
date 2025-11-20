@@ -7,11 +7,13 @@ import { description, title } from "@/data/contact";
 import MotionSection from "../animation/MotionSection";
 import { useState } from "react";
 import PricingModal from "../ui/PricingModal";
+import ContactModal from "../ui/ContactModal";
 
 export default function ContactSection() {
   const [open, setOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
   return (
-    <MotionSection className="section  ">
+    <MotionSection className="section " id={"contact"}>
       {/* BACKGROUND BEAMS */}
       <video
         autoPlay
@@ -51,11 +53,12 @@ export default function ContactSection() {
         >
           Start Your Project
         </InteractiveHoverButton>
-        <InteractiveHoverButton className="md:py-3 max-md:text-sm bg-black text-white">
-          Schedule a Call
+        <InteractiveHoverButton className="md:py-3 max-md:text-sm bg-black text-white" onClick={() => setContactOpen(true)}>
+          Contact Us
         </InteractiveHoverButton>
       </div>
       <PricingModal open={open} onClose={() => setOpen(false)} />
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </MotionSection>
   );
 }
