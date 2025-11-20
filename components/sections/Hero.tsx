@@ -27,27 +27,27 @@ const Hero = () => {
       className="section pt-32 w-full flex flex-col justify-center items-center gap-20 max-h-[900px] "
       id="hero"
     >
-      <div className="absolute w-full h-full -top-40">
-        <Beams
+      <div className="absolute w-full h-full -top-20  ">
+        {/* <Beams
           rotation={30}
           lightColor={lightColor}
           beamHeight={beamHeight}
           beamWidth={beamWidth}
           speed={speed}
           // noiseIntensity={2}
-        />
+        /> */}
         {/* <Hyperspeed/> */}
         {/* <div className="relative w-full h-[100vh] overflow-hidden"> */}
         {/* Video background */}
-        {/* <video
+        <video
             autoPlay
             muted
             loop
             playsInline
             className="absolute inset-0 w-full h-full object-cover "
           >
-            <source src="/test.webm" type="video/webm" />
-          </video> */}
+            <source src="/bg-video.mp4" type="video/webm" />
+          </video>
         {/* <source src="/videos/hero-bg.mp4" type="video/mp4" /> */}
 
         {/* Dark overlay for readability */}
