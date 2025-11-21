@@ -41,14 +41,14 @@ const Hero = () => {
         {/* <div className="relative w-full h-[100vh] overflow-hidden"> */}
         {/* Video background */}
         <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover "
-          >
-            <source src="/bg-video.mp4" type="video/webm" />
-          </video>
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        >
+          <source src="/bg-video.mp4" type="video/mp4" />
+        </video>
         {/* <source src="/videos/hero-bg.mp4" type="video/mp4" /> */}
 
         {/* Dark overlay for readability */}

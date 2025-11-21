@@ -20,9 +20,9 @@ export default function ContactSection() {
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover "
+        className="absolute inset-0 w-full h-full object-cover z-0"
       >
-        <source src="/bg-video.mp4" type="video/webm" />
+        <source src="/bg-video.mp4" type="video/mp4" />
       </video>
       {/* <div className="absolute w-2/3 h-full  left-0 right-0 mx-auto top-0  overflow-hidden">
         <Beams
@@ -53,7 +53,10 @@ export default function ContactSection() {
         >
           Start Your Project
         </InteractiveHoverButton>
-        <InteractiveHoverButton className="md:py-3 max-md:text-sm bg-black text-white" onClick={() => setContactOpen(true)}>
+        <InteractiveHoverButton
+          className="md:py-3 max-md:text-sm bg-black text-white"
+          onClick={() => setContactOpen(true)}
+        >
           Contact Us
         </InteractiveHoverButton>
       </div>
