@@ -1,8 +1,12 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import Modal from "./Modal";
+
 import { plans as rawPlans, title as plansTitle, planQuestions } from "@/data/prices";
 import { contactEmail as defaultRecipient } from "@/data/contact";
+import {BorderBeam} from "@/components/ui/border-beam";
+import {InteractiveHoverButton} from "@/components/ui/interactive-hover-button";
+import GlareHover from "@/components/GlareHover";
 
 type Lead = {
   name: string;
@@ -92,28 +96,60 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
   }
 
   return (
-    <Modal open={open} onClose={onClose} ariaLabel="Start your project" className="lg:max-w-5xl ">
+    <Modal open={open} onClose={onClose} ariaLabel="Start your project" className="lg:max-w-5xl  ">
       <div className="p-6 md:p-8">
         {/* Header */}
-        <div className="mb-6">
-          <h3 className="text-2xl md:text-3xl font-semibold text-white">{plansTitle}</h3>
+        <div className="mb-16 max-md:text-center">
+          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">{plansTitle}</h3>
           <p className="text-sm text-neutral-300 mt-1">Choose a plan to get started or request a custom quote.</p>
         </div>
 
         {step === "plans" ? (
           <div>
             <div className="grid grid-cols-1 md:grid-cols-3  gap-4 md:gap-6 ">
-              {plans.map((p) => (
-                <div key={p.id} className="group relative rounded-xl border border-neutral-700 bg-neutral-800/40 hover:bg-neutral-800 transition-colors">
+              {plans.map((p, idx) => (
+                <div
+                  key={p.id}
+                  className={`group relative rounded-xl border border-neutral-700 bg-neutral-800/40 hover:bg-neutral-800 transition-colors ${idx === 1 ? "md:scale-[1.08] md:z-10" : ""} transition-transform overflow-hidden`}
+                >
+                  {/* BorderBeam overlays per card */}
+                  {idx === 0 && <BorderBeam
+                      duration={4}
+                      size={300}
+                      reverse
+                      className="from-transparent via-blue-500 to-transparent"
+                  />  }
+                  {idx === 1 && (
+                   <><BorderBeam
+                       duration={6}
+                       size={400}
+                       className="from-transparent via-red-500 to-transparent"
+                   />
+                       <BorderBeam
+                           duration={6}
+                           delay={3}
+                           size={400}
+                           borderWidth={2}
+                           className="from-transparent via-blue-500 to-transparent"
+                       /></>
+                  )}
+                  {idx === 2 && <BorderBeam
+                      duration={4}
+                      size={300}
+
+                      className="from-transparent via-red-500 to-transparent"
+                  />}
+
+
                   <div className="p-5">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className={`text-xs font-mono px-2 py-0.5 rounded-full text-white bg-gradient-to-r ${p.color}`}>{p.number}</span>
-                      <span className={`w-2 h-2 rounded-full ${p.dotColor.trim()}`}></span>
+
+                    <div className="flex items-center justify-between mb-8">
+                      <span className="text-3xl md:text-4xl font-semibold text-white leading-none">{p.number}</span>
                     </div>
-                    <h4 className="text-xl font-semibold text-white">{p.name}</h4>
-                    <p className="text-sm text-neutral-300 mb-3">{p.tagline}</p>
-                    <p className="text-lg font-medium text-white mb-4">{p.price}</p>
-                    <ul className="space-y-2 mb-5">
+                    <h4 className="text-xl font-semibold text-white mb-2">{p.name}</h4>
+                    <p className="text-sm text-neutral-300 mb-6">{p.tagline}</p>
+                    <p className="text-lg font-medium text-white mb-3">{p.price}</p>
+                    <ul className="space-y-2 mb-8">
                       {p.features.map((f: string, i: number) => (
                         <li key={i} className="text-sm text-neutral-300 flex gap-2">
                           <svg className="mt-0.5 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -198,9 +234,9 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
 
             <div className="flex items-center justify-between gap-3 pt-2">
               <p className="text-xs text-neutral-400">We’ll review your details and get back within 1–2 business days.</p>
-              <button type="submit" disabled={sending} className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-green-500 hover:opacity-90 disabled:opacity-50">
+              < InteractiveHoverButton type="submit" disabled={sending} className=" items-center justify-center  text-sm font-medium  disabled:opacity-50">
                 {sending ? "Sending..." : "Send Request"}
-              </button>
+                  </InteractiveHoverButton>
             </div>
           </form>
         )}
