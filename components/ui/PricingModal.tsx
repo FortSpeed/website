@@ -6,7 +6,6 @@ import { plans as rawPlans, title as plansTitle, planQuestions } from "@/data/pr
 import { contactEmail as defaultRecipient } from "@/data/contact";
 import {BorderBeam} from "@/components/ui/border-beam";
 import {InteractiveHoverButton} from "@/components/ui/interactive-hover-button";
-import GlareHover from "@/components/GlareHover";
 
 type Lead = {
   name: string;
