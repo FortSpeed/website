@@ -66,6 +66,12 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
       const key = q.label;
       let val = answers[key];
       if (q.type === "file" && val?.name) val = val.name;
+      if (q.label === "What is your timeline?" && val === "Flexible") {
+        const flexibleDate = answers["Flexible date"];
+        if (flexibleDate) {
+          val = `Flexible (Preferred date: ${flexibleDate})`;
+        }
+      }
       lines.push(`${q.label}: ${val ? val : "-"}`);
     });
 
@@ -98,7 +104,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
     <Modal open={open} onClose={onClose} ariaLabel="Start your project" className="lg:max-w-5xl  ">
       <div className="p-6 md:p-8">
         {/* Header */}
-        <div className="mb-16 max-md:text-center">
+        <div className="mb-16 max-md:text-center max-md:mt-10">
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">{plansTitle}</h3>
           <p className="text-sm text-neutral-300 mt-1">Choose a plan to get started or request a custom quote.</p>
         </div>
@@ -195,16 +201,39 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
               <div key={idx}>
                 <label className="block text-sm text-neutral-300 mb-1">{q.label}</label>
                 {q.type === "select" && (
-                  <select
-                    value={answers[q.label] ?? ""}
-                    onChange={(e) => setAnswers({ ...answers, [q.label]: e.target.value })}
-                    className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500"
-                  >
-                    <option value="">Select...</option>
-                    {q.options?.map((opt: string) => (
-                      <option key={opt} value={opt}>{opt}</option>
-                    ))}
-                  </select>
+                  <>
+                    <select
+                      value={answers[q.label] ?? ""}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        setAnswers((prev: Record<string, any>) => {
+                          const next: Record<string, any> = { ...prev, [q.label]: v };
+                          if (q.label === "What is your timeline?" && v !== "Flexible") {
+                            delete (next as any)["Flexible date"];
+                          }
+                          return next;
+                        });
+                      }}
+                      className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500"
+                    >
+                      <option value="">Select...</option>
+                      {q.options?.map((opt: string) => (
+                        <option key={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                    {q.label === "What is your timeline?" && answers[q.label] === "Flexible" && (
+                      <div className="mt-2">
+                        <label className="block text-xs text-neutral-400 mb-1">Select preferred date</label>
+                        <input
+                          type="date"
+                          value={answers["Flexible date"] ?? ""}
+                          onChange={(e) => setAnswers({ ...answers, ["Flexible date"]: e.target.value })}
+                          min={new Date().toISOString().split('T')[0]}
+                          className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500"
+                        />
+                      </div>
+                    )}
+                  </>
                 )}
                 {q.type === "text" && (
                   <input
