@@ -49,7 +49,7 @@ export default function Modal({ open, onClose, children, ariaLabel = "Dialog", c
         aria-modal="true"
         aria-label={ariaLabel}
         tabIndex={-1}
-        className={`relative w-full max-w-3xl mx-4 my-8 sm:my-10 rounded-2xl bg-neutral-900 border border-neutral-700 shadow-2xl max-h-[90vh] sm:max-h-[85vh] overflow-y-auto overscroll-contain ${className}`}
+        className={`relative w-full max-w-3xl mx-4 my-8 sm:my-10 rounded-2xl bg-neutral-900 border border-neutral-700 shadow-2xl overflow-y-auto overscroll-contain ${className}`}
       >
         <button
           onClick={onClose}

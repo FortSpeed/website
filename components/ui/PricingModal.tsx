@@ -6,6 +6,7 @@ import { plans as rawPlans, title as plansTitle, planQuestions } from "@/data/pr
 import { contactEmail as defaultRecipient } from "@/data/contact";
 import {BorderBeam} from "@/components/ui/border-beam";
 import {InteractiveHoverButton} from "@/components/ui/interactive-hover-button";
+import Beams from "@/components/Beams";
 
 type Lead = {
   name: string;
@@ -101,8 +102,18 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
   }
 
   return (
-    <Modal open={open} onClose={onClose} ariaLabel="Start your project" className="lg:max-w-5xl  ">
-      <div className="p-6 md:p-8">
+    <Modal open={open} onClose={onClose} ariaLabel="Start your project" className="lg:max-w-5xl relative overflow-hidden">
+
+        <div className="absolute inset-0  top-0 overflow-hidden">
+           <div className={" border-2 border-white absolute inset-0 scale-125"}> <Beams
+               beamHeight={13}
+               beamWidth={1.8}
+               rotation={38}
+               speed={0.05}
+           /></div>
+            <div className="absolute inset-0 bg-radial from-gray-900/20 to-black"></div>
+        </div>
+      <div className="p-6 md:p-8 relative">
         {/* Header */}
         <div className="mb-16 max-md:text-center max-md:mt-10">
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">{plansTitle}</h3>
@@ -115,15 +126,10 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
               {plans.map((p, idx) => (
                 <div
                   key={p.id}
-                  className={`group relative rounded-xl border border-neutral-700 bg-neutral-800/40 hover:bg-neutral-800 transition-colors ${idx === 1 ? "md:scale-[1.08] md:z-10" : ""} transition-transform overflow-hidden`}
+                  className={`group relative rounded-xl border border-neutral-700 bg-neutral-800/60 hover:bg-neutral-500/25 transition-colors ${idx === 1 ? "md:scale-[1.08] md:z-10" : ""} transition-transform overflow-hidden`}
                 >
                   {/* BorderBeam overlays per card */}
-                  {idx === 0 && <BorderBeam
-                      duration={4}
-                      size={300}
-                      reverse
-                      className="from-transparent via-blue-500 to-transparent"
-                  />  }
+
                   {idx === 1 && (
                    <><BorderBeam
                        duration={6}
@@ -138,12 +144,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                            className="from-transparent via-blue-500 to-transparent"
                        /></>
                   )}
-                  {idx === 2 && <BorderBeam
-                      duration={4}
-                      size={300}
 
-                      className="from-transparent via-red-500 to-transparent"
-                  />}
 
 
                   <div className="p-5">
@@ -166,7 +167,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                     </ul>
                     <button
                       onClick={() => pickPlan(p.id)}
-                      className="w-full inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 focus:outline-none"
+                      className="w-full inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 focus:outline-none "
                     >
                       {p.id === "enterprise" ? "Request Quote" : "Get Started"}
                     </button>
