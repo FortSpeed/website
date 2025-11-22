@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence, Easing } from "framer-motion";
-import Beams from "../Beams";
 import { plans, title } from "@/data/prices";
 
 export default function Prices() {
@@ -100,20 +99,18 @@ export default function Prices() {
               whileInView="visible"
               whileHover="hover"
               viewport={{ once: true }}
-              className={`absolute w-0.5 bg-gradient-to-b ${
-                active === plan.id
-                  ? "from-cyan-500 via-cyan-500/25"
-                  : `${plan.color}`
-              } to-transparent left-1 top-14`}
+              className={`absolute w-0.5 bg-linear-to-b ${active === plan.id
+                ? "from-cyan-500 via-cyan-500/25"
+                : `${plan.color}`
+                } to-transparent left-1 top-14`}
             >
               <motion.div
                 variants={dotVariants}
                 initial="rest"
                 whileHover="hover"
                 animate={active === plan.id ? "hover" : "rest"}
-                className={`absolute w-2 h-2 rounded-full bg-gradient-to-b  top-0 left-1/2 -translate-x-1/2 ${
-                  active === plan.id ? "bg-cyan-500" : `${plan.dotColor}`
-                }`}
+                className={`absolute w-2 h-2 rounded-full bg-linear-to-b  top-0 left-1/2 -translate-x-1/2 ${active === plan.id ? "bg-cyan-500" : `${plan.dotColor}`
+                  }`}
               ></motion.div>
             </motion.div>
 
@@ -148,7 +145,7 @@ export default function Prices() {
               >
                 {plan.features.map((f, i) => (
                   <li key={i} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-gray-600 to-gray-400" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-linear-to-r from-gray-600 to-gray-400" />
                     {f}
                   </li>
                 ))}

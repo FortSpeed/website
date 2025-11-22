@@ -1,8 +1,6 @@
 "use client";
 
 import { description, services, title } from "@/data/services";
-import Beams from "../Beams";
-import { TextAnimate } from "../ui/text-animate";
 import { easeInOut, motion } from "motion/react";
 import MotionCard from "../animation/MotionCard";
 
@@ -18,24 +16,7 @@ export default function Services() {
     },
   };
 
-  const cardVariants = {
-    hidden: {
-      opacity: 0,
-      y: 60,
-      scale: 0.95,
-      filter: "blur(10px)",
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      filter: "blur(0px)",
-      transition: {
-        duration: 0.65,
-        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-      },
-    },
-  };
+
 
   return (
     <section id="services" className="section">
@@ -63,7 +44,7 @@ export default function Services() {
 
         {/* SERVICES GRID */}
         <motion.ul
-          className="grid md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -72,7 +53,7 @@ export default function Services() {
           {services.map((service, idx) => (
             <MotionCard
               key={idx}
-              className={`group p-8 bg-gradient-to-b from-white/5 to-white/[0.02] border border-white/10 rounded-2xl  ${service.theme.borderHover}
+              className={`group p-8 bg-linear-to-b from-white/5 to-white/2 border border-white/10 rounded-2xl  ${service.theme.borderHover}
       ${service.theme.shadowHover}
     `}
             >

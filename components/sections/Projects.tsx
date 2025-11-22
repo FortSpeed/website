@@ -19,13 +19,13 @@ export default function Projects() {
           </p>
         </div>
 
-        <motion.div className="grid grid-cols-1 md:grid-cols-2  gap-8" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12, delayChildren: 0.06 } } }}>
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12, delayChildren: 0.06 } } }}>
           {projects.map((project, index) => (
             <MotionCard
               key={index}
-              className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-105 ${project.border}  `}
+              className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl w-full md:max-w-[540px] lg:max-w-[580px] xl:max-w-[600px] place-self-center overflow-hidden transition-all duration-500 md:hover:scale-[1.02] xl:hover:scale-105 ${project.border}`}
             >
-              <div className="relative h-64 sm:h-72 lg:h-96 md:h-72 overflow-hidden">
+              <div className="relative h-44 sm:h-52 md:h-52 lg:h-56 xl:h-64 overflow-hidden">
                 <Image
                   width={500}
                   height={500}
@@ -34,7 +34,7 @@ export default function Projects() {
                   className="w-full h-full  object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div
-                  className={`absolute inset-0 bg-gradient-to-t ${project.gradient} opacity-60 group-hover:opacity-40 transition-opacity`}
+                  className={`absolute inset-0 bg-linear-to-t ${project.gradient} opacity-60 group-hover:opacity-40 transition-opacity`}
                 ></div>
 
                 <div className="absolute top-4 right-4 flex gap-2">
@@ -54,21 +54,21 @@ export default function Projects() {
                 </div>
               </div>
 
-              <div className="p-6">
+              <div className="p-4 md:p-5 lg:p-6">
                 <div className={`text-sm ${project.accent} mb-2`}>
                   {project.category}
                 </div>
                 <h3
-                  className={`text-2xl font-bold text-white mb-3 transition-colors group-hover:${project.hoverAccent}`}
+                  className={`text-lg md:text-xl font-bold text-white mb-2 transition-colors group-hover:${project.hoverAccent}`}
                 >
                   {project.title}
                 </h3>
-                <p className="text-gray-400 mb-4">{project.description}</p>
+                <p className="text-gray-400 text-sm md:text-[0.95rem] mb-3">{project.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
-                      className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-sm text-gray-300"
+                      className="px-2.5 py-0.5 bg-white/5 border border-white/10 rounded-full text-xs md:text-sm text-gray-300"
                     >
                       {tag}
                     </span>

@@ -24,7 +24,7 @@ export default function NavbarDemo() {
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
           <Link href={"#contact"}>
-            <InteractiveHoverButton className="py-1 text-sm">
+            <InteractiveHoverButton className="py-1 text-sm" dotClassName="bg-green-500">
               Get Started
             </InteractiveHoverButton>
           </Link>
@@ -41,10 +41,7 @@ export default function NavbarDemo() {
           />
         </MobileNavHeader>
 
-        <MobileNavMenu
-          isOpen={isMobileMenuOpen}
-          onClose={() => setIsMobileMenuOpen(false)}
-        >
+        <MobileNavMenu isOpen={isMobileMenuOpen}>
           {navItems.map((item, idx) => (
             <Link
               key={`mobile-link-${idx}`}
@@ -57,7 +54,7 @@ export default function NavbarDemo() {
           ))}
           <div className="flex w-full justify-center items-center flex-col gap-4 text-md mt-5">
             <Link href={"#contact"} >
-              <InteractiveHoverButton ><div className="w-60">Get Started</div></InteractiveHoverButton>
+              <InteractiveHoverButton dotClassName="bg-green-500"><div className="w-60">Get Started</div></InteractiveHoverButton>
             </Link>
           </div>
         </MobileNavMenu>

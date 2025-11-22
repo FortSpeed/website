@@ -21,7 +21,7 @@ export default function ContactSection() {
       </div>
       <div className="absolute inset-0 opacity-30"></div>
       <div className="relative z-10 max-w-4xl mx-auto text-center mb-20">
-        <h2 className="text-6xl font-bold mb-6 tracking-tight text-white">
+        <h2 className="text-4xl sm:text-6xl font-bold mb-6 tracking-tight text-white">
           <BlurText
             text={title}
             animateBy="words"
@@ -32,11 +32,11 @@ export default function ContactSection() {
         </h2>
         <p className="text-lg text-gray-300 mb-12">{description}</p>
       </div>
-      <div className="flex items-center justify-center gap-4">
-        <InteractiveHoverButton className=" md:py-3 max-md:text-sm">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-none mx-auto">
+        <InteractiveHoverButton className="md:py-3 max-md:text-sm px-5 sm:px-6">
           Start Your Project
         </InteractiveHoverButton>
-        <InteractiveHoverButton className="md:py-3 max-md:text-sm bg-black text-white">
+        <InteractiveHoverButton className="md:py-3 max-md:text-sm bg-black text-white px-5 sm:px-6">
           Schedule a Call
         </InteractiveHoverButton>
       </div>

@@ -17,7 +17,7 @@ const Comments = () => {
           </p>
         </div>
 
-        <motion.ul className="grid md:grid-cols-3 gap-8" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12, delayChildren: 0.06 } } }}>
+        <motion.ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12, delayChildren: 0.06 } } }}>
           {comments.map(({ client, comment, position, rating }, i) => (
             <MotionCard
               key={i}
