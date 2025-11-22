@@ -9,11 +9,11 @@ import MotionCard from "../animation/MotionCard";
 export default function Services() {
   const containerVariants = {
     hidden: {},
-    visible: {
+    show: {
       transition: {
         staggerChildren: 0.18,
         delayChildren: 0.12,
-        ease: easeInOut,
+        easing: easeInOut,
       },
     },
   };
@@ -25,24 +25,24 @@ export default function Services() {
       scale: 0.95,
       filter: "blur(10px)",
     },
-    visible: {
+    show: {
       opacity: 1,
       y: 0,
       scale: 1,
       filter: "blur(0px)",
       transition: {
         duration: 0.65,
-        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+        easing: [0.22, 1, 0.36, 1],
       },
     },
   };
 
   return (
-    <section id="services" className="section">
+    <section id="services" className="section overflow-hidden">
       {/* BACKGROUND BEAMS */}
       {/* <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden"> */}
 
-      <div className="bg-[url('/img-1.png')]  md:bg-[url('/img-3.png')]  bg-center  bg-no-repea overflow-hiddent bg-center size-120 object-contain md:rounded-full  absolute top-1/5  lg:bottom-0 right-20 max-md:left-0 "></div>
+      <div className="bg-[url('/img-1.png')]  md:bg-[url('/img-3.png')]  bg-center  bg-no-repea overflow-hiddent bg-center size-120 object-contain md:rounded-full rounded-b-[30%]  absolute top-2/5 md:rounded-b-sm lg:bottom-0 right-20 max-md:left-0 "></div>
       {/* <Beams
           rotation={28}
           speed={0.9}
@@ -67,13 +67,15 @@ export default function Services() {
         <motion.ul
           className="grid md:grid-cols-3 gap-6"
           initial="hidden"
-          whileInView="visible"
+          whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={containerVariants}
         >
           {services.map((service, idx) => (
             <MotionCard
               key={idx}
+              inherit
+              variants={cardVariants}
               className={`group text-gray-200 p-8 bg-gradient-to-b from-white/5 to-white/[0.02] border border-white/10 rounded-2xl  ${service.theme.borderHover}
       ${service.theme.shadowHover}
     `}

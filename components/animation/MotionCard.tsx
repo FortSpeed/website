@@ -5,12 +5,14 @@ import { PropsWithChildren } from "react";
 
 interface MotionCardProps extends HTMLMotionProps<"div"> {
   variants?: Variants;
+  inherit?: boolean; // if true, let parent control animation states (for stagger)
 }
 
 export default function MotionCard({
   children,
   className,
   variants,
+  inherit = false,
   ...rest
 }: PropsWithChildren<MotionCardProps>) {
   const prefersReduced = useReducedMotion();
@@ -33,15 +35,23 @@ export default function MotionCard({
           },
         });
 
-  return (
+  const commonProps = {
+    whileHover: prefersReduced ? undefined : { y: -4, scale: 1.01 },
+    whileTap: prefersReduced ? undefined : { scale: 0.99 },
+    variants: itemVariants,
+    className,
+  } as const;
+
+  return inherit ? (
+    <motion.div {...commonProps} {...rest}>
+      {children}
+    </motion.div>
+  ) : (
     <motion.div
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
-      whileHover={prefersReduced ? undefined : { y: -4, scale: 1.01 }}
-      whileTap={prefersReduced ? undefined : { scale: 0.99 }}
-      variants={itemVariants}
-      className={className}
+      {...commonProps}
       {...rest}
     >
       {children}

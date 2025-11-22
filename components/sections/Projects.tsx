@@ -11,7 +11,7 @@ import { motion } from "motion/react";
 export default function Projects() {
   return (
     <MotionSection id="projects" className="section">
-      <div className="bg-[url('/img-1.png')]  bg-center  bg-no-repea overflow-hiddent bg-center  absolute size-1/2 bg-cover bg-no-repeat  right-20 top-52 "></div>
+      {/*<div className="bg-[url('/img-1.png')]  bg-center  bg-no-repea overflow-hiddent bg-center  absolute max-md:size-1/2 bg-cover bg-no-repeat  right-20 top-52 "></div>*/}
 
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
@@ -36,7 +36,8 @@ export default function Projects() {
           {projects.map((project, index) => (
             <MotionCard
               key={index}
-              className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-105 ${project.border}  `}
+              inherit
+              className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden duration-500 hover:scale-105 ${project.border}  `}
             >
               <div className="relative h-64 sm:h-72 lg:h-96 md:h-72 overflow-hidden">
                 <Image
@@ -54,14 +55,14 @@ export default function Projects() {
                 <div className="absolute top-4 right-4 flex gap-2">
                   <Link
                     href={project.live}
-                    className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110 transition-all ease-in duration-200`}
+                    className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110  ease-in duration-200`}
                   >
                     <ExternalLink className="w-5 h-5" />
                   </Link>
 
                   <Link
                     href={project.github}
-                    className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110 transition-all ease-in duration-200`}
+                    className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110  ease-in duration-200`}
                   >
                     <Github className="w-5 h-5  " />
                   </Link>

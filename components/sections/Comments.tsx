@@ -34,17 +34,18 @@ const Comments = () => {
           {comments.map(({ client, comment, position, rating }, i) => (
             <MotionCard
               key={i}
+              inherit
               className="
       group relative p-8 
       bg-white/5 backdrop-blur-sm 
       border border-white/10 rounded-2xl 
       overflow-hidden
-      transition-all duration-500 
+       duration-400
       hover:scale-105 hover:border-white/20
     "
             >
               {/* Optional glowing border */}
-              <div className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-blue-500/30 transition-all duration-500"></div>
+              <div className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-blue-500/30 "></div>
 
               <div className="flex gap-1 mb-4">
                 {[...Array(rating)].map((_, i) => (
