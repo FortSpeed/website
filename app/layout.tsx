@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ClientSplashCursor from "@/components/ClientSplashCursor";
+import {SmoothCursor} from "@/components/ui/smooth-cursor";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -34,9 +35,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-black">
+    <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${poppins.variable} antialiased relative w-full min-h-screen overflow-x-hidden bg-black`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${poppins.variable} antialiased relative max-w-[1400px] mx-auto overflow-x-hidden bg-black`}
       >
         {/* <SplashCursor
 
@@ -55,8 +56,8 @@ export default function RootLayout({
           BACK_COLOR={{ r: 0.5, g: 0, b: 0 }}
           TRANSPARENT={true}
         /> */}
-        {/* <SmoothCursor /> */}
-        <ClientSplashCursor />
+         {/*<SmoothCursor  />*/}
+        {/*<ClientSplashCursor />*/}
         <Navbar />
         <main>{children}</main>
         <Footer />

@@ -1,6 +1,8 @@
 "use client";
 
 import { description, services, title } from "@/data/services";
+import Beams from "../Beams";
+import { TextAnimate } from "../ui/text-animate";
 import { easeInOut, motion } from "motion/react";
 import MotionCard from "../animation/MotionCard";
 
@@ -16,21 +18,40 @@ export default function Services() {
     },
   };
 
-
+  const cardVariants = {
+    hidden: {
+      opacity: 0,
+      y: 60,
+      scale: 0.95,
+      filter: "blur(10px)",
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.65,
+        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      },
+    },
+  };
 
   return (
     <section id="services" className="section">
       {/* BACKGROUND BEAMS */}
-      {/* <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden">
-        <Beams
+      {/* <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden"> */}
+
+      <div className="bg-[url('/img-1.png')]  md:bg-[url('/img-3.png')]  bg-center  bg-no-repea overflow-hiddent bg-center size-120 object-contain md:rounded-full  absolute top-1/5  lg:bottom-0 right-20 max-md:left-0 "></div>
+      {/* <Beams
           rotation={28}
           speed={0.9}
           beamWidth={2.5}
           beamHeight={20}
           lightColor="#969696"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,black)]" />
-      </div> */}
+        /> */}
+      {/* <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,black)]" /> */}
+      {/* </div> */}
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* TITLE + DESCRIPTION */}
@@ -44,7 +65,7 @@ export default function Services() {
 
         {/* SERVICES GRID */}
         <motion.ul
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid md:grid-cols-3 gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -53,7 +74,7 @@ export default function Services() {
           {services.map((service, idx) => (
             <MotionCard
               key={idx}
-              className={`group p-8 bg-linear-to-b from-white/5 to-white/2 border border-white/10 rounded-2xl  ${service.theme.borderHover}
+              className={`group text-gray-200 p-8 bg-gradient-to-b from-white/5 to-white/[0.02] border border-white/10 rounded-2xl  ${service.theme.borderHover}
       ${service.theme.shadowHover}
     `}
             >
