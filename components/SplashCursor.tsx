@@ -37,6 +37,7 @@ class Program {
       } else {
         this.gl.attachShader(program, vertexShader);
         this.gl.attachShader(program, fragmentShader);
+        this.gl.bindAttribLocation(program, 0, 'aPosition');
         this.gl.linkProgram(program);
         if (!this.gl.getProgramParameter(program, this.gl.LINK_STATUS)) {
           console.trace(this.gl.getProgramInfoLog(program));
@@ -122,6 +123,7 @@ class Material {
     if (!program) return null;
     this.gl.attachShader(program, vertexShader);
     this.gl.attachShader(program, fragmentShader);
+    this.gl.bindAttribLocation(program, 0, 'aPosition');
     this.gl.linkProgram(program);
     if (!this.gl.getProgramParameter(program, this.gl.LINK_STATUS)) {
       console.trace(this.gl.getProgramInfoLog(program));
