@@ -17,7 +17,7 @@ import {
 
 export const title = "Tech Stack";
 
-export const description = "Powered by industry-leading technologies";
+export const description = "We leverage industry-leading technologies to build fast, reliable, and scalable digital products";
 
 export const technologies = [
   {

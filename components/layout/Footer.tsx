@@ -20,7 +20,7 @@ const Footer = () => {
             <span className="text-xl font-bold tracking-tight">FortSpeed</span>
           </div>
           <p className="text-gray-400 text-sm leading-relaxed">
-            Building the future of the web, one project at a time.
+            Turning ideas into web experiences people trust and love
           </p>
         </div>
 

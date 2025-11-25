@@ -13,9 +13,9 @@ const Achievements = () => {
       {achievements.map(({ label, sym, desc }, i) => (
         <li
           key={label}
-          className="flex flex-col items-center lg:items-start justify-center relative px-3 sm:px-5 md:px-7 lg:px-18"
+          className="flex flex-col items-center justify-center relative px-3 sm:px-5 md:px-7 lg:px-18"
         >
-          <span className="text-white text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold">
+          <span className="text-white text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3">
             <CountUp
               from={0}
               to={label}

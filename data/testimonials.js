@@ -1,6 +1,6 @@
 export const title = "Client Testimonials";
 
-export const description = "What our clients say about us";
+export const description = "Hear from the businesses and teams we’ve helped deliver fast, reliable, and high-quality digital products";
 
 export const comments = [
   {

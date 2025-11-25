@@ -8,7 +8,7 @@ export const projects = [
     title: "FinTech Revolution",
     category: "Financial Technology",
     description:
-      "Next-generation banking platform with AI-powered insights and real-time transactions",
+      "A modern digital banking platform built for speed, security, and clarity — featuring AI-driven insights, smooth real-time transactions, and a streamlined user experience",
     image: img1,
     tags: ["AI/ML", "Blockchain", "Real-time"],
     github: "http://github.com",
@@ -24,7 +24,7 @@ export const projects = [
     title: "CloudSync Enterprise",
     category: "Cloud Infrastructure",
     description:
-      "Scalable cloud infrastructure solution serving 10M+ users globally",
+      "A robust cloud infrastructure solution built to scale effortlessly for over 10 million users worldwide optimized for performance, reliability, and enterprise-grade security.",
     image: img2,
     tags: ["Cloud", "DevOps", "Security"],
     github: "http://github.com",
@@ -40,7 +40,7 @@ export const projects = [
     title: "HealthTrack AI",
     category: "Healthcare Technology",
     description:
-      "Revolutionary healthcare platform with predictive analytics and patient management",
+      "An advanced healthcare platform leveraging predictive analytics to improve patient management and operational efficiency, designed for speed, accuracy, and seamless user experience",
     image: img3,
     tags: ["AI", "Healthcare", "Analytics"],
     github: "http://github.com",
@@ -56,7 +56,7 @@ export const projects = [
     title: "EcoTech Solutions",
     category: "Green Technology",
     description:
-      "Smart energy management system reducing carbon footprint by 40%",
+      "A smart energy management platform designed to cut carbon emissions by 40%, combining IoT connectivity with actionable analytics for a sustainable, efficient future",
     image: img4,
     tags: ["IoT", "Sustainability", "Analytics"],
     github: "http://github.com",
@@ -70,4 +70,4 @@ export const projects = [
 ];
 
 export const title = "Featured Projects";
-export const description = "Showcasing our best work";
+export const description = "A look at some of the products and websites we’ve built for clients designed for speed, usability, and long-term reliability";

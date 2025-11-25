@@ -3,6 +3,7 @@ import React from "react";
 import Modal from "./Modal";
 import { motion, AnimatePresence } from "framer-motion";
 import { contactEmail as defaultRecipient } from "@/data/contact";
+import { SmoothCursor } from "./smooth-cursor";
 
 type Lead = {
   name: string;
@@ -82,8 +83,10 @@ export default function ContactModal({ open, onClose }: Props) {
   }
 
   return (
-    <Modal open={open} onClose={onClose} ariaLabel="Contact form">
-      <div className="p-6 md:p-8">
+    <Modal open={open} onClose={onClose} ariaLabel="Contact form" className="relative">
+<div className="max-ld:hidden"><SmoothCursor/></div>
+    
+      <div className="p-6 md:p-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-1">Contact us</h3>
           <p className="text-sm text-neutral-300 mb-6">Tell us about your project. We usually respond within 1–2 business days.</p>
@@ -138,7 +141,7 @@ export default function ContactModal({ open, onClose }: Props) {
           </div>
           <div className="flex items-center justify-between gap-3 pt-2">
             <p className="text-xs text-neutral-400">We’ll review your details and get back to you shortly.</p>
-            <button type="submit" disabled={sending} className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-green-500 hover:opacity-90 disabled:opacity-50">
+            <button type="submit" disabled={sending} className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-neutral-700  hover:opacity-90 disabled:opacity-50">
               {sending ? "Sending..." : "Send Message"}
             </button>
           </div>
