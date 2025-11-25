@@ -9,8 +9,8 @@ const page = () => {
         <Beams
           rotation={35}
           lightColor={"#a0a0a0"}
-          beamHeight={30}
-          beamWidth={3}
+          beamHeight={35}
+          beamWidth={1.3}
           speed={.8}
         />
       </div>

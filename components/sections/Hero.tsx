@@ -25,39 +25,21 @@ const Hero = () => {
 
   return (
     <section
-      className="  section pt-32 w-full flex flex-col justify-center items-center gap-20 max-h-[900px] "
+      className="  section pt-32 w-full flex flex-col justify-center items-center gap-20 max-h-[900px] pb-8 "
       id="hero"
     >
-      <div className="absolute w-full h-full  overflow-hidden  -top-20">
-     {/*<div className={"relative h-full w-full left-0  right-0 mx-auto scale-150 overflow-hidden"}>*/}
-     {/*    <Beams*/}
-     {/*        rotation={30}*/}
-     {/*        lightColor={"#9e9d9d"}*/}
-     {/*        beamHeight={14}*/}
-     {/*        beamWidth={1.3}*/}
-     {/*        speed={0.9}*/}
-     {/*        // noiseIntensity={2}*/}
-     {/*    />*/}
-     {/*</div>*/}
-        {/* <Hyperspeed/> */}
-        {/* <div className="relative w-full h-[100vh] overflow-hidden"> */}
+      <div className="absolute inset-0  overflow-hidden  -top-20">
         {/* Video background */}
-        <video
+         <video
           autoPlay
           muted
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover z-0"
         >
-          <source src="/bg-video.mp4" type="video/mp4" />
-        </video>
-        {/* <source src="/videos/hero-bg.mp4" type="video/mp4" /> */}
-
-        {/* Dark overlay for readability */}
-        {/* <div className="absolute inset-0 bg-black/50"></div> */}
-
-        {/* Content */}
-        {/* </div> */}
+          <source src="/bg-vid.mp4" type="video/mp4" />
+        </video> 
+  
       </div>
       <Headline className="  left-0 right-0  mx-auto " />
 
