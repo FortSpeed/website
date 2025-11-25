@@ -2,7 +2,6 @@
 
 import { description, services, title } from "@/data/services";
 import Beams from "../Beams";
-import { TextAnimate } from "../ui/text-animate";
 import { easeInOut, motion } from "motion/react";
 import MotionCard from "../animation/MotionCard";
 

@@ -5,8 +5,9 @@ import { cn } from "@/lib/utils"
 export function InteractiveHoverButton({
   children,
   className,
+  dotClassName = "bg-primary",
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { dotClassName?: string }) {
   return (
     <button
       className={cn(
@@ -16,7 +17,11 @@ export function InteractiveHoverButton({
       {...props}
     >
       <div className="flex items-center gap-2">
-        <div className="bg-primary h-2 w-2 rounded-full transition-all duration-300 group-hover:scale-[100.8]"></div>
+        <div className="relative h-2 w-2">
+          <div className="absolute inset-0 rounded-full bg-primary transition-all duration-300 group-hover:scale-[100.8]" />
+          <div className={cn(dotClassName, "absolute inset-0 z-10 rounded-full pointer-events-none dot-glow opacity-80 scale-150 group-hover:opacity-0")} />
+          <div className={cn(dotClassName, "relative z-20 h-2 w-2 rounded-full group-hover:opacity-0")} />
+        </div>
         <span className="inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0">
           {children}
         </span>

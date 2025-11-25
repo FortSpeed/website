@@ -71,7 +71,7 @@ const Footer = () => {
             ))}
           </ul>
           <ul className="mt-8 text-sm text-gray-400 flex gap-3 md:gap-2 lg:gap-3 justify-start max-md:justify-center items-center ">
-            {socialLinks.map(({ href, node: Node, title }, i) => (
+            {socialLinks.map(({ node: Node, title }, i) => (
               <li
                 key={i}
                 className="border rounded-lg p-2 bg-white/5 border-white/15 hover:bg-gray-200 hover:text-gray-600"

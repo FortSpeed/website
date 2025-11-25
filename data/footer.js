@@ -1,5 +1,4 @@
-import { Facebook, Github, Instagram, Linkedin, Zap } from "lucide-react";
-
+import { Facebook, Github, Instagram, Linkedin } from "lucide-react";
 
 export const innerLinks = [
   { href: "#hero", label: "Home" },
@@ -19,6 +18,6 @@ export const socialLinks = [
 ];
 
 export const contactLinks = [
-  {label:"hello@apex.agency"},
-  {label:"+1 (555) 123-4567"}
-]
+  { label: "hello@apex.agency" },
+  { label: "+1 (555) 123-4567" },
+];

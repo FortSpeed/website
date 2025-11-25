@@ -1,12 +1,3 @@
-import {
-  Award,
-  Users,
-  Target,
-  TrendingUp,
-  Heart,
-  Lightbulb,
-} from "lucide-react";
-
 export const title = "About FortSpeed";
 
 export const subtitle = "Pioneering Technology Solutions Since 2014";
