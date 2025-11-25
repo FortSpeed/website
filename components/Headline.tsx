@@ -5,8 +5,6 @@ import BlurText from "./BlurText";
 import { MorphingText } from "./ui/morphing-text";
 
 const Headline = ({ className }: { className: string }) => {
-  const text1 = title[0];
-  const text2 = title[1];
 
   return (
     <h1
@@ -14,19 +12,13 @@ const Headline = ({ className }: { className: string }) => {
     >
       <div className="flex flex-col lg:flex-row items-center justify-center lg:whitespace-nowrap gap-2 sm:gap-3 md:gap-5 lg:gap-5">
         <BlurText
-          text={text1}
+          text={title}
           animateBy="letters"
           direction="bottom"
           delay={50}
           className="justify-center md:-my-3 lg:my-0"
         />
-        <BlurText
-          text={text2}
-          animateBy="letters"
-          direction="bottom"
-          delay={50}
-          className="justify-center md:-my-3 lg:my-0"
-        />
+   
       </div>
 
       {/* Morphing Text */}
