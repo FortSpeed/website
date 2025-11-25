@@ -39,19 +39,9 @@ export default function Services() {
   return (
     <section id="services" className="section overflow-hidden">
       {/* BACKGROUND BEAMS */}
-      {/* <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden"> */}
 
-      <div className="bg-[url('/img-1.png')]  md:bg-[url('/img-3.png')]  bg-center  bg-no-repea overflow-hiddent bg-center size-120 object-contain md:rounded-full rounded-b-[30%]  absolute top-2/5 md:rounded-b-sm lg:bottom-0 right-20 max-md:left-0 "></div>
-      {/* <Beams
-          rotation={28}
-          speed={0.9}
-          beamWidth={2.5}
-          beamHeight={20}
-          lightColor="#969696"
-        /> */}
-      {/* <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,black)]" /> */}
-      {/* </div> */}
-
+      <div className=" md:bg-[url('/img-3.png')]  bg-center  bg-no-repea overflow-hiddent bg-center size-120 object-contain md:rounded-full rounded-b-[30%]  absolute top-2/5 md:rounded-b-sm lg:bottom-0 right-20 max-md:left-0 "></div>
+      
       <div className="max-w-7xl mx-auto relative z-10">
         {/* TITLE + DESCRIPTION */}
         <div className="text-center mb-20">

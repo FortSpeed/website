@@ -15,7 +15,7 @@ export default function ContactSection() {
   return (
     <MotionSection className="section " id={"contact"}>
       {/* BACKGROUND BEAMS */}
-      <div className="absolute w-2/3 h-full  left-0 right-0 mx-auto top-0  overflow-hidden ">
+      <div className="absolute w-full h-full  left-0 right-0 mx-auto top-0  overflow-hidden ">
         <video
           autoPlay
           muted

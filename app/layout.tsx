@@ -39,7 +39,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${poppins.variable} antialiased relative max-w-[1920px] mx-auto overflow-x-hidden bg-black`}
       >
-        <SmoothCursor  />
+        <div className="max-ld:hidden"><SmoothCursor  /></div>
         <Navbar />
         <main>{children}</main>
         <Footer />

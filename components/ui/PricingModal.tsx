@@ -133,8 +133,8 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
       ariaLabel="Start your project"
       className="lg:max-w-5xl relative overflow-hidden pb-6"
     >
-      <SmoothCursor />
-
+     <div className="max-lg:hidden"> <SmoothCursor />
+</div>
       <div className="absolute inset-0  top-0 overflow-hidden">
         <div className={" border-2 border-white absolute inset-0 scale-125"}>
           <video
@@ -240,6 +240,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
           </div>
         ) : (
           <form onSubmit={submit} className="grid grid-cols-1 gap-4">
+            
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-neutral-400">Selected plan</p>

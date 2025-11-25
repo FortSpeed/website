@@ -84,10 +84,8 @@ export default function ContactModal({ open, onClose }: Props) {
 
   return (
     <Modal open={open} onClose={onClose} ariaLabel="Contact form" className="relative">
-<SmoothCursor/>
-      <div className="absolute inset-0">
-        <img src={"/img-2.png"} className="w-full h-full object-cover z-0"/>
-      </div>
+<div className="max-ld:hidden"><SmoothCursor/></div>
+    
       <div className="p-6 md:p-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-1">Contact us</h3>
