@@ -10,11 +10,11 @@ export const services = [
     icon: Code2,
     title: "Web Development",
     description:
-      "Custom web applications built with cutting-edge technologies, optimized for performance and scalability.",
+      "We build fast, reliable websites and custom web apps using modern frameworks  engineered to scale and stay stable as your business grows",
     features: [
-      { desc: "React & Next.js Applications", icon: CheckCircle2 },
-      { desc: "Full-Stack Development", icon: CheckCircle2 },
-      { desc: "API Integration", icon: CheckCircle2 },
+      { desc: "React & Next.js Development", icon: CheckCircle2 },
+      { desc: "Full-Stack Applications", icon: CheckCircle2 },
+      { desc: "API Integration & Backend Services", icon: CheckCircle2 },
     ],
     theme: {
       color: "blue",
@@ -33,11 +33,11 @@ export const services = [
     icon: Layers,
     title: "UI/UX Design",
     description:
-      "Beautiful, intuitive interfaces that users love. We create experiences that drive engagement.",
+      "Straightforward, user-focused design that feels good to use. We create clean interfaces backed by real research and tested for clarity",
     features: [
-      { desc: "User Research & Testing", icon: CheckCircle2 },
-      { desc: "Design Systems", icon: CheckCircle2 },
-      { desc: "Prototyping & Wireframing", icon: CheckCircle2 },
+      { desc: "User Research & Usability Testing", icon: CheckCircle2 },
+      { desc: "Design Systems & Component Libraries", icon: CheckCircle2 },
+      { desc: "Wireframing & Interactive Prototypes", icon: CheckCircle2 },
     ],
     theme: {
       color: "purple",
@@ -56,11 +56,11 @@ export const services = [
     icon: Rocket,
     title: "Performance Optimization",
     description:
-      "Lightning-fast load times and seamless interactions.",
+      "We fix slow websites. Expect faster load times, tighter SEO, and smoother user experiences across all devices",
     features: [
-      { desc: "Speed Optimization", icon: CheckCircle2 },
-      { desc: "SEO Enhancement", icon: CheckCircle2 },
-      { desc: "Analytics & Monitoring", icon: CheckCircle2 },
+      { desc: "Speed & Core Web Vitals Optimization", icon: CheckCircle2 },
+      { desc: "SEO Improvements", icon: CheckCircle2 },
+      { desc: "Analytics, Monitoring & Ongoing Performance Audits", icon: CheckCircle2 },
     ],
     theme: {
       color: "pink",
@@ -78,4 +78,4 @@ export const services = [
 
 
 export const title = "Our Services";
-export const description = "End-to-end solutions for modern businesses";
+export const description = "Practical, high-quality solutions built for real-world performance";

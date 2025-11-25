@@ -25,12 +25,12 @@ const Hero = () => {
 
   return (
     <section
-      className="  section pt-32 w-full flex flex-col justify-center items-center gap-20 max-h-[900px] pb-8 "
+      className="section pt-32 w-full flex flex-col justify-center items-center gap-20 overflow-hidden"
       id="hero"
     >
       <div className="absolute inset-0  overflow-hidden  -top-20">
         {/* Video background */}
-         <video
+        <video
           autoPlay
           muted
           loop
@@ -38,8 +38,8 @@ const Hero = () => {
           className="absolute inset-0 w-full h-full object-cover z-0"
         >
           <source src="/bg-vid.mp4" type="video/mp4" />
-        </video> 
-  
+        </video>
+
       </div>
       <Headline className="  left-0 right-0  mx-auto " />
 

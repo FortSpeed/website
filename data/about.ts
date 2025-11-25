@@ -3,7 +3,7 @@ export const title = "About FortSpeed";
 export const subtitle = "Pioneering Technology Solutions Since 2014";
 
 export const description_1 =
-  "We are a team of passionate engineers, designers, and strategists dedicated to creating exceptional digital experiences.";
+  "We’re a team of engineers, designers, and strategists who build digital products that work fast, reliable, and designed for real users";
 export const description_2 =
   "With over a decade of combined experience, we've helped startups and enterprises alike build products that users love and investors fund.";
 export const description_3 =
