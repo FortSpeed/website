@@ -1,6 +1,7 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import Modal from "./Modal";
+import { X } from "lucide-react";
 
 import {
   plans as rawPlans,
@@ -10,8 +11,12 @@ import {
 import { contactEmail as defaultRecipient } from "@/data/contact";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import Beams from "@/components/Beams";
-import { SmoothCursor } from "./smooth-cursor";
+
+type PlanQuestion = {
+  label: string;
+  type: string;
+  options?: string[];
+};
 
 type Lead = {
   name: string;
@@ -31,7 +36,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
     initialPlanId ?? null
   );
   const [lead, setLead] = useState<Lead>({ name: "", email: "" });
-  const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [answers, setAnswers] = useState<Record<string, string | File | undefined>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const plans = rawPlans;
@@ -73,13 +78,13 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
     if (Object.keys(v).length) return;
 
     const qList = selectedPlanId
-      ? (planQuestions as any)[selectedPlanId] || []
+      ? (planQuestions as Record<string, PlanQuestion[]>)[selectedPlanId] || []
       : [];
     const lines: string[] = [];
-    qList.forEach((q: any) => {
+    qList.forEach((q: PlanQuestion) => {
       const key = q.label;
       let val = answers[key];
-      if (q.type === "file" && val?.name) val = val.name;
+      if (q.type === "file" && val instanceof File && val.name) val = val.name;
       if (q.label === "What is your timeline?" && val === "Flexible") {
         const flexibleDate = answers["Flexible date"];
         if (flexibleDate) {
@@ -89,12 +94,10 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
       lines.push(`${q.label}: ${val ? val : "-"}`);
     });
 
-    const topic = `Plan inquiry — ${
-      selectedPlan ? selectedPlan.name : "Unknown"
-    }`;
-    const message = `Selected plan: ${
-      selectedPlan ? selectedPlan.name : "(not selected)"
-    }\n\n${lines.join("\n")}`;
+    const topic = `Plan inquiry — ${selectedPlan ? selectedPlan.name : "Unknown"
+      }`;
+    const message = `Selected plan: ${selectedPlan ? selectedPlan.name : "(not selected)"
+      }\n\n${lines.join("\n")}`;
 
     try {
       setSending(true);
@@ -133,7 +136,14 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
       ariaLabel="Start your project"
       className="lg:max-w-5xl relative overflow-hidden pb-6"
     >
-      <SmoothCursor />
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 z-20 p-2 rounded-full bg-neutral-800/80 hover:bg-neutral-700/80 text-white transition-colors"
+        aria-label="Close pricing modal"
+      >
+        <X className="w-5 h-5" />
+      </button>
 
       <div className="absolute inset-0  top-0 overflow-hidden">
         <div className={" border-2 border-white absolute inset-0 scale-125"}>
@@ -166,9 +176,8 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
               {plans.map((p, idx) => (
                 <div
                   key={p.id}
-                  className={`group relative rounded-xl border border-neutral-700 bg-neutral-800/60 hover:bg-neutral-500/25 transition-colors ${
-                    idx === 1 ? "md:scale-[1.1] md:z-10" : ""
-                  } transition-transform overflow-hidden`}
+                  className={`group relative rounded-xl border border-neutral-700 bg-neutral-800/60 hover:bg-neutral-500/25 transition-colors ${idx === 1 ? "md:scale-[1.1] md:z-10" : ""
+                    } transition-transform overflow-hidden`}
                 >
                   {/* BorderBeam overlays per card */}
 
@@ -209,7 +218,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                           className="text-sm text-neutral-300 flex gap-2"
                         >
                           <svg
-                            className="mt-0.5 flex-shrink-0"
+                            className="mt-0.5 shrink-0"
                             width="16"
                             height="16"
                             viewBox="0 0 24 24"
@@ -227,9 +236,8 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                     </ul>
                     <button
                       onClick={() => pickPlan(p.id)}
-                      className={`w-full inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 focus:outline-none ${
-                        idx === 1 && "!bg-cyan-300/80"
-                      }`}
+                      className={`w-full inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 focus:outline-none ${idx === 1 && "bg-cyan-300/80!"
+                        }`}
                     >
                       {p.id === "enterprise" ? "Request Quote" : "Get Started"}
                     </button>
@@ -288,9 +296,9 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
             </div>
 
             {(selectedPlanId
-              ? (planQuestions as any)[selectedPlanId]
+              ? (planQuestions as Record<string, PlanQuestion[]>)[selectedPlanId]
               : []
-            )?.map((q: any, idx: number) => (
+            )?.map((q: PlanQuestion, idx: number) => (
               <div key={idx}>
                 <label className="block text-sm text-neutral-300 mb-1">
                   {q.label}
@@ -298,11 +306,11 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                 {q.type === "select" && (
                   <>
                     <select
-                      value={answers[q.label] ?? ""}
+                      value={typeof answers[q.label] === 'string' ? answers[q.label] : ""}
                       onChange={(e) => {
                         const v = e.target.value;
-                        setAnswers((prev: Record<string, any>) => {
-                          const next: Record<string, any> = {
+                        setAnswers((prev: Record<string, string | File | undefined>) => {
+                          const next: Record<string, string | File | undefined> = {
                             ...prev,
                             [q.label]: v,
                           };
@@ -310,7 +318,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                             q.label === "What is your timeline?" &&
                             v !== "Flexible"
                           ) {
-                            delete (next as any)["Flexible date"];
+                            delete (next as Record<string, string | File | undefined>)["Flexible date"];
                           }
                           return next;
                         });
@@ -332,7 +340,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                           </label>
                           <input
                             type="date"
-                            value={answers["Flexible date"] ?? ""}
+                            value={typeof answers["Flexible date"] === 'string' ? answers["Flexible date"] : ""}
                             onChange={(e) =>
                               setAnswers({
                                 ...answers,
@@ -348,7 +356,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                 )}
                 {q.type === "text" && (
                   <input
-                    value={answers[q.label] ?? ""}
+                    value={typeof answers[q.label] === 'string' ? answers[q.label] : ""}
                     onChange={(e) =>
                       setAnswers({ ...answers, [q.label]: e.target.value })
                     }
@@ -358,7 +366,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                 {q.type === "textarea" && (
                   <textarea
                     rows={4}
-                    value={answers[q.label] ?? ""}
+                    value={typeof answers[q.label] === 'string' ? answers[q.label] : ""}
                     onChange={(e) =>
                       setAnswers({ ...answers, [q.label]: e.target.value })
                     }
@@ -371,7 +379,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                     onChange={(e) =>
                       setAnswers({
                         ...answers,
-                        [q.label]: e.target.files?.[0] || null,
+                        [q.label]: e.target.files?.[0] || undefined,
                       })
                     }
                     className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500 file:mr-4 file:py-2 file:px-3 file:rounded-md file:border-0 file:bg-white/10 file:text-white"

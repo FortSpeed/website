@@ -22,6 +22,8 @@ const Headline = ({ className }: { className: string }) => {
             delay={50}
             className="justify-center md:-my-3 lg:my-0"
           />
+        </div>
+        <div className="flex items-center justify-center">
           <BlurText
             text={text2}
             animateBy="letters"

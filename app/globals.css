@@ -3,6 +3,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Hide system cursor globally and show custom cursor */
+* {
+  cursor: none !important;
+}
+
+/* Show default cursor on specific interactive elements */
+button,
+a,
+input,
+textarea,
+select,
+[role="button"] {
+  cursor: none !important;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -202,13 +217,34 @@
 
 /* CTA dot glow/flicker (top-level) */
 @keyframes dot-flicker-strong {
-  0% { opacity: 0; transform: scale(1.1); }
-  10% { opacity: 1; transform: scale(1.7); }
-  20% { opacity: 0.25; transform: scale(1.25); }
-  35% { opacity: 1; transform: scale(1.6); }
-  55% { opacity: 0.2; transform: scale(1.2); }
-  75% { opacity: 0.95; transform: scale(1.55); }
-  100% { opacity: 0.4; transform: scale(1.3); }
+  0% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.7);
+  }
+  20% {
+    opacity: 0.25;
+    transform: scale(1.25);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1.6);
+  }
+  55% {
+    opacity: 0.2;
+    transform: scale(1.2);
+  }
+  75% {
+    opacity: 0.95;
+    transform: scale(1.55);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1.3);
+  }
 }
 .dot-glow {
   animation: dot-flicker-strong 1.6s ease-in-out infinite;
