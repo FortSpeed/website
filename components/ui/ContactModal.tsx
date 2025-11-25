@@ -141,7 +141,7 @@ export default function ContactModal({ open, onClose }: Props) {
           </div>
           <div className="flex items-center justify-between gap-3 pt-2">
             <p className="text-xs text-neutral-400">We’ll review your details and get back to you shortly.</p>
-            <button type="submit" disabled={sending} className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-green-500/80  hover:opacity-90 disabled:opacity-50">
+            <button type="submit" disabled={sending} className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-neutral-700  hover:opacity-90 disabled:opacity-50">
               {sending ? "Sending..." : "Send Message"}
             </button>
           </div>
