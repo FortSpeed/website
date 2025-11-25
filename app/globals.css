@@ -79,18 +79,24 @@
     }
   }
   --animate-marquee: marquee var(--duration) infinite linear;
-  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite
-;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   @keyframes marquee {
-  from {
-    transform: translateX(0);}
-  to {
-    transform: translateX(calc(-100% - var(--gap)));}}
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
   @keyframes marquee-vertical {
-  from {
-    transform: translateY(0);}
-  to {
-    transform: translateY(calc(-100% - var(--gap)));}}}
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+}
 
 :root {
   --radius: 0.625rem;
@@ -161,15 +167,6 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground bg-black;
-  }
-}
-
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -186,19 +183,41 @@
 }
 @layer components {
   .font-gradient {
-    @apply font-bold text-xl bg-gradient-to-r from-[#6a5af9] via-[#a554f7] to-[#ff4b6e] bg-clip-text text-transparent;
+    @apply font-bold text-xl bg-linear-to-r from-[#6a5af9] via-[#a554f7] to-[#ff4b6e] bg-clip-text text-transparent;
   }
   .cyan-gradient {
-    @apply font-bold text-xl bg-gradient-to-r  from-[#3B82F6] to-[#2563EB] bg-clip-text text-transparent;
+    @apply font-bold text-xl bg-linear-to-r  from-[#3B82F6] to-[#2563EB] bg-clip-text text-transparent;
   }
 
   .subtitle-gradient {
-    @apply text-5xl sm:text-6xl font-bold mb-6  bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent w-fit mx-auto;
+    @apply text-5xl sm:text-6xl font-bold mb-6  bg-linear-to-r from-white to-gray-400 bg-clip-text text-transparent w-fit mx-auto;
   }
   .subtitle {
-    @apply tracking-tight text-4xl sm:text-6xl font-bold mb-6 text-gray-300 w-fit mx-auto
+    @apply tracking-tight text-4xl sm:text-6xl font-bold mb-6 text-gray-300 w-fit mx-auto;
   }
-  .section{
-    @apply relative py-18 px-6 lg:px-8 bg-black overflow-x-hidden
+  .section {
+    @apply relative py-18 px-6 lg:px-8 bg-black overflow-x-hidden;
   }
+}
+
+/* CTA dot glow/flicker (top-level) */
+@keyframes dot-flicker-strong {
+  0% { opacity: 0; transform: scale(1.1); }
+  10% { opacity: 1; transform: scale(1.7); }
+  20% { opacity: 0.25; transform: scale(1.25); }
+  35% { opacity: 1; transform: scale(1.6); }
+  55% { opacity: 0.2; transform: scale(1.2); }
+  75% { opacity: 0.95; transform: scale(1.55); }
+  100% { opacity: 0.4; transform: scale(1.3); }
+}
+.dot-glow {
+  animation: dot-flicker-strong 1.6s ease-in-out infinite;
+  filter: blur(6px) saturate(1.4);
+  will-change: transform, opacity;
+  animation-delay: 2s;
+}
+
+/* Pause glow while hovering the parent button so delay restarts after hover */
+.group:hover .dot-glow {
+  animation: none;
 }

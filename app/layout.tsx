@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ClientSplashCursor from "@/components/ClientSplashCursor";
-import {SmoothCursor} from "@/components/ui/smooth-cursor";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -56,8 +55,8 @@ export default function RootLayout({
           BACK_COLOR={{ r: 0.5, g: 0, b: 0 }}
           TRANSPARENT={true}
         /> */}
-         {/*<SmoothCursor  />*/}
-        {/*<ClientSplashCursor />*/}
+        {/*<SmoothCursor  />*/}
+        <ClientSplashCursor />
         <Navbar />
         <main>{children}</main>
         <Footer />

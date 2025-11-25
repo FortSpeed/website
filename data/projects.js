@@ -2,8 +2,6 @@ import img1 from "@/assets/pexels-athena-2582937.jpg";
 import img2 from "@/assets/pexels-jeshoots-218863.jpg";
 import img3 from "@/assets/pexels-luis-gomes-166706-546819.jpg";
 import img4 from "@/assets/pexels-noah-erickson-97554-404280.jpg";
-import img5 from "@/assets/pexels-pixabay-39284.jpg";
-import img6 from "@/assets/pexels-timson-foox-776012-2182863.jpg";
 
 export const projects = [
   {
