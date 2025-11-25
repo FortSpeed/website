@@ -1,7 +1,7 @@
 export const title = "Ready to Build Something Amazing?";
 
 export const description =
-  "Let's bring your vision to life with cutting-edge technology and expert craftsmanship.";
+  "Let’s turn your ideas into fast, reliable, and beautifully crafted digital products built to impress your users and grow your business.";
 
 export const contactEmail = "hello@finpro.com";
 
