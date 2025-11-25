@@ -15,19 +15,7 @@ export default function ContactSection() {
   return (
     <MotionSection className="section " id={"contact"}>
       {/* BACKGROUND BEAMS */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0 lg:hidden"
-      >
-        <source src="/bg-video.mp4" type="video/mp4" />
-      </video>
-      <div className="absolute w-2/3 h-full  left-0 right-0 mx-auto top-0  overflow-hidden max-lg:hidden">
-     
-
-
+      <div className="absolute w-2/3 h-full  left-0 right-0 mx-auto top-0  overflow-hidden ">
         <video
           autoPlay
           muted
@@ -36,7 +24,7 @@ export default function ContactSection() {
           className="absolute inset-0 w-full h-full object-cover z-0"
         >
           <source src="/bg-vid.mp4" type="video/mp4" />
-        </video> 
+        </video>
       </div>
       <div className="absolute inset-0 opacity-30"></div>
       <div className="relative z-10 max-w-4xl mx-auto text-center mb-20">
