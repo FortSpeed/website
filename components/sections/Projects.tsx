@@ -54,6 +54,7 @@ export default function Projects() {
 
                 <div className="absolute top-4 right-4 flex gap-2">
                   <Link
+                  target="_blank"
                     href={project.live}
                     className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110  ease-in duration-200`}
                   >
@@ -61,6 +62,7 @@ export default function Projects() {
                   </Link>
 
                   <Link
+                  target="_blank"
                     href={project.github}
                     className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110  ease-in duration-200`}
                   >
