@@ -1,4 +1,4 @@
-export const title = ["Performance", "Driven", "Development"];
+export const title = ["Performance Driven", "Development"];
 
 export const morphingText = ["Simple", "Powerful", "Fast"];
 

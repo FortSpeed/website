@@ -7,7 +7,7 @@ import { MorphingText } from "./ui/morphing-text";
 const Headline = ({ className }: { className: string }) => {
   const text1 = title[0];
   const text2 = title[1];
-  const text3 = title[2];
+  // const text3 = title[2];
 
   return (
     <h1
@@ -22,17 +22,10 @@ const Headline = ({ className }: { className: string }) => {
             delay={50}
             className="justify-center md:-my-3 lg:my-0"
           />
-          <BlurText
-            text={text2}
-            animateBy="letters"
-            direction="bottom"
-            delay={50}
-            className="justify-center md:-my-3 lg:my-0"
-          />
         </div>
         <div className="flex items-center justify-center">
           <BlurText
-            text={text3}
+            text={text2}
             animateBy="letters"
             direction="bottom"
             delay={50}

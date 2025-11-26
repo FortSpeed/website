@@ -634,7 +634,11 @@ ${message}`
                       className="mt-1 w-4 h-4 rounded border-neutral-600 bg-neutral-800"
                     />
                     <label htmlFor="agree" className="text-sm text-neutral-300">
-                      I agree to the terms and conditions.
+                      I agree to the
+                      <a href="/legal/terms" className="underline hover:text-white ml-1">Terms & Conditions</a>,
+                      <a href="/legal/privacy" className="underline hover:text-white ml-1">Privacy Policy</a>,
+                      <a href="/legal/cookies" className="underline hover:text-white ml-1">Cookie Policy</a>, and
+                      <a href="/legal/refund" className="underline hover:text-white ml-1">Refund & Cancellation</a>.
                     </label>
                   </div>
                   {errors.agree && (

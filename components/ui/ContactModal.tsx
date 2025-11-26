@@ -139,8 +139,14 @@ export default function ContactModal({ open, onClose }: Props) {
             <textarea value={lead.message} onChange={(e) => setLead({ ...lead, message: e.target.value })} rows={5} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" placeholder="Tell us about your needs, context, and timeline" required />
             {errors.message && <p className="text-xs text-red-400 mt-1">{errors.message}</p>}
           </div>
-          <div className="flex items-center justify-between gap-3 pt-2">
-            <p className="text-xs text-neutral-400">We’ll review your details and get back to you shortly.</p>
+          <div className="flex items-start md:items-center justify-between gap-3 pt-2">
+            <div className="text-xs text-neutral-400 max-w-md">
+              We’ll review your details and get back to you shortly. By contacting us, you agree to our
+              <a href="/legal/privacy" className="text-neutral-300 hover:text-white underline ml-1">Privacy Policy</a>,
+              <a href="/legal/terms" className="text-neutral-300 hover:text-white underline ml-1">Terms & Conditions</a>,
+              <a href="/legal/cookies" className="text-neutral-300 hover:text-white underline ml-1">Cookie Policy</a>, and
+              <a href="/legal/refund" className="text-neutral-300 hover:text-white underline ml-1">Refund & Cancellation</a>.
+            </div>
             <button type="submit" disabled={sending} className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-neutral-700  hover:opacity-90 disabled:opacity-50">
               {sending ? "Sending..." : "Send Message"}
             </button>
