@@ -2,8 +2,11 @@
 import React from "react";
 import Modal from "./Modal";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
+import Image from "next/image";
 import { contactEmail as defaultRecipient } from "@/data/contact";
-import { SmoothCursor } from "./smooth-cursor";
+
+type BudgetRange = "<$500" | "$500–$1500" | "$1500–$5000" | "$5000+";
 
 type Lead = {
   name: string;
@@ -11,7 +14,7 @@ type Lead = {
   topic: string;
   message: string;
   phone?: string;
-  budget?: "<$500" | "$500–$1500" | "$1500–$5000" | "$5000+";
+  budget?: BudgetRange;
 };
 
 type Props = {
@@ -84,8 +87,19 @@ export default function ContactModal({ open, onClose }: Props) {
 
   return (
     <Modal open={open} onClose={onClose} ariaLabel="Contact form" className="relative">
-<div className="max-ld:hidden"><SmoothCursor/></div>
-    
+      <div className="absolute inset-0">
+        <Image src="/img-2.png" alt="" fill className="object-cover z-0" />
+      </div>
+
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 z-20 p-2 rounded-full bg-neutral-800/80 hover:bg-neutral-700/80 text-white transition-colors"
+        aria-label="Close contact form"
+      >
+        <X className="w-5 h-5" />
+      </button>
+
       <div className="p-6 md:p-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-1">Contact us</h3>
@@ -126,7 +140,7 @@ export default function ContactModal({ open, onClose }: Props) {
           </div>
           <div>
             <label className="block text-sm text-neutral-300 mb-1">Budget range (optional)</label>
-            <select value={lead.budget ?? ""} onChange={(e) => setLead({ ...lead, budget: (e.target.value || undefined) as any })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500">
+            <select value={lead.budget ?? ""} onChange={(e) => setLead({ ...lead, budget: (e.target.value || undefined) as BudgetRange })} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500">
               <option value="">Select a range</option>
               <option value="<$500">&lt;$500</option>
               <option value="$500–$1500">$500–$1500</option>

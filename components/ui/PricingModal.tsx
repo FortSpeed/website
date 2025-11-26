@@ -99,14 +99,14 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
     }
 
     const qList = selectedPlanId
-      ? (planQuestions as any)[selectedPlanId] || []
+      ? (planQuestions as Record<string, PlanQuestion[]>)[selectedPlanId] || []
       : [];
     const lines: string[] = [];
 
     qList.forEach((q: any) => {
       const key = q.label;
       let val = answers[key];
-      if (q.type === "file" && val?.name) val = val.name;
+      if (q.type === "file" && val instanceof File && val.name) val = val.name;
       if (q.label === "What is your timeline?" && val === "Flexible") {
         const flexibleDate = answers["Flexible date"];
         if (flexibleDate) val = `Flexible (Preferred date: ${flexibleDate})`;

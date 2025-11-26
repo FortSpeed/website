@@ -24,6 +24,8 @@ const Headline = ({ className }: { className: string }) => {
           />
         </div>
         <div className="flex items-center justify-center">
+        </div>
+        <div className="flex items-center justify-center">
           <BlurText
             text={text2}
             animateBy="letters"
