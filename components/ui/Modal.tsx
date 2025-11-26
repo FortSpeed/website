@@ -53,7 +53,7 @@ export default function Modal({ open, onClose, children, ariaLabel = "Dialog", c
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 rounded-full p-2 text-neutral-300 hover:text-white hover:bg-white/10 focus:outline-none"
+          className="absolute top-3 right-3 z-50 rounded-full p-2 text-neutral-300 hover:text-white hover:bg-white/10 focus:outline-none pointer-events-auto"
           aria-label="Close dialog"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

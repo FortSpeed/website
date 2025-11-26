@@ -7,13 +7,45 @@ import { MorphingText } from "./ui/morphing-text";
 const Headline = ({ className }: { className: string }) => {
   const text1 = title[0];
   const text2 = title[1];
-  // const text3 = title[2];
+  const text3 = title[2];
 
   return (
     <h1
       className={`relative z-10 flex flex-col text-center items-center gap-2 sm:gap-3 font-inter font-bold leading-tight sm:leading-[1.15] md:leading-[1.2]  text-white text-5xl sm:text-6xl max-w-98 sm:max-w-120 md:max-w-135 md:text-[5rem] lg:text-8xl lg:max-w-full tracking-tight ${className} md:gap-5 lg:gap-2`}
     >
-      <div className="flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-5 lg:gap-5">
+      {/* Mobile/Tablet: full-width rows, one word per line */}
+      <div className="lg:hidden flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-5">
+        <div className="w-full flex items-center justify-center">
+          <BlurText
+            text={text1}
+            animateBy="words"
+            direction="bottom"
+            delay={50}
+            className="justify-center whitespace-nowrap"
+          />
+        </div>
+        <div className="w-full flex items-center justify-center">
+          <BlurText
+            text={text2}
+            animateBy="words"
+            direction="bottom"
+            delay={50}
+            className="justify-center whitespace-nowrap"
+          />
+        </div>
+        <div className="w-full flex items-center justify-center">
+          <BlurText
+            text={text3}
+            animateBy="words"
+            direction="bottom"
+            delay={50}
+            className="justify-center whitespace-nowrap"
+          />
+        </div>
+      </div>
+
+      {/* Desktop: keep original behavior */}
+      <div className="hidden lg:flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-5 lg:gap-5">
         <div className="flex items-center justify-center lg:whitespace-nowrap gap-2 sm:gap-3 md:gap-5 lg:gap-5">
           <BlurText
             text={text1}
