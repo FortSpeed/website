@@ -4,7 +4,7 @@ export const plans = [
     number: "01",
     name: "Essential",
     tagline: "Perfect for personal brands & small businesses",
-    price: "starting from $499",
+    price: "starting from $699",
     features: [
       "1–3 page responsive website",
       "Basic SEO setup",
@@ -19,7 +19,7 @@ export const plans = [
     number: "02",
     name: "Professional",
     tagline: "Ideal for startups & agencies",
-    price: "starting from $1,200",
+    price: "starting from $$1,899",
     features: [
       "5–10 page website or web app",
       "Custom design system",

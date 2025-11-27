@@ -15,12 +15,19 @@ import Modal from "./Modal";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { showToast } from "nextjs-toast-notify";
 
 const leadSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().min(1, "Please enter your email").email("Enter a valid email"),
+    name: z.string().regex(/^[A-Za-z\u0600-\u06FF\s'-]{2,50}$/, "Please enter a valid name (2–50 letters, spaces, ' or -)"),
+    email: z.string().min(1, "Please enter your email").regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/, "Enter a valid email"),
     company: z.string().optional(),
-    phone: z.string().optional(),
+    phone: z
+        .string()
+        .optional()
+        .refine((v) => {
+            if (!v || v.trim() === "") return true; // optional when empty
+            return /^\d{7,15}$/.test(v);
+        }, "Enter a valid phone number"),
     agree: z.boolean().refine(val => val === true, "You must agree to the terms and conditions"),
     // Dynamic step 2 fields - all optional since they only apply to specific plans
     "What type of website do you need?": z.string().optional(),
@@ -112,8 +119,12 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
 
     // Validate first step and show errors
     async function validateStep1() {
-        const isValid = await trigger(["name", "email"]);
-        return isValid;
+        const phoneVal = watch("phone");
+        if (phoneVal && phoneVal.trim() !== "") {
+            // validate phone too when provided
+            return await trigger(["name", "email", "phone"] as any);
+        }
+        return await trigger(["name", "email"]);
     }
 
     // Live validation for individual step 2 fields
@@ -191,13 +202,13 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
             }
 
             // Check minimum character requirements
-            if (q.label === "Tell us about your project" && value && value.length < 20) {
+            if (q.label === "Tell us about your project" && typeof value === "string" && value.length < 20) {
                 setError(q.label as any, { message: "Please provide at least 20 characters" });
                 hasErrors = true;
                 console.log(`Error set for ${q.label}: too short`);
             }
 
-            if (q.label === "How many pages or main features do you need?" && value && value.length < 5) {
+            if (q.label === "How many pages or main features do you need?" && typeof value === "string" && value.length < 5) {
                 setError(q.label as any, { message: "Please provide at least 5 characters" });
                 hasErrors = true;
                 console.log(`Error set for ${q.label}: too short`);
@@ -288,35 +299,15 @@ ${lines.join("\n")}`;
                 }),
                 signal: wAny.__mailAbortController.signal,
             });
-
-            if (
-                !res.ok &&
-                runId === (window as any).__mailRunId &&
-                originPlanId === (window as any).__mailPlanId
-            ) {
-                const subject = encodeURIComponent(
-                    `New Project Inquiry${selectedPlan ? ` — ${selectedPlan.name}` : ""}`
-                );
-                const body = encodeURIComponent(
-                    `Name: ${data.name}
-Email: ${data.email}
-Company: ${data.company || "-"}
-Phone: ${data.phone || "-"}
-Topic: ${topic}
-
-${message}`
-                );
-                // Use location to delegate to the OS mail handler; guards ensure only the latest, unique link opens
-                const href = `mailto:${defaultRecipient}?subject=${subject}&body=${body}`;
-                if (wAny.__lastMailtoHref !== href) {
-                    wAny.__lastMailtoHref = href;
-                    window.location.href = href;
-                    // clear after a short delay so subsequent distinct submits can open
-                    setTimeout(() => { if (wAny.__lastMailtoHref === href) wAny.__lastMailtoHref = undefined; }, 4000);
-                }
+            if (res.ok) {
+                showToast.success("Your request has been sent. We'll get back to you soon!", { position: "top-right" });
+                onClose();
+            } else {
+                showToast.error("We couldn't send your request. Please try again.", { position: "top-right" });
             }
-
-            onClose();
+        } catch (err) {
+            showToast.error("We couldn't send your request. Please try again.", { position: "top-right" });
+            console.error(err);
         } finally {
             setSending(false);
         }
@@ -592,6 +583,11 @@ ${message}`
                                                         placeholder="+1 555 123 4567"
                                                         className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white"
                                                     />
+                                                    {errors.phone && (
+                                                        <p className="text-xs text-red-400 mt-1">
+                                                            {errors.phone.message}
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                         </motion.div>
@@ -791,7 +787,7 @@ ${message}`
                                                             return (
                                                                 <p key={q.label}>
                                                                     <span className="text-neutral-400">{q.label}:</span>{" "}
-                                                                    {value instanceof File ? value.name : (value ?? "-")}
+                                                                    {value instanceof File ? value.name : (typeof value === "string" ? value : String(value ?? "-"))}
                                                                 </p>
                                                             );
                                                         });

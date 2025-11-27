@@ -18,6 +18,6 @@ export const socialLinks = [
 ];
 
 export const contactLinks = [
-  { label: "hello@apex.agency" },
-  { label: "+1 (555) 123-4567" },
+  { label: "hello@FortSpeed.agency" },
+  { label: "+93 787853705" },
 ];

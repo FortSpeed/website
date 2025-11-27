@@ -1,20 +1,27 @@
 "use client";
 import React from "react";
 import Modal from "./Modal";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { contactEmail as defaultRecipient } from "@/data/contact";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { showToast } from "nextjs-toast-notify";
 
 const contactSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().min(1, "Please enter your email").email("Enter a valid email"),
+    name: z.string().regex(/^[A-Za-z\u0600-\u06FF\s'-]{2,50}$/, "Please enter a valid name (2–50 letters, spaces, ' or -)"),
+    email: z.string().min(1, "Please enter your email").regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/, "Enter a valid email"),
     topic: z.string().min(1, "Please select a topic"),
     message: z.string().min(1, "Please enter a message"),
-    phone: z.string().optional(),
+    phone: z
+        .string()
+        .optional()
+        .refine((v) => {
+            if (!v || v.trim() === "") return true; // optional when empty
+            return /^\d{7,15}$/.test(v);
+        }, "Enter a valid phone number"),
     budget: z.string().optional(),
 });
 
@@ -27,7 +34,6 @@ type Props = {
 
 export default function ContactModal({ open, onClose }: Props) {
     const [sending, setSending] = React.useState(false);
-    const [toast, setToast] = React.useState<string | null>(null);
     const {
         register,
         handleSubmit,
@@ -42,7 +48,6 @@ export default function ContactModal({ open, onClose }: Props) {
         if (open) {
             reset();
             setSending(false);
-            setToast(null);
         }
     }, [open, reset]);
 
@@ -55,24 +60,17 @@ export default function ContactModal({ open, onClose }: Props) {
                 body: JSON.stringify({ ...data, to: defaultRecipient }),
             });
             if (!res.ok) {
-                // Fallback: open mail client if server cannot send
-                const subject = encodeURIComponent(`New contact from ${data.name}${data.topic ? ` — ${data.topic}` : ""}`);
-                const body = encodeURIComponent(
-                    `Name: ${data.name}\nEmail: ${data.email}\nTopic: ${data.topic || "-"}\nPhone: ${data.phone || "-"}\nBudget: ${data.budget || "-"}\n\nMessage:\n${data.message}`
-                );
-                window.location.href = `mailto:${defaultRecipient}?subject=${subject}&body=${body}`;
-                setToast("Opening your mail client... You can also reach us directly.");
+                showToast.error("We couldn't send your message. Please try again.", { position: "top-right" });
             } else {
-                setToast("Your message has been sent. We'll get back to you soon!");
+                showToast.success("Your message has been sent. We'll get back to you soon!", { position: "top-right" });
                 reset();
                 setTimeout(() => {
-                    setToast(null);
                     onClose();
                 }, 1600);
             }
         } catch (err) {
             // show error toast
-            setToast("We couldn't send your message. Please try again.");
+            showToast.error("We couldn't send your message. Please try again.", { position: "top-right" });
             console.error(err);
         } finally {
             setSending(false);
@@ -122,6 +120,7 @@ export default function ContactModal({ open, onClose }: Props) {
                         <div>
                             <label className="block text-sm text-neutral-300 mb-1">Phone number (optional)</label>
                             <input {...register("phone")} className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white outline-none focus:border-neutral-500" placeholder="+1 555 123 4567" />
+                            {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone.message}</p>}
                         </div>
                     </div>
                     <div>
@@ -154,20 +153,6 @@ export default function ContactModal({ open, onClose }: Props) {
                 </form>
             </div>
 
-            <AnimatePresence>
-                {toast && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute left-1/2 -translate-x-1/2 bottom-4 rounded-lg bg-neutral-800 border border-neutral-700 px-4 py-2 text-sm text-white shadow-lg"
-                        role="status"
-                    >
-                        {toast}
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </Modal>
     );
 }
