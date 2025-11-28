@@ -3,21 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Hide system cursor globally and show custom cursor */
-* {
-  cursor: none !important;
-}
-
-/* Show default cursor on specific interactive elements */
-button,
-a,
-input,
-textarea,
-select,
-[role="button"] {
-  cursor: none !important;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

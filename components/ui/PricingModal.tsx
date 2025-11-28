@@ -3,6 +3,7 @@
 
 import { BorderBeam } from "@/components/ui/border-beam";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import CustomSelect from "./CustomSelect";
 import { contactEmail as defaultRecipient } from "@/data/contact";
 import {
     planQuestions,
@@ -613,31 +614,28 @@ ${lines.join("\n")}`;
 
                                                         {q.type === "select" && (
                                                             <>
-                                                                <select
-                                                                    {...register(q.label as any, {
-                                                                        onBlur: (e) => validateField(q.label, e.target.value),
-                                                                        onChange: (e) => {
-                                                                            validateField(q.label, e.target.value);
-                                                                            // If timeline changed to Flexible, validate the date field
-                                                                            if (q.label === "What is your timeline?" && e.target.value === "Flexible") {
-                                                                                const flexibleDate = watch("Flexible date");
-                                                                                validateField("Flexible date", flexibleDate || "");
-                                                                            }
-                                                                            // If timeline changed from Flexible, clear date error
-                                                                            if (q.label === "What is your timeline?" && e.target.value !== "Flexible") {
-                                                                                clearErrors("Flexible date");
-                                                                            }
+                                                                <CustomSelect
+                                                                    value={watch(q.label as any) || ""}
+                                                                    onChange={(value) => {
+                                                                        setValue(q.label as any, value);
+                                                                        validateField(q.label, value);
+                                                                        // If timeline changed to Flexible, validate the date field
+                                                                        if (q.label === "What is your timeline?" && value === "Flexible") {
+                                                                            const flexibleDate = watch("Flexible date");
+                                                                            validateField("Flexible date", flexibleDate || "");
                                                                         }
-                                                                    })}
-                                                                    className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-white"
-                                                                >
-                                                                    <option value="">Select...</option>
-                                                                    {q.options?.map((opt: string) => (
-                                                                        <option key={opt} value={opt}>
-                                                                            {opt}
-                                                                        </option>
-                                                                    ))}
-                                                                </select>
+                                                                        // If timeline changed from Flexible, clear date error
+                                                                        if (q.label === "What is your timeline?" && value !== "Flexible") {
+                                                                            clearErrors("Flexible date");
+                                                                        }
+                                                                    }}
+                                                                    options={[
+                                                                        { value: "", label: "Select..." },
+                                                                        ...(q.options?.map((opt: string) => ({ value: opt, label: opt })) || [])
+                                                                    ]}
+                                                                    placeholder="Select..."
+                                                                    className="w-full"
+                                                                />
                                                                 {errors[q.label as keyof Lead] && (
                                                                     <p className="text-xs text-red-400 mt-1">
                                                                         {(errors[q.label as keyof Lead] as any)?.message}
