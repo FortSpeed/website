@@ -13,9 +13,32 @@ import { navItems } from "@/data/navbar";
 import Link from "next/link";
 import { useState } from "react";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
+import { useRouter } from "next/navigation";
 
 export default function NavbarDemo() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
+
+  const handleMobileNavClick = (href: string) => {
+    // Close mobile menu
+    setIsMobileMenuOpen(false);
+
+    // Handle navigation
+    if (href.startsWith('#')) {
+      // For hash links, scroll to the section
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // If element doesn't exist on current page, navigate to home with hash
+        router.push(`/${href}`);
+      }
+    } else {
+      // For regular links, use router
+      router.push(href);
+    }
+  };
+
   return (
     <Navbar className="fixed top-4">
       {/* Desktop Navigation */}
@@ -43,19 +66,23 @@ export default function NavbarDemo() {
 
         <MobileNavMenu isOpen={isMobileMenuOpen}>
           {navItems.map((item, idx) => (
-            <Link
+            <button
               key={`mobile-link-${idx}`}
-              href={item.link}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="relative  text-neutral-300 hover:text-gray-200 hover:bg-gray-200/10 active:bg-gray-200/10 w-full p-2 rounded-lg px-5 "
+              onClick={() => handleMobileNavClick(item.link)}
+              className="relative text-neutral-300 hover:text-gray-200 hover:bg-gray-200/10 active:bg-gray-200/10 w-full p-3 rounded-lg px-5 text-left transition-colors"
             >
               <span className="block">{item.name}</span>
-            </Link>
+            </button>
           ))}
           <div className="flex w-full justify-center items-center flex-col gap-4 text-md mt-5">
-            <Link href={"#contact"} >
-              <InteractiveHoverButton dotClassName="bg-green-500"><div className="w-60">Get Started</div></InteractiveHoverButton>
-            </Link>
+            <button
+              onClick={() => handleMobileNavClick('#contact')}
+              className="w-full"
+            >
+              <InteractiveHoverButton dotClassName="bg-green-500">
+                <div className="w-60">Get Started</div>
+              </InteractiveHoverButton>
+            </button>
           </div>
         </MobileNavMenu>
       </MobileNav>
