@@ -9,6 +9,8 @@ import {
     planQuestions,
     title as plansTitle,
     plans as rawPlans,
+    calculateDeposit,
+    formatCurrency,
 } from "@/data/prices";
 import { motion } from "framer-motion";
 import React, { useMemo, useState } from "react";
@@ -60,8 +62,9 @@ type Props = {
 };
 
 export default function PricingModal({ open, onClose, initialPlanId }: Props) {
-    const [step, setStep] = useState<"plans" | "form">("plans");
+    const [step, setStep] = useState<"plans" | "preference" | "form">("plans");
     const [formStep, setFormStep] = useState(1);
+    const [projectStartPreference, setProjectStartPreference] = useState<"now" | "quote" | null>(null);
 
     const [selectedPlanId, setSelectedPlanId] = useState<string | null>(
         initialPlanId ?? null
@@ -93,6 +96,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
         if (open) {
             setStep("plans");
             setSelectedPlanId(initialPlanId ?? null);
+            setProjectStartPreference(null);
             reset();
             setSending(false);
             setFormStep(1);
@@ -115,7 +119,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
         } catch { }
 
         setSelectedPlanId(id);
-        setStep("form");
+        setStep("preference");
     }
 
     // Validate first step and show errors
@@ -270,8 +274,12 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
             lines.push(`${q.label}: ${val || "-"}`);
         });
 
-        const topic = `Plan inquiry — ${selectedPlan?.name ?? "Unknown"}`;
-        const message = `Selected plan: ${selectedPlan?.name ?? "(not selected)"}
+        const topic = projectStartPreference === "now"
+            ? `Project Started — ${selectedPlan?.name ?? "Unknown"}`
+            : `Quote Request — ${selectedPlan?.name ?? "Unknown"}`;
+        const message = `Project Type: ${projectStartPreference === "now" ? "Start Project Now" : "Get Quote First"}
+Selected plan: ${selectedPlan?.name ?? "(not selected)"}
+${selectedPlan && selectedPlan.basePrice > 0 && projectStartPreference === "now" ? `Deposit Amount: ${formatCurrency(calculateDeposit(selectedPlan.basePrice))}` : ""}
 
 Name: ${data.name}
 Email: ${data.email}
@@ -301,8 +309,20 @@ ${lines.join("\n")}`;
                 signal: wAny.__mailAbortController.signal,
             });
             if (res.ok) {
-                showToast.success("Your request has been sent. We'll get back to you soon!", { position: "top-right" });
-                onClose();
+                // Redirect to appropriate confirmation page
+                if (projectStartPreference === "now" && selectedPlan) {
+                    // For "Start Project Now", redirect to payment selection page
+                    const depositAmount = selectedPlan.basePrice > 0
+                        ? formatCurrency(calculateDeposit(selectedPlan.basePrice))
+                        : "Custom";
+
+                    window.location.href = `/billing/payment?plan=${encodeURIComponent(selectedPlan.name)}&deposit=${encodeURIComponent(depositAmount)}`;
+                } else {
+                    // For "Get Quote First", redirect to quote received page
+                    const quoteId = "QUOTE_" + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+                    window.location.href = `/billing/quote-received?plan=${encodeURIComponent(selectedPlan?.name || "Custom")}&quote_id=${encodeURIComponent(quoteId)}`;
+                }
             } else {
                 showToast.error("We couldn't send your request. Please try again.", { position: "top-right" });
             }
@@ -460,14 +480,18 @@ ${lines.join("\n")}`;
                     </div>
                 )}
 
-                {/* FORM MULTI-STEP */}
-                {step === "form" && (
-                    <form onSubmit={handleSubmit(submit)} className="grid grid-cols-1 gap-6 ">
+                {/* PROJECT START PREFERENCE */}
+                {step === "preference" && selectedPlan && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="space-y-6"
+                    >
                         {/* selected plan */}
-                        <div className="flex items-center justify-between ">
+                        <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-neutral-400">Selected plan</p>
-                                <p className="text-white font-medium">{selectedPlan?.name}</p>
+                                <p className="text-white font-medium">{selectedPlan.name}</p>
                             </div>
 
                             <button
@@ -477,6 +501,191 @@ ${lines.join("\n")}`;
                             >
                                 Change
                             </button>
+                        </div>
+
+                        {/* Preference selection */}
+                        <div className="bg-neutral-800/40 border border-neutral-700 rounded-xl p-6">
+                            <h3 className="text-xl font-semibold text-white mb-4 text-center">
+                                How would you like to start your project?
+                            </h3>
+                            <p className="text-gray-400 text-center mb-8">
+                                Choose the option that works best for you
+                            </p>
+
+                            {/* Plan summary */}
+                            <div className="bg-neutral-900/50 rounded-lg p-4 mb-8">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h4 className="text-lg font-semibold text-white">{selectedPlan.name} Plan</h4>
+                                    <div className="text-right">
+                                        <div className="text-xl font-bold text-white">{selectedPlan.price}</div>
+                                        {selectedPlan.basePrice > 0 && (
+                                            <div className="text-sm text-gray-400">
+                                                30% deposit: {formatCurrency(calculateDeposit(selectedPlan.basePrice))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Key features */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    {selectedPlan.features.slice(0, 4).map((feature, index) => (
+                                        <div key={index} className="flex items-center gap-2 text-sm text-gray-300">
+                                            <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            {feature}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Preference options */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Option A: Start Project Now */}
+                                <button
+                                    onClick={() => {
+                                        setProjectStartPreference("now");
+                                        setStep("form");
+                                    }}
+                                    disabled={selectedPlan.id === "enterprise"}
+                                    className={`p-6 rounded-xl border-2 transition-all duration-200 text-left ${projectStartPreference === "now"
+                                        ? "border-green-500 bg-green-500/10"
+                                        : selectedPlan.id === "enterprise"
+                                            ? "border-neutral-700 bg-neutral-800/50 opacity-50 cursor-not-allowed"
+                                            : "border-neutral-700 bg-neutral-800/50 hover:border-neutral-600 hover:bg-neutral-800/70"
+                                        }`}
+                                >
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${projectStartPreference === "now"
+                                            ? "border-green-500 bg-green-500"
+                                            : "border-neutral-600"
+                                            }`}>
+                                            {projectStartPreference === "now" && (
+                                                <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            )}
+                                        </div>
+                                        <h3 className="text-lg font-semibold text-white">Start Project Now</h3>
+                                    </div>
+
+                                    <p className="text-gray-300 mb-4">
+                                        Pay the 30% deposit and begin your project immediately
+                                    </p>
+
+                                    {selectedPlan.basePrice > 0 ? (
+                                        <div className="bg-neutral-900/50 rounded-lg p-3">
+                                            <div className="text-sm text-gray-400 mb-1">Initial payment</div>
+                                            <div className="text-xl font-bold text-white">
+                                                {formatCurrency(calculateDeposit(selectedPlan.basePrice))}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="bg-neutral-900/50 rounded-lg p-3">
+                                            <div className="text-sm text-gray-400">
+                                                Contact us for custom pricing
+                                            </div>
+                                        </div>
+                                    )}
+                                </button>
+
+                                {/* Option B: Get a Quote First */}
+                                <button
+                                    onClick={() => {
+                                        setProjectStartPreference("quote");
+                                        setStep("form");
+                                    }}
+                                    className={`p-6 rounded-xl border-2 transition-all duration-200 text-left ${projectStartPreference === "quote"
+                                        ? "border-blue-500 bg-blue-500/10"
+                                        : "border-neutral-700 bg-neutral-800/50 hover:border-neutral-600 hover:bg-neutral-800/70"
+                                        }`}
+                                >
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${projectStartPreference === "quote"
+                                            ? "border-blue-500 bg-blue-500"
+                                            : "border-neutral-600"
+                                            }`}>
+                                            {projectStartPreference === "quote" && (
+                                                <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            )}
+                                        </div>
+                                        <h3 className="text-lg font-semibold text-white">Get a Quote First</h3>
+                                    </div>
+
+                                    <p className="text-gray-300 mb-4">
+                                        Discuss your requirements and receive a custom proposal
+                                    </p>
+
+                                    <div className="bg-neutral-900/50 rounded-lg p-3">
+                                        <div className="text-sm text-gray-400 mb-1">What happens next</div>
+                                        <ul className="text-sm text-gray-300 space-y-1">
+                                            <li>• Detailed project consultation</li>
+                                            <li>• Custom pricing proposal</li>
+                                            <li>• No obligation to proceed</li>
+                                        </ul>
+                                    </div>
+                                </button>
+                            </div>
+
+                            {/* Enterprise plan notice */}
+                            {selectedPlan.id === "enterprise" && (
+                                <div className="mt-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+                                    <div className="flex items-start gap-3">
+                                        <svg className="w-5 h-5 text-blue-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <div>
+                                            <h4 className="text-white font-medium mb-1">Enterprise Plan</h4>
+                                            <p className="text-gray-300 text-sm">
+                                                For enterprise solutions, we&apos;ll provide a custom quote based on your specific requirements.
+                                                Select &quot;Get a Quote First&quot; to begin the consultation process.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </motion.div>
+                )}
+
+                {/* FORM MULTI-STEP */}
+                {step === "form" && (
+                    <form onSubmit={handleSubmit(submit)} className="grid grid-cols-1 gap-6 ">
+                        {/* selected plan */}
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm text-neutral-400">Selected plan</p>
+                                <p className="text-white font-medium">{selectedPlan?.name}</p>
+                                {projectStartPreference && selectedPlan && (
+                                    <p className="text-xs text-gray-400 mt-1">
+                                        {projectStartPreference === "now"
+                                            ? `Starting project with ${formatCurrency(calculateDeposit(selectedPlan.basePrice))} deposit`
+                                            : "Requesting custom quote"
+                                        }
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="flex items-center gap-3">
+                                {projectStartPreference && (
+                                    <button
+                                        onClick={() => setStep("preference")}
+                                        type="button"
+                                        className="text-sm text-neutral-300 hover:text-white underline"
+                                    >
+                                        Change preference
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => setStep("plans")}
+                                    type="button"
+                                    className="text-sm text-neutral-300 hover:text-white underline"
+                                >
+                                    Change plan
+                                </button>
+                            </div>
                         </div>
 
                         {/* MAIN LAYOUT: left = steps + instruction; right = form fields */}
@@ -496,10 +705,10 @@ ${lines.join("\n")}`;
                                     {/* short instruction under circles — changes depending on step */}
                                     <p className="text-sm text-neutral-400 mb-6">
                                         {formStep === 1 &&
-                                            "Write down what the user should do in step 1."}
+                                            "Enter your contact information"}
                                         {formStep === 2 &&
-                                            "Write down what the user should do in step 2."}
-                                        {formStep === 3 && "Review your details and submit."}
+                                            `Tell us about your ${projectStartPreference === "now" ? "project" : "requirements"}`}
+                                        {formStep === 3 && `Review and submit your ${projectStartPreference === "now" ? "payment" : "quote request"}`}
                                     </p>
 
                                     {/* small plan reminder */}
@@ -744,6 +953,27 @@ ${lines.join("\n")}`;
                                                     Review your details
                                                 </p>
 
+                                                {/* Payment summary for "Start Now" */}
+                                                {projectStartPreference === "now" && selectedPlan && selectedPlan.basePrice > 0 && (
+                                                    <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 mb-4">
+                                                        <h4 className="text-white font-medium mb-3">Payment Summary</h4>
+                                                        <div className="space-y-2">
+                                                            <div className="flex justify-between">
+                                                                <span className="text-gray-300">Plan Total:</span>
+                                                                <span className="text-white">{formatCurrency(selectedPlan.basePrice)}</span>
+                                                            </div>
+                                                            <div className="flex justify-between">
+                                                                <span className="text-gray-300">Deposit (30%):</span>
+                                                                <span className="text-green-400 font-semibold">{formatCurrency(calculateDeposit(selectedPlan.basePrice))}</span>
+                                                            </div>
+                                                            <div className="flex justify-between text-sm">
+                                                                <span className="text-gray-400">Remaining (due on completion):</span>
+                                                                <span className="text-gray-400">{formatCurrency(selectedPlan.basePrice - calculateDeposit(selectedPlan.basePrice))}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )}
+
                                                 <div className="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
                                                     <p>
                                                         <span className="text-white">Name:</span>{" "}
@@ -855,7 +1085,12 @@ ${lines.join("\n")}`;
                                                 disabled={isSubmitting}
                                                 className="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-neutral-700 hover:opacity-90 disabled:opacity-50"
                                             >
-                                                {isSubmitting ? "Sending..." : "Submit"}
+                                                {isSubmitting
+                                                    ? "Sending..."
+                                                    : projectStartPreference === "now"
+                                                        ? "Pay Deposit & Start Project"
+                                                        : "Submit Quote Request"
+                                                }
                                             </button>
                                         )}
                                     </div>
