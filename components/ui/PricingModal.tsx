@@ -615,7 +615,7 @@ ${lines.join("\n")}`;
                                                         {q.type === "select" && (
                                                             <>
                                                                 <CustomSelect
-                                                                    value={watch(q.label as any) || ""}
+                                                                    value={String(watch(q.label as any) || "")}
                                                                     onChange={(value) => {
                                                                         setValue(q.label as any, value);
                                                                         validateField(q.label, value);
