@@ -14,7 +14,7 @@ export default function Projects() {
       {/*<div className="bg-[url('/img-1.png')]  bg-center  bg-no-repea overflow-hiddent bg-center  absolute max-md:size-1/2 bg-cover bg-no-repeat  right-20 top-52 "></div>*/}
 
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
+        <div className="text-center mb-20 -mt-10 md:mt-0">
           <h2 className="subtitle-gradient">{title}</h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             {description}

@@ -85,13 +85,19 @@ const Footer = () => {
       </div>
 
       <div className="pt-4 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-        <div>© 2024 APEX Agency. All rights reserved.</div>
-        <div className="flex gap-6">
-          <a href="#" className="hover:text-white transition-colors">
+        <div>© 2025 FortSpeed Web Agency. All rights reserved.</div>
+        <div className="flex gap-6 flex-wrap justify-center">
+          <a href="/legal/privacy" className="hover:text-white transition-colors">
             Privacy Policy
           </a>
-          <a href="#" className="hover:text-white transition-colors">
-            Terms of Service
+          <a href="/legal/terms" className="hover:text-white transition-colors">
+            Terms & Conditions
+          </a>
+          <a href="/legal/cookies" className="hover:text-white transition-colors">
+            Cookie Policy
+          </a>
+          <a href="/legal/refund" className="hover:text-white transition-colors">
+            Refund & Cancellation
           </a>
         </div>
         {/* </div> */}

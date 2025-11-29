@@ -1,7 +1,5 @@
 "use client";
-import Beams from "../Beams";
 import Headline from "../Headline";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 import Achievements from "../ui/Achievements";
 import { motion } from "motion/react";
@@ -10,17 +8,6 @@ import PricingModal from "../ui/PricingModal";
 import Link from "next/link";
 
 const Hero = () => {
-  // breakpoints
-  const isMobile = useMediaQuery("(max-width: 640px)");
-  const isTablet = useMediaQuery("(max-width: 1024px)");
-
-  // dynamic props
-  // const rotation = isMobile ? 10 : isTablet ? 20 : 30;
-  const speed = isTablet ? 0.3 : isMobile ? 0.2 : 0.7;
-  const beamHeight = isTablet ? 10 : isMobile ? 7 : 18;
-  const beamWidth = isTablet ? 2.5 : isMobile ? 1.35 : 3;
-  const lightColor = isTablet ? "#a1a1a1" : isMobile ? "#a0a0a0" : "#dbdbdb";
-
   const [open, setOpen] = useState(false);
 
   return (

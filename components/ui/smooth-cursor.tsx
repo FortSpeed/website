@@ -1,6 +1,6 @@
 "use client"
 
-import { FC, useEffect, useRef, useState } from "react"
+import { FC, useEffect, useRef } from "react"
 import { motion, useSpring } from "motion/react"
 
 interface Position {
@@ -89,7 +89,6 @@ export function SmoothCursor({
     restDelta: 0.001,
   },
 }: SmoothCursorProps) {
-  const [isMoving, setIsMoving] = useState(false)
   const lastMousePos = useRef<Position>({ x: 0, y: 0 })
   const velocity = useRef<Position>({ x: 0, y: 0 })
   const lastUpdateTime = useRef(Date.now())
@@ -149,11 +148,9 @@ export function SmoothCursor({
         previousAngle.current = currentAngle
 
         scale.set(0.95)
-        setIsMoving(true)
 
         const timeout = setTimeout(() => {
           scale.set(1)
-          setIsMoving(false)
         }, 150)
 
         return () => clearTimeout(timeout)
@@ -170,12 +167,32 @@ export function SmoothCursor({
       })
     }
 
+    // Hide system cursor globally
     document.body.style.cursor = "none"
+    document.documentElement.style.cursor = "none"
+
+    // Also hide cursor on all elements
+    const allElements = document.querySelectorAll('*')
+    allElements.forEach(el => {
+      const element = el as HTMLElement
+      element.style.cursor = "none"
+    })
+
     window.addEventListener("mousemove", throttledMouseMove)
 
     return () => {
       window.removeEventListener("mousemove", throttledMouseMove)
+      // Restore system cursor
       document.body.style.cursor = "auto"
+      document.documentElement.style.cursor = "auto"
+
+      // Restore cursor on all elements
+      const allElements = document.querySelectorAll('*')
+      allElements.forEach(el => {
+        const element = el as HTMLElement
+        element.style.cursor = "auto"
+      })
+
       if (rafId) cancelAnimationFrame(rafId)
     }
   }, [cursorX, cursorY, rotation, scale])
@@ -190,7 +207,7 @@ export function SmoothCursor({
         translateY: "-50%",
         rotate: rotation,
         scale: scale,
-        zIndex: 100,
+        zIndex: 9999,
         pointerEvents: "none",
         willChange: "transform",
       }}

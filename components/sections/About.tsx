@@ -21,7 +21,7 @@ export default function About() {
       className="section grid lg:grid-cols-2 lg:gap-0 xl:gap-16 items-center relative"
     >
 
-    <div className="bg-[url('/img-4.png')]  bg-cover  bg-no-repea overflow-hiddent bg-center h-2/3 lg:h-full w-1/2  object-contain   absolute top-0   lg:bottom-0 left-0 "></div>
+      <div className="bg-[url('/img-4.png')]  bg-cover  bg-no-repea overflow-hiddent bg-center h-full lg:h-full w-1/2  object-contain   absolute top-0   lg:bottom-0 left-0 "></div>
 
       <div className="text-center lg:text-start relative">
         <h2 className="subtitle-gradient lg:!mx-0 mb-10 ">{title}</h2>
@@ -51,7 +51,7 @@ export default function About() {
                 <CountUp
                   from={0}
                   to={label}
-                  separator="," 
+                  separator=","
                   direction="up"
                   duration={1}
                 />
