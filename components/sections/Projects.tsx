@@ -52,7 +52,7 @@ export default function Projects() {
                   className={`absolute inset-0 bg-gradient-to-t ${project.gradient} opacity-60 group-hover:opacity-40 transition-opacity`}
                 ></div>
 
-                <div className="absolute top-4 right-4 flex gap-2">
+                <div className="absolute top-4 right-4 flex gap-2 hidden">
                   <Link
                   target="_blank"
                     href={project.live}

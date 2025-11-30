@@ -37,18 +37,18 @@ export default function Services() {
   };
 
   return (
-    <section id="services" className="section overflow-hidden">
+    <section id="services" className="section overflow-hidden bg-[url('/img-4.png')] md:bg-[url('/img-6.png')] bg-no-repeat bg-center bg-cover lg:bg-contain">
       {/* BACKGROUND BEAMS */}
       {/* <div className="absolute size-160 rounded-full right-[-10%] top-[30%] bottom-0 overflow-hidden"> */}
 
       {/* Left background image */}
-      <div className="bg-[url('/img-1.png')]  md:bg-[url('/img-3.png')]  bg-no-repeat overflow-hidden size-120 object-contain md:rounded-full rounded-b-[30%]  absolute top-1/3 md:rounded-b-sm lg:bottom-20 left-20 max-md:left-0 opacity-30 hidden md:block"></div>
+      {/* <div className="bg-[url('/img-5.png')]  md:bg-[url('/img-5.png')]  bg-no-repeat overflow-hidden size-120 object-contain md:rounded-full rounded-b-[30%]  absolute top-1/3 md:rounded-b-sm lg:bottom-20 left-20 max-md:left-0 opacity-30 hidden md:block"></div> */}
 
       {/* Center background image */}
-      <div className="bg-[url('/img-1.png')]  md:bg-[url('/img-3.png')]  bg-no-repeat overflow-hidden size-120 object-contain md:rounded-full rounded-b-[30%]  absolute top-1/3 md:rounded-b-sm lg:bottom-20 left-1/2 transform -translate-x-1/2 max-md:left-0 max-md:transform-none opacity-30 hidden md:block"></div>
+      {/* <div className="bg-[url('/img-1.png')]  md:bg-[url('/img-3.png')]  bg-no-repeat overflow-hidden size-120 object-contain md:rounded-full rounded-b-[30%]  absolute top-1/3 md:rounded-b-sm lg:bottom-20 left-1/2 transform -translate-x-1/2 max-md:left-0 max-md:transform-none opacity-30 hidden md:block"></div> */}
 
       {/* Right background image */}
-      <div className="bg-[url('/img-1.png')]  md:bg-[url('/img-3.png')]  bg-no-repeat overflow-hidden size-120 object-contain md:rounded-full rounded-b-[30%]  absolute top-1/3 md:rounded-b-sm lg:bottom-20 right-20 max-md:right-0 opacity-30 hidden md:block"></div>
+      {/* <div className="bg-[url('/img-1.png')]  md:bg-[url('/img-3.png')]  bg-no-repeat overflow-hidden size-120 object-contain md:rounded-full rounded-b-[30%]  absolute top-1/3 md:rounded-b-sm lg:bottom-20 right-20 max-md:right-0 opacity-30 hidden md:block"></div> */}
 
       {/* <Beams
           rotation={28}
