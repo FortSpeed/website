@@ -1,6 +1,7 @@
 import logo from "@/assets/logo.png";
-import { contactLinks, innerLinks, socialLinks } from "@/data/footer";
+import { contactLinks, innerLinks, services, socialLinks } from "@/data/footer";
 import Image from "next/image";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -8,7 +9,7 @@ const Footer = () => {
       {/* <div className="max-w-7xl mx-auto"> */}
       <div className="grid md:grid-cols-4 max-lg:gap-0 gap-12 mb-12 max-md:text-center max-md:justify-center">
         <div>
-          <div className="flex items-center text-white gap-1 mb-4 max-md:justify-center">
+          <Link href={"/"} className="flex items-center text-white gap-1 mb-4 max-md:justify-center">
             {/* <Zap className="w-7 h-7 text-white" strokeWidth={2} /> */}
             <Image
               src={logo}
@@ -18,7 +19,7 @@ const Footer = () => {
               className="size-7"
             />
             <span className="text-xl font-bold tracking-tight">FortSpeed</span>
-          </div>
+          </Link>
           <p className="text-gray-400 text-sm leading-relaxed">
             Turning ideas into web experiences people trust and love
           </p>
@@ -27,26 +28,14 @@ const Footer = () => {
         <div>
           <h4 className="font-semibold mb-4">Services</h4>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li>
-              <a href="#" className="hover:text-white transition-colors">
-                Web Development
+          {services.map((s, i)=>{
+            return   <li key={i}>
+              <a href={s.href} className="hover:text-white transition-colors">
+                {s.title}
               </a>
             </li>
-            <li>
-              <a href="#" className="hover:text-white transition-colors">
-                UI/UX Design
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white transition-colors">
-                Performance Optimization
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white transition-colors">
-                Consulting
-              </a>
-            </li>
+          })}
+     
           </ul>
         </div>
 

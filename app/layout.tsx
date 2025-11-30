@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
+
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function RootLayout({
       <body
         className="antialiased relative max-w-[1920px] mx-auto overflow-x-hidden bg-black"
       >
-        <Navbar />
+  
         <main>{children}</main>
         <Footer />
       </body>

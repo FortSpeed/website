@@ -11,7 +11,7 @@ const Headline = ({ className }: { className: string }) => {
 
   return (
     <h1
-      className={`relative z-10 flex flex-col text-center items-center gap-2 sm:gap-3 font-inter font-bold leading-tight sm:leading-[1.15] md:leading-[1.2]  text-white text-5xl sm:text-6xl max-w-98 sm:max-w-120 md:max-w-135 md:text-[5rem] lg:text-8xl lg:max-w-full tracking-tight ${className} md:gap-5 lg:gap-2`}
+      className={`relative z-10 flex flex-col text-center items-center gap-0 sm:gap-3 font-inter font-bold leading-tight sm:leading-[1.15] md:leading-[1.2]  text-white text-5xl sm:text-6xl max-w-98 sm:max-w-120 md:max-w-135 md:text-[5rem] lg:text-8xl lg:max-w-full tracking-tight ${className} md:gap-5 lg:gap-2`}
     >
       {/* Mobile/Tablet: full-width rows, one word per line */}
       <div className="lg:hidden flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-5">
@@ -76,7 +76,7 @@ const Headline = ({ className }: { className: string }) => {
         className="flex items-center justify-center relative z-0 w-full mt-3 sm:mt-2 pointer-events-none"
       >
         <MorphingText
-          className="  text-4xl sm:text-6xl md:text-[5rem] lg:text-8xl"
+          className="  text-5xl sm:text-6xl md:text-[5rem] lg:text-8xl"
           texts={morphingText}
         />
       </motion.span>

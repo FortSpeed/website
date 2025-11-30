@@ -8,7 +8,12 @@ export const innerLinks = [
   { href: "#testimonials", label: "Client Testimonials" },
 ];
 
-export const services = [{ href: "", title: "" }];
+export const services = [
+  { href: "/services/web-development", title: "Web Development" },
+  { href: "/services/ui-ux-design", title: "UI/UX Design" },
+  { href: "/services/performance-optimization", title: " Performance Optimization" },
+
+];
 
 export const socialLinks = [
   { href: "/#", title: "Instagram", node: Instagram },

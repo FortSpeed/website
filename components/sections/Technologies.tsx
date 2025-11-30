@@ -10,7 +10,7 @@ import { motion } from "motion/react";
 const firstRow = technologies.slice(0, technologies.length / 2);
 const secondRow = technologies.slice(technologies.length / 2);
 
-const ReviewCard = ({
+export const ReviewCard = ({
   Node,
   label,
   href,
