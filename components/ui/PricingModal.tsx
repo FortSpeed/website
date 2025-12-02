@@ -320,11 +320,15 @@ ${lines.join("\n")}`;
             }
             wAny.__mailAbortController = new AbortController();
 
-            const answers: Record<string, string | File | undefined> = {};
+            const answers: Record<string, string | undefined> = {};
             qList.forEach((q) => {
                 const value = data[q.label as keyof Lead];
-                if (value !== undefined) {
-                    answers[q.label] = value as any;
+                if (value instanceof File) {
+                    if (value.name) {
+                        answers[q.label] = value.name;
+                    }
+                } else if (value !== undefined && value !== null) {
+                    answers[q.label] = String(value);
                 }
             });
 

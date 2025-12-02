@@ -9,6 +9,7 @@ const WALLET = "TCdnuFLw8xJJWvgH73CbqNB2h8MTn1mz9e";
 function PaymentPageContent() {
     const sp = useSearchParams();
     const rid = sp.get("rid") || "";
+    const encodedData = sp.get("data") || "";
 
     const [txid, setTxid] = useState("");
     const [file, setFile] = useState<File | null>(null);
@@ -29,30 +30,17 @@ function PaymentPageContent() {
             return;
         }
 
-        let cancelled = false;
-        async function fetchInfo() {
+        if (encodedData) {
             try {
-                const res = await fetch(`/api/project-request?rid=${encodeURIComponent(rid)}`, { cache: "no-store" });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data?.error || "Not allowed");
-                if (!cancelled) {
-                    setSubmittingInfo({ planName: data?.submission?.data?.planName });
-                }
-            } catch (err: any) {
-                if (!cancelled) {
-                    setAccessError({ message: err?.message || "Access denied. Please submit your project brief first." });
-                }
-            } finally {
-                if (!cancelled) setLoading(false);
+                const formData = JSON.parse(decodeURIComponent(encodedData));
+                setSubmittingInfo({ planName: formData.planName || null });
+            } catch (err) {
+                console.error("Failed to parse encoded payment data", err);
             }
         }
 
-        fetchInfo();
-
-        return () => {
-            cancelled = true;
-        };
-    }, [rid]);
+        setLoading(false);
+    }, [rid, encodedData]);
 
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -79,6 +67,7 @@ function PaymentPageContent() {
             fd.append("txid", txid.trim());
             fd.append("confirm", String(confirm));
             if (file) fd.append("screenshot", file);
+            if (encodedData) fd.append("initialData", encodedData);
 
             const res = await fetch("/api/project-request", { method: "POST", body: fd });
             const data = await res.json();

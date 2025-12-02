@@ -219,7 +219,28 @@ export async function POST(req: NextRequest) {
             if (!txid) return NextResponse.json({ error: "Transaction ID is required" }, { status: 400 });
             if (!confirm) return NextResponse.json({ error: "Please confirm payment sent" }, { status: 400 });
 
-            const init = findInitialById(rid);
+            const initialDataEncoded = String(form.get("initialData") || "").trim();
+            let init: any = null;
+
+            if (initialDataEncoded) {
+                try {
+                    const data = JSON.parse(decodeURIComponent(initialDataEncoded));
+                    init = {
+                        id: rid,
+                        type,
+                        phase: "initial" as const,
+                        timestamp: new Date().toISOString(),
+                        data,
+                    };
+                } catch (err) {
+                    console.error("Failed to parse initialData in payment POST", err);
+                }
+            }
+
+            if (!init) {
+                init = findInitialById(rid);
+            }
+
             if (!init) return NextResponse.json({ error: "Initial submission not found" }, { status: 404 });
             if (hasFinalSubmission(rid)) {
                 return NextResponse.json({ error: "This payment link has already been used.", code: "USED" }, { status: 409 });
