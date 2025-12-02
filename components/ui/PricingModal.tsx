@@ -344,13 +344,14 @@ ${lines.join("\n")}`;
             let referenceImageData: string | null = null;
 
             if (referenceFile) {
-                referenceImageName = referenceFile.name || null;
+                const file: any = referenceFile; // explicit cast to avoid TS narrowing to never
+                referenceImageName = (file && file.name) ? String(file.name) : null;
                 // Convert file to base64 data URL so the server can embed it in the email
                 referenceImageData = await new Promise<string | null>((resolve) => {
                     const reader = new FileReader();
                     reader.onload = () => resolve(reader.result as string);
                     reader.onerror = () => resolve(null);
-                    reader.readAsDataURL(referenceFile as File);
+                    reader.readAsDataURL(file);
                 });
             }
 
