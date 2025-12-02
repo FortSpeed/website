@@ -34,6 +34,7 @@ const leadSchema = z.object({
     agree: z.boolean().refine(val => val === true, "You must agree to the terms and conditions"),
     // Dynamic step 2 fields - all optional since they only apply to specific plans
     "What type of website do you need?": z.string().optional(),
+    "Other website type": z.string().optional(),
     "Do you have the content ready?": z.string().optional(),
     "Tell us about your project": z.string().optional(),
     "How many pages or main features do you need?": z.string().optional(),
@@ -161,6 +162,11 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
             setError(fieldName as any, { message: "Please provide at least 5 characters" });
             return;
         }
+
+        if (fieldName === "Other website type" && value.length < 3) {
+            setError(fieldName as any, { message: "Please provide at least 3 characters" });
+            return;
+        }
     };
 
     // Validate step 2 fields
@@ -179,6 +185,7 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
             clearErrors(q.label as any);
         }
         clearErrors("Flexible date");
+        clearErrors("Other website type");
 
         // Validate each required field based on its type
         for (const q of qList) {
@@ -211,6 +218,20 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                 setError(q.label as any, { message: "Please provide at least 5 characters" });
                 hasErrors = true;
                 console.log(`Error set for ${q.label}: too short`);
+            }
+
+            // If "Other" is selected for website type, validate the custom field
+            if (q.label === "What type of website do you need?" && value === "Other") {
+                const otherValue = watch("Other website type");
+                if (!otherValue || (typeof otherValue === 'string' && otherValue.trim() === '')) {
+                    setError("Other website type" as any, { message: "Please specify the type of website" });
+                    hasErrors = true;
+                    console.log(`Error set for Other website type: empty field`);
+                } else if (typeof otherValue === 'string' && otherValue.length < 3) {
+                    setError("Other website type" as any, { message: "Please provide at least 3 characters" });
+                    hasErrors = true;
+                    console.log(`Error set for Other website type: too short`);
+                }
             }
 
             // Check flexible date if timeline is "Flexible"
@@ -264,8 +285,19 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
                 const flexibleDate = data["Flexible date"];
                 if (flexibleDate) val = `Flexible (Preferred date: ${flexibleDate})`;
             }
+            // If "Other" is selected for website type, include the custom specification
+            if (q.label === "What type of website do you need?" && val === "Other") {
+                const otherType = data["Other website type"];
+                if (otherType) val = `Other: ${otherType}`;
+            }
             lines.push(`${q.label}: ${val || "-"}`);
         });
+
+        // Also include the "Other website type" field directly if it has a value
+        const otherWebsiteType = data["Other website type"];
+        if (otherWebsiteType && data["What type of website do you need?"] !== "Other") {
+            lines.push(`Other website type: ${otherWebsiteType}`);
+        }
 
         const topic = projectStartPreference === "now"
             ? `Project Started — ${selectedPlan?.name ?? "Unknown"}`
@@ -288,35 +320,58 @@ ${lines.join("\n")}`;
             }
             wAny.__mailAbortController = new AbortController();
 
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
+            const answers: Record<string, string | File | undefined> = {};
+            qList.forEach((q) => {
+                const value = data[q.label as keyof Lead];
+                if (value !== undefined) {
+                    answers[q.label] = value as any;
+                }
+            });
+
+            const payload = {
+                type: projectStartPreference === "now" ? "start" : "quote",
+                phase: "initial" as const,
+                form: {
                     name: data.name,
                     email: data.email,
-                    topic,
+                    company: data.company || "",
+                    phone: data.phone || "",
+                    project: selectedPlan?.name || "Custom Project",
+                    planId: selectedPlan?.id || null,
+                    planName: selectedPlan?.name || null,
+                    projectStartPreference,
+                    submissionType: projectStartPreference === "now" ? "Start Immediately" : "Get a Quote",
+                    depositAmount: selectedPlan?.basePrice
+                        ? formatCurrency(calculateDeposit(selectedPlan.basePrice))
+                        : "Custom",
+                    termsAgreed: data.agree,
                     message,
-                    to: defaultRecipient,
-                }),
+                    answers,
+                },
+            };
+
+            const res = await fetch("/api/project-request", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
                 signal: wAny.__mailAbortController.signal,
             });
-            if (res.ok) {
-                // Redirect to appropriate confirmation page
-                if (projectStartPreference === "now" && selectedPlan) {
-                    // For "Start Project Now", redirect to payment selection page
-                    const depositAmount = selectedPlan.basePrice > 0
-                        ? formatCurrency(calculateDeposit(selectedPlan.basePrice))
-                        : "Custom";
 
-                    window.location.href = `/billing/payment?plan=${encodeURIComponent(selectedPlan.name)}&deposit=${encodeURIComponent(depositAmount)}`;
-                } else {
-                    // For "Get Quote First", redirect to quote received page
-                    const quoteId = "QUOTE_" + Math.random().toString(36).substr(2, 9).toUpperCase();
-
-                    window.location.href = `/billing/quote-received?plan=${encodeURIComponent(selectedPlan?.name || "Custom")}&quote_id=${encodeURIComponent(quoteId)}`;
-                }
-            } else {
+            if (!res.ok) {
                 showToast.error("We couldn't send your request. Please try again.", { position: "top-right" });
+                return;
+            }
+
+            const { id } = await res.json();
+            if (!id) {
+                showToast.error("Unexpected response. Please try again.", { position: "top-right" });
+                return;
+            }
+
+            if (projectStartPreference === "now") {
+                window.location.href = `/request/payment?rid=${encodeURIComponent(id)}`;
+            } else {
+                window.location.href = `/request/thanks?type=quote&id=${encodeURIComponent(id)}`;
             }
         } catch (err) {
             showToast.error("We couldn't send your request. Please try again.", { position: "top-right" });
@@ -825,6 +880,11 @@ ${lines.join("\n")}`;
                                                                         if (q.label === "What is your timeline?" && value !== "Flexible") {
                                                                             clearErrors("Flexible date");
                                                                         }
+                                                                        // If "Other" selected for website type, clear the custom field
+                                                                        if (q.label === "What type of website do you need?" && value !== "Other") {
+                                                                            setValue("Other website type", "");
+                                                                            clearErrors("Other website type");
+                                                                        }
                                                                     }}
                                                                     options={[
                                                                         { value: "", label: "Select..." },
@@ -837,6 +897,30 @@ ${lines.join("\n")}`;
                                                                     <p className="text-xs text-red-400 mt-1">
                                                                         {(errors[q.label as keyof Lead] as any)?.message}
                                                                     </p>
+                                                                )}
+
+                                                                {/* Show text field when "Other" is selected for website type */}
+                                                                {q.label === "What type of website do you need?" && watch(q.label as any) === "Other" && (
+                                                                    <div className="mt-3">
+                                                                        <label className="block text-xs sm:text-sm text-neutral-300 mb-1 font-medium">
+                                                                            Please specify:
+                                                                        </label>
+                                                                        <input
+                                                                            type="text"
+                                                                            {...register("Other website type" as any)}
+                                                                            placeholder="Describe the type of website you need..."
+                                                                            className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                                            onChange={(e) => {
+                                                                                setValue("Other website type" as any, e.target.value);
+                                                                                validateField("Other website type", e.target.value);
+                                                                            }}
+                                                                        />
+                                                                        {errors["Other website type" as keyof Lead] && (
+                                                                            <p className="text-xs text-red-400 mt-1">
+                                                                                {(errors["Other website type" as keyof Lead] as any)?.message}
+                                                                            </p>
+                                                                        )}
+                                                                    </div>
                                                                 )}
 
                                                                 {/* Flexible timeline extra field */}
@@ -1000,13 +1084,29 @@ ${lines.join("\n")}`;
                                                         return qList.map((q) => {
                                                             const value = watch(q.label as any);
                                                             if (!value) return null;
+                                                            let displayValue = value instanceof File ? value.name : (typeof value === "string" ? value : String(value ?? "-"));
+
+                                                            // If "Other" is selected for website type, show the custom specification
+                                                            if (q.label === "What type of website do you need?" && value === "Other") {
+                                                                const otherType = watch("Other website type");
+                                                                if (otherType) displayValue = `Other: ${otherType}`;
+                                                            }
+
                                                             return (
                                                                 <p key={q.label}>
                                                                     <span className="text-neutral-400">{q.label}:</span>{" "}
-                                                                    {value instanceof File ? value.name : (typeof value === "string" ? value : String(value ?? "-"))}
+                                                                    {displayValue}
                                                                 </p>
                                                             );
-                                                        });
+                                                        }).concat(
+                                                            // Show "Other website type" separately if it has a value but wasn't included above
+                                                            watch("Other website type") && watch("What type of website do you need?") !== "Other" ? (
+                                                                <p key="other-website-type">
+                                                                    <span className="text-neutral-400">Other website type:</span>{" "}
+                                                                    {watch("Other website type")}
+                                                                </p>
+                                                            ) : []
+                                                        );
                                                     })()}
                                                 </div>
                                             </div>

@@ -1,5 +1,5 @@
 import logo from "@/assets/logo.png";
-import { contactLinks, innerLinks, services, socialLinks } from "@/data/footer";
+import { contactLinks, innerLinks, services } from "@/data/footer";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,6 +17,7 @@ const Footer = () => {
               width={50}
               height={50}
               className="size-7"
+              priority
             />
             <span className="text-xl font-bold tracking-tight">FortSpeed</span>
           </Link>
@@ -28,14 +29,14 @@ const Footer = () => {
         <div>
           <h4 className="font-semibold mb-4">Services</h4>
           <ul className="space-y-2 text-sm text-gray-400">
-          {services.map((s, i)=>{
-            return   <li key={i}>
-              <a href={s.href} className="hover:text-white transition-colors">
-                {s.title}
-              </a>
-            </li>
-          })}
-     
+            {services.map((s, i) => {
+              return <li key={i}>
+                <a href={s.href} className="hover:text-white transition-colors">
+                  {s.title}
+                </a>
+              </li>
+            })}
+
           </ul>
         </div>
 
@@ -57,17 +58,6 @@ const Footer = () => {
           <ul className=" text-sm text-gray-400 flex flex-col gap-2">
             {contactLinks.map(({ label }, i) => (
               <li key={i}>{label}</li>
-            ))}
-          </ul>
-          <ul className="mt-8 text-sm text-gray-400 flex gap-3 md:gap-2 lg:gap-3 justify-start max-md:justify-center items-center ">
-            {socialLinks.map(({ node: Node, title }, i) => (
-              <li
-                key={i}
-                className="border rounded-lg p-2 bg-white/5 border-white/15 hover:bg-gray-200 hover:text-gray-600"
-                title={title}
-              >
-                {<Node />}
-              </li>
             ))}
           </ul>
         </div>

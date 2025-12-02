@@ -23,6 +23,6 @@ export const socialLinks = [
 ];
 
 export const contactLinks = [
-  { label: "hello@FortSpeed.agency" },
+  { label: "admin@fortspeed.com" },
   { label: "+93 787853705" },
 ];

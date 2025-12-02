@@ -75,14 +75,11 @@ export default function NavbarDemo() {
             </button>
           ))}
           <div className="flex w-full justify-center items-center flex-col gap-4 text-md mt-5">
-            <button
-              onClick={() => handleMobileNavClick('#contact')}
-              className="w-full"
-            >
+            <div onClick={() => handleMobileNavClick('#contact')} className="w-full">
               <InteractiveHoverButton dotClassName="bg-green-500">
                 <div className="w-60">Get Started</div>
               </InteractiveHoverButton>
-            </button>
+            </div>
           </div>
         </MobileNavMenu>
       </MobileNav>

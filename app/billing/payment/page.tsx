@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Suspense } from "react";
 
 function PaymentContent() {
@@ -12,6 +12,11 @@ function PaymentContent() {
     const deposit = searchParams.get("deposit") || "";
     const [selectedMethod, setSelectedMethod] = useState<string>("");
     const [isProcessing, setIsProcessing] = useState(false);
+    const router = useRouter();
+
+    useEffect(() => {
+        router.replace("/request");
+    }, [router]);
 
     const handlePayment = async (method: string) => {
         setSelectedMethod(method);
