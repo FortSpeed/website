@@ -467,6 +467,9 @@ export async function POST(req: NextRequest) {
         const formattedFields = orderedFields.filter(f => f !== '').join('\n');
         const finalText = text + '\n' + formattedFields;
 
+        // Handle optional inline reference image from enterprise plan
+        const hasReferenceImage = typeof form.referenceImageData === 'string' && !!form.referenceImageData && typeof form.referenceImageName === 'string' && !!form.referenceImageName;
+
         const html = `
         <div style="font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#e5e7eb;background:#0a0a0a;padding:24px;">
           <div style="max-width:720px;margin:0 auto;background:#111214;border:1px solid #2a2a2a;border-radius:14px;overflow:hidden;">
@@ -479,6 +482,13 @@ export async function POST(req: NextRequest) {
               ${ip ? `<p><strong>IP:</strong> ${safe(ip)}</p>` : ""}
               <h3 style="margin:16px 0 8px;color:#fff;">Form Fields</h3>
               <div style="white-space:pre-wrap;background:#0f1113;border:1px solid #2a2a2a;border-radius:8px;padding:12px;color:#eaeaea;font-family:monospace;font-size:13px;line-height:1.5;">${safe(formattedFields)}</div>
+              ${hasReferenceImage ? `
+                <h3 style="margin:16px 0 8px;color:#fff;">Reference Upload</h3>
+                <p style="margin:0 0 8px;"><strong>File:</strong> ${safe(form.referenceImageName)}</p>
+                <div style="margin-top:8px;">
+                  <img src="${form.referenceImageData}" alt="Reference Upload" style="max-width:100%;height:auto;border-radius:8px;border:1px solid #2a2a2a;" />
+                </div>
+              ` : ''}
             </div>
           </div>
         </div>`;

@@ -277,10 +277,17 @@ export default function PricingModal({ open, onClose, initialPlanId }: Props) {
             : [];
         const lines: string[] = [];
 
+        // Extract a potential reference file (enterprise plan upload)
+        let referenceFile: File | null = null;
+
         qList.forEach((q: PlanQuestion) => {
             const key = q.label;
             let val = data[key as keyof Lead];
-            if (q.type === "file" && val instanceof File && val.name) val = val.name;
+            if (q.type === "file" && val instanceof File) {
+                // Remember file for optional embedding, but show its name in the text summary
+                referenceFile = val;
+                if (val.name) val = val.name;
+            }
             if (q.label === "What is your timeline?" && val === "Flexible") {
                 const flexibleDate = data["Flexible date"];
                 if (flexibleDate) val = `Flexible (Preferred date: ${flexibleDate})`;
@@ -320,6 +327,7 @@ ${lines.join("\n")}`;
             }
             wAny.__mailAbortController = new AbortController();
 
+            // Build answers object (for text summary) and, if present, encode reference file as base64
             const answers: Record<string, string | undefined> = {};
             qList.forEach((q) => {
                 const value = data[q.label as keyof Lead];
@@ -331,6 +339,20 @@ ${lines.join("\n")}`;
                     answers[q.label] = String(value);
                 }
             });
+
+            let referenceImageName: string | null = null;
+            let referenceImageData: string | null = null;
+
+            if (referenceFile) {
+                referenceImageName = referenceFile.name || null;
+                // Convert file to base64 data URL so the server can embed it in the email
+                referenceImageData = await new Promise<string | null>((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result as string);
+                    reader.onerror = () => resolve(null);
+                    reader.readAsDataURL(referenceFile as File);
+                });
+            }
 
             const payload = {
                 type: projectStartPreference === "now" ? "start" : "quote",
@@ -351,6 +373,9 @@ ${lines.join("\n")}`;
                     termsAgreed: data.agree,
                     message,
                     answers,
+                    // Optional reference upload for enterprise plan
+                    referenceImageName,
+                    referenceImageData,
                 },
             };
 
