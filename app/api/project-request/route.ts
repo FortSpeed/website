@@ -10,9 +10,12 @@ const DATA_FILE = path.join(process.cwd(), "data", "submissions.jsonl");
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 const PAYMENT_LINK_TTL_MS = 2 * 60 * 1000; // 2 minutes
 
-// In-memory storage for serverless environments
+// In-memory storage for serverless environments (temporary - will be cleared)
 const submissions: any[] = [];
 const uploads = new Map<string, Buffer>();
+
+// Temporary cache using URL parameters for serverless compatibility
+const submissionCache = new Map<string, any>();
 
 function ensureDirs() {
     const dataDir = path.dirname(DATA_FILE);
@@ -23,11 +26,33 @@ function ensureDirs() {
 export async function GET(req: NextRequest) {
     try {
         const rid = req.nextUrl.searchParams.get("rid");
+        const dataParam = req.nextUrl.searchParams.get("data");
+
         if (!rid) {
             return NextResponse.json({ error: "Missing rid" }, { status: 400 });
         }
 
-        const init = findInitialById(rid);
+        let init = findInitialById(rid);
+
+        // If not found in memory and we have encoded data, reconstruct from URL
+        if (!init && dataParam && (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1')) {
+            try {
+                const formData = JSON.parse(decodeURIComponent(dataParam));
+                init = {
+                    id: rid,
+                    type: formData.projectStartPreference === "now" ? "start" : "quote",
+                    phase: "initial" as const,
+                    timestamp: new Date().toISOString(),
+                    data: formData
+                };
+                // Store in memory for subsequent requests
+                appendSubmission(init);
+                console.log("Reconstructed submission from URL data:", rid);
+            } catch (err) {
+                console.error("Failed to parse encoded data:", err);
+            }
+        }
+
         if (!init) {
             return NextResponse.json({ error: "Not found" }, { status: 404 });
         }
@@ -74,6 +99,10 @@ function appendSubmission(row: any) {
     // In production/serverless, use memory storage
     if (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') {
         submissions.push(row);
+        // Also cache for quick retrieval
+        if (row.phase === 'initial') {
+            submissionCache.set(row.id, row);
+        }
         console.log("Submission stored in memory:", row.id);
         return;
     }
@@ -84,13 +113,29 @@ function appendSubmission(row: any) {
 }
 
 function findInitialById(id: string): any | null {
-    // In production/serverless, search memory
+    console.log("Searching for submission with ID:", id);
+    console.log("Current submissions in memory:", submissions.length);
+
+    // In production/serverless, check cache first
     if (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') {
-        return submissions.find(s => s.id === id && s.phase === 'initial') || null;
+        // Check cache first
+        const cached = submissionCache.get(id);
+        if (cached) {
+            console.log("Found in cache:", "YES");
+            return cached;
+        }
+
+        // Then search memory
+        const found = submissions.find(s => s.id === id && s.phase === 'initial') || null;
+        console.log("Found in memory:", found ? "YES" : "NO");
+        return found;
     }
 
     // In development, read from file
-    if (!fs.existsSync(DATA_FILE)) return null;
+    if (!fs.existsSync(DATA_FILE)) {
+        console.log("Data file does not exist");
+        return null;
+    }
     const lines = fs.readFileSync(DATA_FILE, "utf8").split(/\n+/).filter(Boolean);
     for (const line of lines) {
         try {

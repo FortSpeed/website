@@ -369,7 +369,9 @@ ${lines.join("\n")}`;
             }
 
             if (projectStartPreference === "now") {
-                window.location.href = `/request/payment?rid=${encodeURIComponent(id)}`;
+                // Encode form data in URL for serverless compatibility
+                const encodedData = encodeURIComponent(JSON.stringify(payload.form));
+                window.location.href = `/request/payment?rid=${encodeURIComponent(id)}&data=${encodedData}`;
             } else {
                 window.location.href = `/request/thanks?type=quote&id=${encodeURIComponent(id)}`;
             }
