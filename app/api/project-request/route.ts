@@ -67,38 +67,56 @@ function getClientIp(req: NextRequest) {
 }
 
 function appendSubmission(row: any) {
+    // In production/serverless, use memory storage
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') {
+        submissions.push(row);
+        console.log("Submission stored in memory:", row.id);
+        return;
+    }
+
+    // In development, use file storage
     ensureDirs();
     fs.appendFileSync(DATA_FILE, JSON.stringify(row) + "\n");
 }
 
 function findInitialById(id: string): any | null {
+    // In production/serverless, search memory
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') {
+        return submissions.find(s => s.id === id && s.phase === 'initial') || null;
+    }
+
+    // In development, read from file
     if (!fs.existsSync(DATA_FILE)) return null;
     const lines = fs.readFileSync(DATA_FILE, "utf8").split(/\n+/).filter(Boolean);
-    for (let i = lines.length - 1; i >= 0; i--) {
+    for (const line of lines) {
         try {
-            const obj = JSON.parse(lines[i]);
-            if (obj && obj.id === id && obj.phase === "initial") return obj;
+            const row = JSON.parse(line);
+            if (row.id === id && row.phase === "initial") return row;
         } catch { }
     }
     return null;
 }
 
 function hasFinalSubmission(id: string): boolean {
+    // In production/serverless, search memory
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') {
+        return submissions.some(s => s.id === id && s.phase === 'final');
+    }
+
+    // In development, read from file
     if (!fs.existsSync(DATA_FILE)) return false;
     const lines = fs.readFileSync(DATA_FILE, "utf8").split(/\n+/).filter(Boolean);
-    for (let i = lines.length - 1; i >= 0; i--) {
+    for (const line of lines) {
         try {
-            const obj = JSON.parse(lines[i]);
-            if (obj && obj.id === id && obj.phase === "final") return true;
+            const row = JSON.parse(line);
+            if (row.id === id && row.phase === "final") return true;
         } catch { }
     }
     return false;
 }
 
-function isRidExpired(initial: any): boolean {
-    const createdAt = Date.parse(initial?.timestamp || "");
-    if (Number.isNaN(createdAt)) return true;
-    return Date.now() - createdAt > PAYMENT_LINK_TTL_MS;
+function isRidExpired(init: any): boolean {
+    return Date.now() - new Date(init.timestamp).getTime() > PAYMENT_LINK_TTL_MS;
 }
 
 async function sendEmail({ to, subject, text, html, replyTo, senderName }: { to: string; subject: string; text: string; html: string; replyTo?: string; senderName?: string }) {
@@ -168,10 +186,19 @@ export async function POST(req: NextRequest) {
                 const buf = Buffer.from(ab);
                 const ext = path.extname((file as File).name || "").slice(0, 10) || ".bin";
                 const fname = `${rid}_${Date.now()}${ext}`;
-                ensureDirs();
-                const outPath = path.join(UPLOAD_DIR, fname);
-                fs.writeFileSync(outPath, buf);
-                screenshotPath = `/uploads/${fname}`;
+
+                // In production/serverless, store in memory
+                if (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') {
+                    uploads.set(fname, buf);
+                    screenshotPath = `/uploads/${fname}`;
+                    console.log("File stored in memory:", fname);
+                } else {
+                    // In development, save to file system
+                    ensureDirs();
+                    const outPath = path.join(UPLOAD_DIR, fname);
+                    fs.writeFileSync(outPath, buf);
+                    screenshotPath = `/uploads/${fname}`;
+                }
             }
 
             const timestamp = new Date().toISOString();
@@ -238,9 +265,21 @@ export async function POST(req: NextRequest) {
             let imageEmbed = '';
             if (screenshotPath) {
                 try {
-                    const imagePath = path.join(process.cwd(), 'public', screenshotPath);
-                    if (fs.existsSync(imagePath)) {
-                        const imageBuffer = fs.readFileSync(imagePath);
+                    let imageBuffer: Buffer | null = null;
+
+                    // In production/serverless, get from memory
+                    if (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') {
+                        const filename = path.basename(screenshotPath);
+                        imageBuffer = uploads.get(filename) || null;
+                    } else {
+                        // In development, read from file
+                        const imagePath = path.join(process.cwd(), 'public', screenshotPath);
+                        if (fs.existsSync(imagePath)) {
+                            imageBuffer = fs.readFileSync(imagePath);
+                        }
+                    }
+
+                    if (imageBuffer) {
                         const base64Image = imageBuffer.toString('base64');
                         const mimeType = path.extname(screenshotPath).toLowerCase() === '.png' ? 'image/png' :
                             path.extname(screenshotPath).toLowerCase() === '.jpg' || path.extname(screenshotPath).toLowerCase() === '.jpeg' ? 'image/jpeg' :
