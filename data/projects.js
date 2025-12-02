@@ -1,4 +1,4 @@
-import imgStartup from "@/assets/resturant.jpg";
+import imgStartup from "@/assets/resturant.png";
 import imgHospital from "@/assets/health.png";
 import imgNavigation from "@/assets/china.jpg";
 import imgEcommerce from "@/assets/navigation.png";
