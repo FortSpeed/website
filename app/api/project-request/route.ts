@@ -10,6 +10,10 @@ const DATA_FILE = path.join(process.cwd(), "data", "submissions.jsonl");
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 const PAYMENT_LINK_TTL_MS = 2 * 60 * 1000; // 2 minutes
 
+// In-memory storage for serverless environments
+const submissions: any[] = [];
+const uploads = new Map<string, Buffer>();
+
 function ensureDirs() {
     const dataDir = path.dirname(DATA_FILE);
     if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
