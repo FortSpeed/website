@@ -53,21 +53,25 @@ export default function Projects() {
                 ></div>
 
                 <div className="absolute top-4 right-4 flex gap-2 hidden">
-                  <Link
-                  target="_blank"
-                    href={project.live}
-                    className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110  ease-in duration-200`}
-                  >
-                    <ExternalLink className="w-5 h-5" />
-                  </Link>
+                  {project.live && (
+                    <Link
+                      target="_blank"
+                      href={project.live}
+                      className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110  ease-in duration-200`}
+                    >
+                      <ExternalLink className="w-5 h-5" />
+                    </Link>
+                  )}
 
-                  <Link
-                  target="_blank"
-                    href={project.github}
-                    className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110  ease-in duration-200`}
-                  >
-                    <Github className="w-5 h-5  " />
-                  </Link>
+                  {project.github && (
+                    <Link
+                      target="_blank"
+                      href={project.github}
+                      className={`p-2 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-white ${project.hoverAccent} hover:scale-110  ease-in duration-200`}
+                    >
+                      <Github className="w-5 h-5  " />
+                    </Link>
+                  )}
                 </div>
               </div>
 

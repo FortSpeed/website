@@ -1,18 +1,16 @@
-import imgStartup from "@/assets/startup.png";
-import imgHospital from "@/assets/hospital.png";
-import imgNavigation from "@/assets/navigation.png";
-import imgEcommerce from "@/assets/ecommerce.png";
+import imgStartup from "@/assets/resturant.jpg";
+import imgHospital from "@/assets/health.png";
+import imgNavigation from "@/assets/china.jpg";
+import imgEcommerce from "@/assets/navigation.png";
 
 export const projects = [
   {
-    title: "SkyLaunch Startup Hub",
-    category: "High-Conversion Landing Platform",
+    title: "Delicious & Fit",
+    category: "Healthy Restaurant Website",
     description:
-      "A modern, conversion-optimized landing website built for a fast-growing startup. Designed with modular sections, scroll-triggered animations, and blazing-fast performance — crafted to maximize user engagement and accelerate customer acquisition.",
+      "A vibrant, conversion-focused website for a modern healthy restaurant brand. Optimized for online reservations, menu browsing, and mobile users — with mouth-watering visuals, smooth animations, and lightning-fast performance to turn visitors into bookings.",
     image: imgStartup,
     tags: ["Next.js", "Tailwind", "SEO"],
-    github: "http://github.com",
-    live: "http://google.com",
 
     gradient: "from-violet-900/30 to-indigo-900/30",
     accent: "text-violet-400",
@@ -21,10 +19,10 @@ export const projects = [
   },
 
   {
-    title: "MediCore Hospital Suite",
-    category: "Hospital Management System",
+    title: "Healthora",
+    category: "Healthcare Website",
     description:
-      "A secure, enterprise-level hospital management system featuring patient records, doctor scheduling, pharmacy inventory, lab result automation, and multi-role access control. Engineered for reliability, HIPAA-grade security, and operational efficiency.",
+      "A modern, trust-centered healthcare website for a multi-location clinic brand. Focused on clear service pages, doctor profiles, online appointment booking, and fast mobile performance so patients can quickly find the right care and book a visit.",
     image: imgHospital,
     tags: ["React", "Node.js", "PostgreSQL"],
     github: "http://github.com",
@@ -37,12 +35,12 @@ export const projects = [
   },
 
   {
-    title: "CityGuide Navigator",
-    category: "Cross-Platform Navigation App",
+    title: "LearnFlow Academy",
+    category: "Online Learning Platform",
     description:
-      "A fully native Android & iOS navigation experience with real-time routing, dynamic traffic awareness, offline map caching, and location-based suggestions. Built for users who want fast, accurate navigation anywhere in their city.",
+      "A modern learning platform for creators and teams, featuring structured courses, progress tracking, quizzes, and personalized dashboards. Designed for fast content browsing, binge-friendly video lessons, and a smooth experience across desktop and mobile.",
     image: imgNavigation,
-    tags: ["React Native", "Maps API", "Realtime"],
+    tags: ["Next.js", "React", "Learning"],
     github: "http://github.com",
     live: "http://google.com",
 
@@ -53,12 +51,12 @@ export const projects = [
   },
 
   {
-    title: "MarketaX Commerce",
-    category: "Enterprise E-Commerce Platform",
+    title: "RouteWave Mobile",
+    category: "Navigation & City Guide App",
     description:
-      "A scalable, SEO-first e-commerce platform built for a professional marketing company — featuring advanced product analytics, AI-powered recommendations, multi-vendor support, and fully customizable storefront themes.",
+      "A slick mobile navigation app designed for busy city life – live traffic, turn‑by‑turn directions, saved places, and curated spots for food, gyms, and hangouts. Built for smooth performance, offline-friendly maps, and a clean UI that just gets you where you need to go.",
     image: imgEcommerce,
-    tags: ["Next.js", "Stripe", "Prisma"],
+    tags: ["React Native", "Maps API", "Realtime"],
     github: "http://github.com",
     live: "http://google.com",
 
@@ -69,6 +67,6 @@ export const projects = [
   },
 ];
 
-
 export const title = "Featured Projects";
-export const description = "A look at some of the products and websites we’ve built for clients designed for speed, usability, and long-term reliability";
+export const description =
+  "A look at some of the products and websites we’ve built for clients designed for speed, usability, and long-term reliability";
