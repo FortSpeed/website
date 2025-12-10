@@ -4,8 +4,8 @@ export const plans = [
     number: "01",
     name: "Essential",
     tagline: "Perfect for personal brands & small businesses",
-    price: "starting from $199",
-    basePrice: 199, // Extracted numeric price for calculations
+    price: "starting from $499",
+    basePrice: 499, // Extracted numeric price for calculations
     features: [
       "1–3 page responsive website",
       "Basic SEO setup",
@@ -20,8 +20,8 @@ export const plans = [
     number: "02",
     name: "Professional",
     tagline: "Ideal for startups & agencies",
-    price: "starting from $699",
-    basePrice: 699, // Extracted numeric price for calculations
+    price: "starting from $1199",
+    basePrice: 1199, // Extracted numeric price for calculations
     features: [
       "5–10 page website or web app",
       "Custom design system",
